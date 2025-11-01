@@ -16,7 +16,7 @@ python manage.py collectstatic --noinput
 
 # Créer les migrations si nécessaire
 echo "🗄️  Création des migrations..."
-python manage.py makemigrations --noinput
+python manage.py makemigrations --noinput || true
 
 echo "✅ Build terminé avec succès!"
 

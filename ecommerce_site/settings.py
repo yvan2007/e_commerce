@@ -333,6 +333,7 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = True
 
 # Logging Configuration
+# En production sur Render, on utilise seulement la console (pas de fichier)
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -347,35 +348,45 @@ LOGGING = {
         },
     },
     'handlers': {
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': str(BASE_DIR / 'logs' / 'django.log'),
-            'formatter': 'verbose',
-        },
         'console': {
-            'level': 'DEBUG',
+            'level': 'DEBUG' if DEBUG else 'INFO',
             'class': 'logging.StreamHandler',
             'formatter': 'simple',
         },
     },
     'root': {
-        'handlers': ['console', 'file'],
+        'handlers': ['console'],
         'level': 'INFO',
     },
     'loggers': {
         'django': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],
             'level': 'INFO',
             'propagate': False,
         },
         'ecommerce': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
+            'handlers': ['console'],
+            'level': 'DEBUG' if DEBUG else 'INFO',
             'propagate': False,
         },
     },
 }
+
+# Ajouter le handler fichier seulement en développement local
+if DEBUG and not os.environ.get('RENDER'):
+    # Créer le dossier logs s'il n'existe pas
+    logs_dir = BASE_DIR / 'logs'
+    logs_dir.mkdir(exist_ok=True)
+    
+    LOGGING['handlers']['file'] = {
+        'level': 'INFO',
+        'class': 'logging.FileHandler',
+        'filename': str(logs_dir / 'django.log'),
+        'formatter': 'verbose',
+    }
+    LOGGING['root']['handlers'].append('file')
+    LOGGING['loggers']['django']['handlers'].append('file')
+    LOGGING['loggers']['ecommerce']['handlers'].append('file')
 
 # Payment Configuration
 PAYMENT_SETTINGS = {
