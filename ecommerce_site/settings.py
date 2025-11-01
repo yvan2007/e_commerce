@@ -531,6 +531,7 @@ CKEDITOR_5_CONFIGS = {
         }
     }
 }
+"""
 
 # Django Allauth Configuration
 AUTHENTICATION_BACKENDS = [
