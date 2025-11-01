@@ -1,0 +1,21 @@
+{% load static %}
+<div class="payment-logos d-flex align-items-center justify-content-center flex-wrap" style="gap: 0.5rem;">
+    <img src="{% static 'images/payment/mtn-money.png' %}" alt="MTN Money" class="payment-logo">
+    <img src="{% static 'images/payment/orange-money.png' %}" alt="Orange Money" class="payment-logo">
+    <img src="{% static 'images/payment/moov-money.png' %}" alt="Moov Money" class="payment-logo">
+    <img src="{% static 'images/payment/wave.png' %}" alt="Wave" class="payment-logo">
+    <img src="{% static 'images/payment/carte-bancaire.png' %}" alt="Carte Bancaire" class="payment-logo">
+</div>
+
+<style>
+.payment-logo {
+    width: 40px;
+    height: 30px;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+}
+
+.payment-logo:hover {
+    transform: scale(1.1);
+}
+</style>

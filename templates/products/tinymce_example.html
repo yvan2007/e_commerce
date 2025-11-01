@@ -1,0 +1,138 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Exemple TinyMCE - E-Commerce CI{% endblock %}
+
+{% block extra_css %}
+<style>
+    .tinymce-container {
+        margin: 20px 0;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .btn-group {
+        margin-top: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-4">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="fas fa-edit me-2"></i>Exemple d'utilisation de TinyMCE
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="form-group">
+                            <label for="title" class="form-label">Titre du produit</label>
+                            <input type="text" class="form-control" id="title" name="title" 
+                                   placeholder="Entrez le titre du produit">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="description" class="form-label">Description détaillée</label>
+                            <textarea id="description" name="description" class="form-control">
+                                <h2>Description du produit</h2>
+                                <p>Voici un exemple de description avec <strong>du texte en gras</strong> et <em>du texte en italique</em>.</p>
+                                <ul>
+                                    <li>Caractéristique 1</li>
+                                    <li>Caractéristique 2</li>
+                                    <li>Caractéristique 3</li>
+                                </ul>
+                                <p>Vous pouvez également ajouter des <a href="#">liens</a> et des images.</p>
+                            </textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="short_description" class="form-label">Description courte</label>
+                            <textarea id="short_description" name="short_description" class="form-control" rows="3">
+                                Description courte du produit en quelques mots.
+                            </textarea>
+                        </div>
+                        
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Enregistrer
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="clearContent()">
+                                <i class="fas fa-eraser me-2"></i>Effacer
+                            </button>
+                            <button type="button" class="btn btn-info" onclick="previewContent()">
+                                <i class="fas fa-eye me-2"></i>Aperçu
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Aperçu du contenu -->
+            <div class="card mt-4" id="preview-card" style="display: none;">
+                <div class="card-header">
+                    <h5 class="mb-0">Aperçu du contenu</h5>
+                </div>
+                <div class="card-body" id="preview-content">
+                    <!-- Le contenu sera affiché ici -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Fonction pour effacer le contenu
+    function clearContent() {
+        if (confirm('Êtes-vous sûr de vouloir effacer tout le contenu ?')) {
+            tinymce.get('description').setContent('');
+        }
+    }
+    
+    // Fonction pour prévisualiser le contenu
+    function previewContent() {
+        const content = tinymce.get('description').getContent();
+        document.getElementById('preview-content').innerHTML = content;
+        document.getElementById('preview-card').style.display = 'block';
+    }
+    
+    // Configuration personnalisée de TinyMCE
+    tinymce.init({
+        selector: '#description',
+        height: 400,
+        menubar: false,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount'
+        ],
+        toolbar: 'undo redo | formatselect | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | help',
+        content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; }',
+        setup: function (editor) {
+            editor.on('change', function () {
+                editor.save();
+            });
+        }
+    });
+    
+    // Configuration pour la description courte (sans éditeur riche)
+    tinymce.init({
+        selector: '#short_description',
+        height: 100,
+        menubar: false,
+        plugins: ['textcolor'],
+        toolbar: 'undo redo | bold italic | forecolor backcolor',
+        content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif; font-size: 14px; }'
+    });
+</script>
+{% endblock %}

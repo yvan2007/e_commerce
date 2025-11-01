@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commande livrée - KefyStore</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .email-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #17a2b8, #138496);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .order-number {
+            background-color: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .content {
+            padding: 30px;
+        }
+        .delivery-success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .delivery-success h3 {
+            color: #155724;
+            margin: 0 0 10px 0;
+        }
+        .order-items {
+            margin: 20px 0;
+        }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        .item-info {
+            flex: 1;
+        }
+        .item-name {
+            font-weight: 600;
+            color: #333;
+        }
+        .item-price {
+            color: #17a2b8;
+            font-weight: 600;
+        }
+        .review-section {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #17a2b8, #138496);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>🎉 Commande Livrée !</h1>
+            <div class="order-number">Commande #{{ order.order_number }}</div>
+        </div>
+        
+        <div class="content">
+            <p>Bonjour {{ user.first_name|default:user.username }},</p>
+            
+            <div class="delivery-success">
+                <h3>✅ Livraison Réussie !</h3>
+                <p>Votre commande a été livrée avec succès le {{ order.updated_at|date:"d/m/Y à H:i" }}.</p>
+            </div>
+            
+            <p>Nous espérons que vous êtes satisfait de votre achat !</p>
+            
+            <div class="order-items">
+                <h3>📦 Articles livrés</h3>
+                {% for item in order_items %}
+                <div class="order-item">
+                    <div class="item-info">
+                        <div class="item-name">{{ item.product.name }}</div>
+                        <div style="color: #6c757d; font-size: 14px;">Quantité: {{ item.quantity }}</div>
+                    </div>
+                    <div class="item-price">{{ item.total_price|floatformat:0 }} FCFA</div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="review-section">
+                <h3>⭐ Partagez votre expérience</h3>
+                <p>Votre avis compte beaucoup pour nous et aide d'autres clients à faire leur choix.</p>
+                <p>Prenez quelques minutes pour évaluer les produits que vous avez reçus.</p>
+                
+                <div style="text-align: center;">
+                    <a href="{{ site_url }}/orders/{{ order.order_number }}/review/" class="cta-button">
+                        ⭐ Laisser un avis
+                    </a>
+                </div>
+            </div>
+            
+            <p><strong>Que pouvez-vous faire maintenant ?</strong></p>
+            <ul>
+                <li>Laisser un avis sur vos produits</li>
+                <li>Découvrir d'autres produits similaires</li>
+                <li>Consulter votre historique de commandes</li>
+                <li>Profiter de nos promotions en cours</li>
+            </ul>
+            
+            <div style="text-align: center;">
+                <a href="{{ site_url }}" class="cta-button">
+                    🛒 Continuer mes achats
+                </a>
+            </div>
+            
+            <p>Merci pour votre confiance et à bientôt sur KefyStore !</p>
+            
+            <p><strong>L'équipe KefyStore</strong></p>
+        </div>
+        
+        <div class="footer">
+            <p><strong>KefyStore</strong> - Votre boutique en ligne de confiance</p>
+            <p>Commande #{{ order.order_number }} livrée le {{ order.updated_at|date:"d/m/Y" }}.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,479 @@
+/* Loader de page - Animation de chargement globale pour KefyStore */
+.page-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--primary-dark) 30%,
+    #9b59b6 60%,
+    var(--primary-dark) 100%
+  );
+  background-size: 400% 400%;
+  animation: kefyBackgroundMove 8s ease infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: var(--z-loader);
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--transition-slow) ease, visibility var(--transition-slow) ease;
+  will-change: opacity, visibility;
+}
+
+.page-loader:not(.hidden) {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: flex !important;
+}
+
+.page-loader::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at 20% 50%,
+    rgba(255, 107, 107, 0.3) 0%,
+    transparent 50%
+  ),
+  radial-gradient(
+    circle at 80% 50%,
+    rgba(0, 212, 255, 0.3) 0%,
+    transparent 50%
+  );
+  animation: kefyBackgroundFloat 10s ease-in-out infinite;
+}
+
+@keyframes kefyBackgroundMove {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes kefyBackgroundFloat {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+.page-loader.hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  display: none !important;
+  pointer-events: none !important;
+}
+
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Logo KefyStore animé en blanc */
+.kefystore-logo {
+  font-size: 4rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  color: white;
+  animation: kefyFloat 3s ease-in-out infinite;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 0 0 60px rgba(255, 255, 255, 0.4);
+}
+
+/* Icône de boutique */
+.kefy-icon {
+  font-size: 3rem;
+  color: white;
+  margin-bottom: 1rem;
+  animation: kefyIconSpin 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+}
+
+@keyframes kefyIconSpin {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(-10deg) scale(1.1);
+  }
+  75% {
+    transform: rotate(10deg) scale(1.1);
+  }
+}
+
+@keyframes kefyFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Effet de particules autour du logo */
+.kefy-loader-content::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255, 107, 107, 0.3) 0%, transparent 70%);
+  animation: kefyPulse 2s ease-in-out infinite;
+}
+
+.kefy-loader-content::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.3) 0%, transparent 70%);
+  animation: kefyPulse 2s ease-in-out infinite 0.5s;
+}
+
+@keyframes kefyPulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+/* Points de chargement personnalisés avec couleurs */
+.kefy-loading-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 3rem;
+  position: relative;
+  z-index: 10;
+  width: 100%;
+}
+
+.kefy-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  animation: kefyDotBounce 1.4s infinite ease-in-out;
+  box-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
+  position: relative;
+}
+
+.kefy-dot::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: kefyDotRipple 1.4s infinite ease-in-out;
+}
+
+.kefy-dot:nth-child(1) {
+  background: white;
+  color: white;
+  animation-delay: 0s;
+}
+
+.kefy-dot:nth-child(2) {
+  background: white;
+  color: white;
+  animation-delay: 0.2s;
+}
+
+.kefy-dot:nth-child(3) {
+  background: white;
+  color: white;
+  animation-delay: 0.4s;
+}
+
+@keyframes kefyDotBounce {
+  0%, 80%, 100% {
+    transform: scale(0.6) translateY(0);
+    opacity: 0.6;
+  }
+  40% {
+    transform: scale(1.2) translateY(-20px);
+    opacity: 1;
+  }
+}
+
+@keyframes kefyDotRipple {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Container transparent */
+.kefy-loader-content {
+  position: relative;
+  padding: 4rem 5rem;
+  background: transparent;
+  overflow: hidden;
+}
+
+.kefy-loader-content::before {
+  display: none;
+}
+
+.kefy-loader-content::after {
+  display: none;
+}
+
+.kefy-loader-content > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Animations SVG */
+.absolute {
+  position: absolute;
+}
+
+.loader svg {
+  margin: 0 5px;
+  width: 64px;
+  height: 64px;
+}
+
+.dash {
+  animation:
+    dashArray 2s ease-in-out infinite,
+    dashOffset 2s linear infinite;
+}
+
+.spin {
+  animation:
+    spinDashArray 2s ease-in-out infinite,
+    spin 8s ease-in-out infinite,
+    dashOffset 2s linear infinite;
+  transform-origin: center;
+}
+
+@keyframes dashArray {
+  0% {
+    stroke-dasharray: 0 1 359 0;
+  }
+  50% {
+    stroke-dasharray: 0 359 1 0;
+  }
+  100% {
+    stroke-dasharray: 359 1 0 0;
+  }
+}
+
+@keyframes spinDashArray {
+  0% {
+    stroke-dasharray: 270 90;
+  }
+  50% {
+    stroke-dasharray: 0 360;
+  }
+  100% {
+    stroke-dasharray: 270 90;
+  }
+}
+
+@keyframes dashOffset {
+  0% {
+    stroke-dashoffset: 365;
+  }
+  100% {
+    stroke-dashoffset: 5;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  12.5%,
+  25% {
+    transform: rotate(270deg);
+  }
+  37.5%,
+  50% {
+    transform: rotate(540deg);
+  }
+  62.5%,
+  75% {
+    transform: rotate(810deg);
+  }
+  87.5%,
+  100% {
+    transform: rotate(1080deg);
+  }
+}
+
+/* Dégradés personnalisés pour KefyStore */
+.gradient-b {
+  stroke: url(#b);
+}
+
+.gradient-c {
+  stroke: url(#c);
+}
+
+.gradient-d {
+  stroke: url(#d);
+}
+
+.w-2 {
+  width: 0.5em;
+}
+
+/* Overlay de chargement pour actions spécifiques */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9998;
+  backdrop-filter: blur(5px);
+}
+
+.loading-overlay.active {
+  display: flex;
+}
+
+.loading-content {
+  background: white;
+  padding: var(--spacing-xl) var(--spacing-2xl);
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--shadow-xl);
+  text-align: center;
+  border: 1px solid var(--border-color-light);
+}
+
+.loading-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 1rem;
+  position: relative;
+}
+
+.loading-icon svg {
+  width: 100%;
+  height: 100%;
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-sm);
+}
+
+.loading-text {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+/* Animation de succès */
+.success-animation {
+  display: none;
+}
+
+.success-animation.active {
+  display: block;
+  animation: scaleIn 0.3s ease;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Spinner moderne */
+.modern-spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid var(--secondary-color);
+  border-top: 3px solid var(--primary-color);
+  border-radius: var(--border-radius-full);
+  animation: spin 1s linear infinite;
+  will-change: transform;
+}
+
+/* Animation de loading avec points */
+.loading-dots {
+  display: inline-flex;
+  gap: 5px;
+}
+
+.loading-dots span {
+  width: 10px;
+  height: 10px;
+  background: var(--primary-color);
+  border-radius: var(--border-radius-full);
+  animation: bounce 1.4s ease-in-out infinite;
+  will-change: transform;
+}
+
+.loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+

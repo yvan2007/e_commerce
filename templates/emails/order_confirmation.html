@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation de commande - KefyStore</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .email-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .order-number {
+            background-color: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .content {
+            padding: 30px;
+        }
+        .order-summary {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .order-items {
+            margin: 20px 0;
+        }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        .item-info {
+            flex: 1;
+        }
+        .item-name {
+            font-weight: 600;
+            color: #333;
+        }
+        .item-price {
+            color: #28a745;
+            font-weight: 600;
+        }
+        .total-section {
+            background-color: #e9ecef;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .total-line {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+        .total-final {
+            font-size: 20px;
+            font-weight: 700;
+            color: #28a745;
+            border-top: 2px solid #28a745;
+            padding-top: 10px;
+        }
+        .delivery-info {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>✅ Commande Confirmée !</h1>
+            <div class="order-number">Commande #{{ order.order_number }}</div>
+        </div>
+        
+        <div class="content">
+            <p>Bonjour {{ user.first_name|default:user.username }},</p>
+            
+            <p>Nous avons bien reçu votre commande et elle a été confirmée avec succès !</p>
+            
+            <div class="order-summary">
+                <h3>📋 Résumé de votre commande</h3>
+                <p>📅 <strong>Date de commande :</strong> {{ order.created_at|date:"d/m/Y à H:i" }}</p>
+                <p>✅ <strong>Statut :</strong> <span style="color: #28a745; font-weight: 600;">Confirmée</span></p>
+                {% if order.tracking_number %}
+                <p>🔍 <strong>Numéro de suivi :</strong> {{ order.tracking_number }}</p>
+                {% endif %}
+            </div>
+            
+            <div class="order-items">
+                <h3>🛍️ Articles commandés</h3>
+                {% for item in order_items %}
+                <div class="order-item" style="display: flex; gap: 15px; padding: 15px; border: 1px solid #e9ecef; border-radius: 8px; margin-bottom: 15px;">
+                    {% if item.product_image_url %}
+                    <div style="width: 80px; height: 80px; flex-shrink: 0; background-color: #f8f9fa; border-radius: 8px; overflow: hidden;">
+                        <img src="{{ item.product_image_url }}" alt="{{ item.product.name }}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                    </div>
+                    {% endif %}
+                    <div class="item-info" style="flex: 1;">
+                        <div class="item-name" style="font-weight: 600; margin-bottom: 5px;">{{ item.product.name }}</div>
+                        {% if item.variant %}
+                        <div style="color: #6c757d; font-size: 14px; margin-bottom: 3px;">Variante: {{ item.variant.name }}</div>
+                        {% endif %}
+                        <div style="color: #6c757d; font-size: 14px;">Quantité: {{ item.quantity }} × {{ item.unit_price|floatformat:0 }} FCFA</div>
+                    </div>
+                    <div class="item-price" style="font-weight: 600; font-size: 16px; color: #28a745;">{{ item.total_price|floatformat:0 }} FCFA</div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="total-section">
+                <div class="total-line">
+                    <span>Sous-total :</span>
+                    <span>{{ order.subtotal|floatformat:0 }} FCFA</span>
+                </div>
+                <div class="total-line">
+                    <span>Frais de livraison :</span>
+                    <span>{{ order.shipping_cost|floatformat:0 }} FCFA</span>
+                </div>
+                <div class="total-line total-final">
+                    <span>Total :</span>
+                    <span>{{ order.total_amount|floatformat:0 }} FCFA</span>
+                </div>
+            </div>
+            
+            <div class="delivery-info">
+                <h3>🚚 Adresse de livraison</h3>
+                <p>👤 <strong>{{ order.shipping_first_name }} {{ order.shipping_last_name }}</strong></p>
+                <p>📍 {{ order.shipping_address }}</p>
+                <p>🏙️ {{ order.shipping_city }}</p>
+                {% if order.shipping_postal_code %}
+                <p>📮 Code postal: {{ order.shipping_postal_code }}</p>
+                {% endif %}
+                <p>📞 <strong>Téléphone :</strong> {{ order.shipping_phone }}</p>
+                <p>💳 <strong>Méthode de paiement :</strong> {{ order.get_payment_method_display }}</p>
+            </div>
+            
+            <p><strong>🚀 Prochaines étapes :</strong></p>
+            <ul>
+                <li>📦 Votre commande est en cours de préparation</li>
+                <li>📧 Vous recevrez un email dès qu'elle sera expédiée</li>
+                <li>🔍 Un numéro de suivi vous sera fourni</li>
+                <li>⏱️ Livraison estimée : 2-5 jours ouvrés</li>
+            </ul>
+            
+            <div style="text-align: center;">
+                <a href="{{ site_url }}/orders/{{ order.order_number }}/" class="cta-button">
+                    📦 Suivre ma commande
+                </a>
+            </div>
+            
+            <p>🙏 Merci pour votre confiance ! Si vous avez des questions, n'hésitez pas à nous contacter.</p>
+        </div>
+        
+        <div class="footer">
+            <p><strong>KefyStore</strong> - Votre boutique en ligne de confiance</p>
+            <p>Cet email confirme votre commande #{{ order.order_number }} du {{ order.created_at|date:"d/m/Y" }}.</p>
+        </div>
+    </div>
+</body>
+</html>

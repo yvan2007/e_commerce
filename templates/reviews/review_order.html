@@ -1,0 +1,241 @@
+{% extends 'reviews/base_review.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% translate "Évaluer votre commande" %} - KefyStore{% endblock %}
+
+{% block review_content %}
+<div class="row">
+    <div class="col-12">
+        <!-- En-tête -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary mb-3">
+                <i class="fas fa-star me-3"></i>
+                {% translate "Évaluez votre commande" %}
+            </h1>
+            <p class="lead text-muted">
+                {% translate "Partagez votre expérience et aidez d'autres clients" %}
+            </p>
+        </div>
+
+        <!-- Informations de la commande -->
+        <div class="card review-card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-shopping-bag me-2"></i>
+                    {% translate "Commande" %} #{{ order.order_number }}
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>{% translate "Date de commande" %}:</strong> {{ order.created_at|date:"d/m/Y" }}</p>
+                        <p><strong>{% translate "Statut" %}:</strong> 
+                            <span class="badge bg-success">{{ order.get_status_display }}</span>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>{% translate "Total" %}:</strong> {{ order.total_amount }} FCFA</p>
+                        <p><strong>{% translate "Méthode de paiement" %}:</strong> {{ order.get_payment_method_display }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Articles à évaluer -->
+        {% if unreviewed_items %}
+        <div class="card review-card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-box me-2"></i>
+                    {% translate "Articles à évaluer" %}
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for item in unreviewed_items %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100" id="item-card-{{ item.id }}">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-3">
+                                        {% if item.product.main_image %}
+                                            <img src="{{ item.product.main_image.url }}" 
+                                                 alt="{{ item.product.name }}" 
+                                                 class="img-fluid rounded">
+                                        {% else %}
+                                            <div class="img-fluid rounded d-flex align-items-center justify-content-center bg-light" 
+                                                 style="height: 80px; width: 80px;">
+                                                <i class="fas fa-image text-muted fa-2x"></i>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-9">
+                                        <h6 class="card-title">{{ item.product.name }}</h6>
+                                        <p class="card-text text-muted">
+                                            {% translate "Quantité" %}: {{ item.quantity }}<br>
+                                            {% translate "Prix" %}: {{ item.get_total_price }} FCFA
+                                        </p>
+                                        <button onclick="toggleReviewForm({{ item.id }})" 
+                                                class="btn btn-primary btn-sm"
+                                                id="review-btn-{{ item.id }}">
+                                            <i class="fas fa-star me-1"></i>
+                                            {% translate "Évaluer" %}
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Formulaire d'évaluation (caché par défaut) -->
+                                <div id="review-form-{{ item.id }}" style="display: none;" class="mt-3 pt-3 border-top">
+                                    <form method="POST" action="{% url 'reviews:create_product_review' item.id %}" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <h6>{% translate "Votre avis" %}</h6>
+                                        
+                                        <!-- Évaluation par étoiles -->
+                                        <div class="mb-3">
+                                            <label class="form-label">{% translate "Note" %}:</label>
+                                            <div class="star-rating">
+                                                <input type="radio" name="rating" value="5" id="star5_{{ item.id }}" required>
+                                                <label for="star5_{{ item.id }}" class="star">★</label>
+                                                <input type="radio" name="rating" value="4" id="star4_{{ item.id }}">
+                                                <label for="star4_{{ item.id }}" class="star">★</label>
+                                                <input type="radio" name="rating" value="3" id="star3_{{ item.id }}">
+                                                <label for="star3_{{ item.id }}" class="star">★</label>
+                                                <input type="radio" name="rating" value="2" id="star2_{{ item.id }}">
+                                                <label for="star2_{{ item.id }}" class="star">★</label>
+                                                <input type="radio" name="rating" value="1" id="star1_{{ item.id }}">
+                                                <label for="star1_{{ item.id }}" class="star">★</label>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Titre -->
+                                        <div class="mb-3">
+                                            <label for="title_{{ item.id }}" class="form-label">{% translate "Titre de votre avis" %}</label>
+                                            <input type="text" class="form-control" name="title" id="title_{{ item.id }}" 
+                                                   placeholder='{% translate "Ex: Excellent produit" %}' required>
+                                        </div>
+                                        
+                                        <!-- Commentaire -->
+                                        <div class="mb-3">
+                                            <label for="comment_{{ item.id }}" class="form-label">{% translate "Votre commentaire" %}</label>
+                                            <textarea class="form-control" name="comment" id="comment_{{ item.id }}" 
+                                                      rows="3" placeholder='{% translate "Partagez votre expérience..." %}' required></textarea>
+                                        </div>
+                                        
+                                        <!-- Boutons -->
+                                        <div class="d-flex gap-2">
+                                            <button type="submit" class="btn btn-success">
+                                                <i class="fas fa-paper-plane me-2"></i>
+                                                {% translate "Publier" %}
+                                            </button>
+                                            <button type="button" onclick="toggleReviewForm({{ item.id }})" class="btn btn-secondary">
+                                                {% translate "Annuler" %}
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-success text-center">
+            <i class="fas fa-check-circle fa-3x mb-3"></i>
+            <h4>{% translate "Tous les articles ont été évalués !" %}</h4>
+            <p class="mb-0">{% translate "Merci d'avoir pris le temps de partager votre expérience." %}</p>
+        </div>
+        {% endif %}
+
+        <!-- Avis sur la livraison -->
+        {% if not delivery_review_exists %}
+        <div class="card review-card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-truck me-2"></i>
+                    {% translate "Évaluer la livraison" %}
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-3">
+                    {% translate "Comment s'est passée votre livraison ? Partagez votre expérience pour nous aider à améliorer notre service." %}
+                </p>
+                <a href="{% url 'reviews:create_delivery_review' order.id %}" 
+                   class="btn btn-success">
+                    <i class="fas fa-truck me-2"></i>
+                    {% translate "Évaluer la livraison" %}
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-info text-center">
+            <i class="fas fa-check-circle fa-2x mb-2"></i>
+            <h5>{% translate "Livraison déjà évaluée" %}</h5>
+            <p class="mb-0">{% translate "Vous avez déjà évalué cette livraison." %}</p>
+        </div>
+        {% endif %}
+
+        <!-- Actions -->
+        <div class="text-center mt-4">
+            <a href="{% url 'orders:order_detail' order.order_number %}" 
+               class="btn btn-outline-primary me-3">
+                <i class="fas fa-arrow-left me-2"></i>
+                {% translate "Retour à la commande" %}
+            </a>
+            <a href="{% url 'orders:order_list' %}" 
+               class="btn btn-outline-secondary">
+                <i class="fas fa-list me-2"></i>
+                {% translate "Mes commandes" %}
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .star-rating {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        font-size: 2rem;
+    }
+    
+    .star-rating input[type="radio"] {
+        display: none;
+    }
+    
+    .star-rating label {
+        color: #ddd;
+        cursor: pointer;
+        transition: color 0.2s;
+        margin-right: 5px;
+    }
+    
+    .star-rating label:hover,
+    .star-rating label:hover ~ label,
+    .star-rating input[type="radio"]:checked ~ label {
+        color: #ffc107;
+    }
+    
+    .card {
+        border: 1px solid #dee2e6;
+        border-radius: 0.375rem;
+    }
+</style>
+
+<script>
+function toggleReviewForm(itemId) {
+    const form = document.getElementById('review-form-' + itemId);
+    const button = document.getElementById('review-btn-' + itemId);
+    
+    if (form.style.display === 'none' || form.style.display === '') {
+        form.style.display = 'block';
+        button.style.display = 'none';
+    } else {
+        form.style.display = 'none';
+        button.style.display = 'block';
+    }
+}
+</script>
+{% endblock %}

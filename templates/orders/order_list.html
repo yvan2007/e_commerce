@@ -1,0 +1,250 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% translate "Mes Commandes" %} - KefyStore{% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block content %}
+<div class="container my-5 order-list-page">
+    <div class="row">
+        <div class="col-12">
+            <!-- En-tête -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h2 mb-1">
+                        <i class="fas fa-shopping-bag text-primary me-2"></i>
+                        {% translate "Mes Commandes" %}
+                    </h1>
+                    <p class="text-muted mb-0">
+                        {% translate "Consultez l'historique de vos commandes et suivez leur statut" %}
+                    </p>
+                </div>
+                <div>
+                    <a href="{% url 'accounts:account_dashboard' %}" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left me-1"></i> {% translate "Retour au compte" %}
+                    </a>
+                </div>
+            </div>
+
+            {% if orders %}
+                <!-- Filtres -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form method="get" class="row g-3">
+                            <div class="col-md-3">
+                                <label for="status" class="form-label">{% translate "Statut" %}</label>
+                                <select name="status" id="status" class="form-select">
+                                    <option value="">{% translate "Tous les statuts" %}</option>
+                                    <option value="pending" {% if request.GET.status == 'pending' %}selected{% endif %}>{% translate "En attente" %}</option>
+                                    <option value="confirmed" {% if request.GET.status == 'confirmed' %}selected{% endif %}>{% translate "Confirmée" %}</option>
+                                    <option value="shipped" {% if request.GET.status == 'shipped' %}selected{% endif %}>{% translate "Expédiée" %}</option>
+                                    <option value="delivered" {% if request.GET.status == 'delivered' %}selected{% endif %}>{% translate "Livrée" %}</option>
+                                    <option value="cancelled" {% if request.GET.status == 'cancelled' %}selected{% endif %}>{% translate "Annulée" %}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="date_from" class="form-label">{% translate "Date de début" %}</label>
+                                <input type="date" name="date_from" id="date_from" class="form-control" value="{{ request.GET.date_from }}">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="date_to" class="form-label">{% translate "Date de fin" %}</label>
+                                <input type="date" name="date_to" id="date_to" class="form-control" value="{{ request.GET.date_to }}">
+                            </div>
+                            <div class="col-md-3 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary me-2">
+                                    <i class="fas fa-search me-1"></i> {% translate "Filtrer" %}
+                                </button>
+                                <a href="{% url 'orders:order_list' %}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-times me-1"></i> {% translate "Effacer" %}
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Liste des commandes -->
+                <div class="row">
+                    {% for order in orders %}
+                    <div class="col-12 mb-4">
+                        <div class="card order-card shadow-sm">
+                            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-receipt me-2 text-primary"></i>
+                                        {% translate "Commande" %} #{{ order.order_number }}
+                                    </h5>
+                                    <small class="text-muted">
+                                        <i class="fas fa-calendar me-1"></i>
+                                        {{ order.created_at|date:"d/m/Y à H:i" }}
+                                    </small>
+                                </div>
+                                <div class="text-end">
+                                    <span class="badge bg-{% if order.status == 'completed' %}success{% elif order.status == 'pending' %}warning{% elif order.status == 'cancelled' %}danger{% else %}info{% endif %} fs-6">
+                                        {{ order.get_status_display }}
+                                    </span>
+                                    <div class="mt-1">
+                                        <strong class="text-primary">{{ order.total_amount }} FCFA</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <!-- Articles de la commande -->
+                                        <h6 class="text-muted mb-3">
+                                            <i class="fas fa-box me-1"></i>
+                                            {% translate "Articles" %} ({{ order.items.count }})
+                                        </h6>
+                                        <div class="row">
+                                            {% for item in order.items.all %}
+                                            <div class="col-md-6 mb-3">
+                                                <div class="d-flex align-items-center">
+                                                    {% if item.product.main_image %}
+                                                        <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}" 
+                                                             class="rounded me-3" style="width: 60px; height: 60px; object-fit: cover;">
+                                                    {% else %}
+                                                        <div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" 
+                                                             style="width: 60px; height: 60px;">
+                                                            <i class="fas fa-image text-muted"></i>
+                                                        </div>
+                                                    {% endif %}
+                                                    <div>
+                                                        <h6 class="mb-1">{{ item.product.name }}</h6>
+                                                        <small class="text-muted">
+                                                            {% translate "Quantité" %}: {{ item.quantity }} × {{ item.unit_price }} FCFA
+                                                        </small>
+                                                        <div class="text-primary fw-bold">
+                                                            {{ item.total_price }} FCFA
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <!-- Informations de livraison -->
+                                        <h6 class="text-muted mb-3">
+                                            <i class="fas fa-truck me-1"></i>
+                                            {% translate "Livraison" %}
+                                        </h6>
+                                        <div class="mb-3">
+                                            <strong>{{ order.shipping_first_name }} {{ order.shipping_last_name }}</strong><br>
+                                            <small class="text-muted">
+                                                {{ order.shipping_address }}<br>
+                                                {{ order.shipping_city }} {{ order.shipping_postal_code }}
+                                            </small>
+                                        </div>
+                                        
+                                        <!-- Détails financiers -->
+                                        <h6 class="text-muted mb-3">
+                                            <i class="fas fa-calculator me-1"></i>
+                                            {% translate "Détails" %}
+                                        </h6>
+                                        <div class="small">
+                                            <div class="d-flex justify-content-between mb-1">
+                                                <span>{% translate "Sous-total" %}:</span>
+                                                <span>{{ order.subtotal }} FCFA</span>
+                                            </div>
+                                            <hr class="my-2">
+                                            <div class="d-flex justify-content-between fw-bold">
+                                                <span>{% translate "Total" %}:</span>
+                                                <span class="text-primary">{{ order.total_amount }} FCFA</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-light">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <small class="text-muted">
+                                            <i class="fas fa-credit-card me-1"></i>
+                                            {% translate "Paiement" %}: {{ order.get_payment_method_display }}
+                                        </small>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <a href="{% url 'orders:order_detail' order.order_number %}" class="btn btn-outline-primary btn-sm">
+                                            <i class="fas fa-eye me-1"></i> {% translate "Voir détails" %}
+                                        </a>
+                                        {% if order.status == 'pending' or order.status == 'confirmed' %}
+                                        <a href="{% url 'orders:order_cancel' order.order_number %}" class="btn btn-outline-danger btn-sm">
+                                            <i class="fas fa-times me-1"></i> {% translate "Annuler" %}
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% if is_paginated %}
+                <nav aria-label="{% translate 'Navigation des commandes' %}">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}">
+                                    <i class="fas fa-angle-double-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}">
+                                    <i class="fas fa-angle-left"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ num }}</span>
+                                </li>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}">{{ num }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}">
+                                    <i class="fas fa-angle-right"></i>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}">
+                                    <i class="fas fa-angle-double-right"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+
+            {% else %}
+                <!-- Aucune commande -->
+                <div class="text-center py-5">
+                    <div class="mb-4">
+                        <i class="fas fa-shopping-bag fa-5x text-muted"></i>
+                    </div>
+                    <h3 class="text-muted mb-3">{% translate "Aucune commande trouvée" %}</h3>
+                    <p class="text-muted mb-4">
+                        {% translate "Vous n'avez pas encore passé de commande ou aucune commande ne correspond à vos critères de recherche." %}
+                    </p>
+                    <a href="{% url 'products:product_list' %}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-shopping-cart me-2"></i>
+                        {% translate "Commencer mes achats" %}
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

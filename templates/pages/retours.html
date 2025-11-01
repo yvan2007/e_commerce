@@ -1,0 +1,177 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Politique de Retours - KefyStore{% endblock %}
+
+{% block extra_css %}
+<style>
+    .returns-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 4rem 0;
+        color: white;
+        text-align: center;
+    }
+    
+    .return-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        height: 100%;
+    }
+    
+    .return-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: white;
+        margin-bottom: 1rem;
+    }
+    
+    .return-step {
+        background: #f8f9fa;
+        padding: 2rem;
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .return-step h5 {
+        color: #667eea;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="returns-hero">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">Politique de Retours</h1>
+        <p class="lead">Retours gratuits sous 15 jours</p>
+    </div>
+</section>
+
+<!-- Returns Content -->
+<div class="container my-5">
+    <!-- Important Info -->
+    <div class="row mb-5">
+        <div class="col-lg-10 mx-auto">
+            <div class="alert alert-primary border-0" role="alert">
+                <h4 class="alert-heading fw-bold">📦 Retours Faciles</h4>
+                <p class="mb-0">Vous avez <strong>15 jours</strong> pour retourner un article non conforme ou défectueux. Retours gratuits et remboursement complet.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Return Conditions -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-6">
+            <div class="return-card">
+                <div class="return-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h5 class="fw-bold mb-3">Articles pouvant être retournés</h5>
+                <ul class="list-unstyled text-muted">
+                    <li>✓ Articles défectueux</li>
+                    <li>✓ Articles non conformes à la description</li>
+                    <li>✓ Articles non portés avec étiquettes</li>
+                    <li>✓ Articles dans leur emballage d'origine</li>
+                    <li>✓ Accompagnés de la facture</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="return-card">
+                <div class="return-icon">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <h5 class="fw-bold mb-3">Articles ne pouvant pas être retournés</h5>
+                <ul class="list-unstyled text-muted">
+                    <li>✗ Articles personnalisés</li>
+                    <li>✗ Articles portés ou usés</li>
+                    <li>✗ Articles sans emballage d'origine</li>
+                    <li>✗ Articles sans facture</li>
+                    <li>✗ Produits périssables</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Return Process -->
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h2 class="fw-bold mb-4 text-center">Comment retourner un article ?</h2>
+            
+            <div class="return-step">
+                <h5><i class="fas fa-comment-alt me-2"></i>Étape 1 : Contactez-nous</h5>
+                <p class="text-muted mb-0">Contactez notre service client au <strong>+225 00 00 00 00</strong> ou envoyez un email à <strong>retours@kefystore.com</strong> avec votre numéro de commande.</p>
+            </div>
+            
+            <div class="return-step">
+                <h5><i class="fas fa-box me-2"></i>Étape 2 : Emballage</h5>
+                <p class="text-muted mb-0">Remettez l'article dans son emballage d'origine avec tous ses accessoires et la facture.</p>
+            </div>
+            
+            <div class="return-step">
+                <h5><i class="fas fa-truck me-2"></i>Étape 3 : Envoi</h5>
+                <p class="text-muted mb-0">Nous viendrons récupérer l'article à votre adresse ou vous pouvez nous l'apporter dans notre boutique.</p>
+            </div>
+            
+            <div class="return-step">
+                <h5><i class="fas fa-check-circle me-2"></i>Étape 4 : Remboursement</h5>
+                <p class="text-muted mb-0">Dès réception et vérification de l'article, nous procéderons au remboursement sous <strong>48h</strong>.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Refund Info -->
+    <div class="row mt-5">
+        <div class="col-lg-10 mx-auto">
+            <div class="card border-0 shadow-sm bg-light">
+                <div class="card-body p-4">
+                    <h3 class="fw-bold mb-3 text-center">Modalités de remboursement</h3>
+                    <div class="row">
+                        <div class="col-md-4 text-center mb-3">
+                            <i class="fas fa-credit-card fa-3x text-primary mb-2"></i>
+                            <h6 class="fw-bold">Carte bancaire</h6>
+                            <p class="text-muted small mb-0">Sous 2-3 jours ouvrables</p>
+                        </div>
+                        <div class="col-md-4 text-center mb-3">
+                            <i class="fas fa-mobile-alt fa-3x text-success mb-2"></i>
+                            <h6 class="fw-bold">Mobile Money</h6>
+                            <p class="text-muted small mb-0">Sous 24h</p>
+                        </div>
+                        <div class="col-md-4 text-center mb-3">
+                            <i class="fas fa-exchange-alt fa-3x text-info mb-2"></i>
+                            <h6 class="fw-bold">Bon d'achat</h6>
+                            <p class="text-muted small mb-0">Immédiat</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contact -->
+    <div class="row mt-4">
+        <div class="col-lg-8 mx-auto">
+            <div class="alert alert-info border-0 text-center" role="alert">
+                <h5 class="alert-heading fw-bold">Service Client</h5>
+                <p class="mb-2">Pour toute question sur les retours :</p>
+                <p class="mb-0">
+                    <i class="fas fa-phone me-2"></i> +225 00 00 00 00<br>
+                    <i class="fas fa-envelope me-2"></i> retours@kefystore.com<br>
+                    <i class="fas fa-clock me-2"></i> Lun-Ven: 9h-18h
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

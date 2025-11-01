@@ -1,0 +1,196 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Ma Liste de Souhaits - KefyStore{% endblock %}
+
+{% block extra_css %}
+<style>
+    .wishlist-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        height: 100%;
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    .wishlist-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        color: inherit;
+        text-decoration: none;
+    }
+    
+    .wishlist-card .card-img-top {
+        height: 200px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    
+    .wishlist-card:hover .card-img-top {
+        transform: scale(1.05);
+    }
+    
+    .wishlist-card .card-body {
+        padding: 1.5rem;
+    }
+    
+    .wishlist-card .card-title {
+        color: var(--text-dark);
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+    
+    .wishlist-card .card-text {
+        color: var(--text-muted);
+        line-height: 1.6;
+    }
+    
+    .wishlist-card .card-footer {
+        background: var(--accent-color);
+        border: none;
+        padding: 1rem 1.5rem;
+    }
+    
+    .wishlist-card .btn {
+        border-radius: 10px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .wishlist-card .btn-outline-danger {
+        border: 2px solid #dc3545;
+        color: #dc3545;
+    }
+    
+    .wishlist-card .btn-outline-danger:hover {
+        background: #dc3545;
+        border-color: #dc3545;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+    }
+    
+    .wishlist-card .btn-primary {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        border: none;
+    }
+    
+    .wishlist-card .btn-primary:hover {
+        background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+    }
+    
+    .price-tag {
+        color: var(--primary-color);
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+    
+    .old-price {
+        color: var(--text-muted);
+        text-decoration: line-through;
+        font-size: 0.9rem;
+    }
+    
+    .empty-wishlist {
+        padding: 4rem 2rem;
+        text-align: center;
+    }
+    
+    .empty-wishlist i {
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+    }
+    
+    .empty-wishlist h3 {
+        color: var(--text-muted);
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+    
+    .empty-wishlist p {
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+    }
+    
+    .empty-wishlist .btn {
+        border-radius: 10px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+    }
+    
+    h1 {
+        color: var(--primary-color);
+        font-weight: 700;
+        margin-bottom: 2rem;
+    }
+    
+    .no-image-placeholder {
+        background: linear-gradient(135deg, var(--accent-color), #E8F4FD);
+        color: var(--primary-color);
+        font-size: 3rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">Ma Liste de Souhaits</h1>
+            
+            {% if products %}
+                <div class="row">
+                    {% for product in products %}
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                        <a href="{{ product.get_absolute_url }}" class="wishlist-card card h-100">
+                                {% if product.main_image %}
+                                    <img src="{{ product.main_image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+                                {% elif product.images.first %}
+                                    <img src="{{ product.images.first.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+                                {% else %}
+                                    <div class="card-img-top no-image-placeholder d-flex align-items-center justify-content-center" style="height: 200px;">
+                                        <i class="fas fa-image fa-3x"></i>
+                                    </div>
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                    <p class="card-text">{{ product.description|truncatewords:15 }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="price-tag">{{ product.price|floatformat:0 }} FCFA</span>
+                                        {% if product.old_price %}
+                                            <small class="old-price">{{ product.old_price|floatformat:0 }} FCFA</small>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="d-flex gap-2">
+                                        <a href="{% url 'wishlist:remove_from_wishlist' product.id %}" class="btn btn-outline-danger btn-sm flex-fill">
+                                            <i class="fas fa-heart-broken me-1"></i> Retirer
+                                        </a>
+                                        <a href="{% url 'products:add_to_cart' product.id %}" class="btn btn-primary btn-sm flex-fill">
+                                            <i class="fas fa-cart-plus me-1"></i> Panier
+                                        </a>
+                                    </div>
+                                </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-wishlist">
+                    <i class="fas fa-heart fa-5x mb-4"></i>
+                    <h3>Votre liste de souhaits est vide</h3>
+                    <p>Découvrez nos produits et ajoutez-les à votre liste de souhaits !</p>
+                    <a href="{% url 'products:home_page' %}" class="btn btn-primary">
+                        <i class="fas fa-shopping-bag"></i> Découvrir nos produits
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

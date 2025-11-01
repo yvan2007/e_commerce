@@ -1,0 +1,199 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Contactez-nous - KefyStore{% endblock %}
+
+{% block extra_css %}
+<style>
+    .contact-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 4rem 0;
+        color: white;
+    }
+    
+    .contact-info-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+    
+    .contact-form-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2.5rem;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+    
+    .contact-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: white;
+        margin-bottom: 1rem;
+    }
+    
+    .form-control, .form-select, textarea.form-control {
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+    }
+    
+    .form-control:focus, .form-select:focus, textarea.form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.15);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="contact-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-3">Contactez-nous</h1>
+                <p class="lead">Nous sommes là pour répondre à toutes vos questions</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Content -->
+<div class="container my-5">
+    <div class="row g-4">
+        <!-- Contact Information -->
+        <div class="col-lg-4">
+            <div class="contact-info-card text-center">
+                <div class="contact-icon mx-auto">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <h4 class="fw-bold">Adresse</h4>
+                <p class="text-muted mb-0">
+                    Cocody, Abidjan<br>
+                    Côte d'Ivoire
+                </p>
+            </div>
+            
+            <div class="contact-info-card text-center">
+                <div class="contact-icon mx-auto">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <h4 class="fw-bold">Téléphone</h4>
+                <p class="text-muted mb-0">
+                    <a href="tel:+22500000000" class="text-decoration-none text-dark">+225 00 00 00 00</a><br>
+                    <a href="tel:+22500000000" class="text-decoration-none text-dark">+225 00 00 00 00</a>
+                </p>
+            </div>
+            
+            <div class="contact-info-card text-center">
+                <div class="contact-icon mx-auto">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h4 class="fw-bold">Email</h4>
+                <p class="text-muted mb-0">
+                    <a href="mailto:contact@kefystore.com" class="text-decoration-none text-dark">contact@kefystore.com</a><br>
+                    <a href="mailto:support@kefystore.com" class="text-decoration-none text-dark">support@kefystore.com</a>
+                </p>
+            </div>
+            
+            <div class="contact-info-card text-center">
+                <div class="contact-icon mx-auto">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h4 class="fw-bold">Horaires</h4>
+                <p class="text-muted mb-0">
+                    Lundi - Vendredi: 8h - 18h<br>
+                    Samedi: 9h - 17h<br>
+                    Dimanche: Fermé
+                </p>
+            </div>
+        </div>
+        
+        <!-- Contact Form -->
+        <div class="col-lg-8">
+            <div class="contact-form-card">
+                <h2 class="fw-bold mb-4">Envoyez-nous un message</h2>
+                <form id="contactForm" method="post">
+                    {% csrf_token %}
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="name" class="form-label fw-semibold">Nom complet <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="email" class="form-label fw-semibold">Email <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="subject" class="form-label fw-semibold">Sujet <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="subject" name="subject" required>
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="message" class="form-label fw-semibold">Message <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="message" name="message" rows="6" required></textarea>
+                        </div>
+                        
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-lg w-100">
+                                <i class="fas fa-paper-plane me-2"></i>Envoyer le message
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const btn = this.querySelector('button[type="submit"]');
+    const originalText = btn.innerHTML;
+    
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Envoi en cours...';
+    
+    fetch(this.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            this.reset();
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        alert('Erreur lors de l\'envoi du message');
+        console.error(error);
+    })
+    .finally(() => {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+    });
+});
+</script>
+{% endblock %}
+

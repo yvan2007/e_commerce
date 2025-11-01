@@ -1,0 +1,253 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Mon Profil - E-Commerce CI{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-4">
+    <div class="row">
+        <div class="col-lg-3">
+            <!-- Profile sidebar -->
+            <div class="card">
+                <div class="card-body text-center">
+                    {% if user.profile_picture %}
+                        <img src="{{ user.profile_picture.url }}" alt="Profile" 
+                             class="rounded-circle mb-3" width="100" height="100">
+                    {% else %}
+                        <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                             style="width: 100px; height: 100px;">
+                            <i class="fas fa-user text-white" style="font-size: 2rem;"></i>
+                        </div>
+                    {% endif %}
+                    
+                    <h5 class="card-title">{{ user.get_display_name }}</h5>
+                    <p class="text-muted">{{ user.get_user_type_display }}</p>
+                    
+                    <div class="list-group list-group-flush">
+                        <a href="{% url 'accounts:profile' %}" class="list-group-item list-group-item-action active">
+                            <i class="fas fa-user me-2"></i>Informations personnelles
+                        </a>
+                        <a href="{% url 'orders:order_list' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-shopping-bag me-2"></i>Mes commandes
+                        </a>
+                        <a href="{% url 'orders:shipping_address_list' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-map-marker-alt me-2"></i>Adresses de livraison
+                        </a>
+                        <a href="{% url 'accounts:change_password' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-lock me-2"></i>Changer le mot de passe
+                        </a>
+                        {% if user.user_type == 'vendeur' %}
+                            <a href="{% url 'dashboard:vendor_dashboard' %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-tachometer-alt me-2"></i>Tableau de bord
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-9">
+            <!-- Profile content -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-user me-2"></i>Informations personnelles
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.first_name.id_for_label }}" class="form-label">Prénom</label>
+                                {{ form.first_name }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.last_name.id_for_label }}" class="form-label">Nom</label>
+                                {{ form.last_name }}
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
+                                {{ form.email }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.phone_number.id_for_label }}" class="form-label">Téléphone</label>
+                                <div class="input-group">
+                                    {{ form.country_code }}
+                                    {{ form.phone_number }}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.address.id_for_label }}" class="form-label">Adresse</label>
+                            {{ form.address }}
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.city.id_for_label }}" class="form-label">Ville</label>
+                                {{ form.city }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.postal_code.id_for_label }}" class="form-label">Code postal</label>
+                                {{ form.postal_code }}
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.date_of_birth.id_for_label }}" class="form-label">Date de naissance</label>
+                                {{ form.date_of_birth }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.profile_picture.id_for_label }}" class="form-label">Photo de profil</label>
+                                {{ form.profile_picture }}
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Enregistrer
+                            </button>
+                            <a href="{% url 'accounts:delete_account' %}" class="btn btn-outline-danger">
+                                <i class="fas fa-trash me-2"></i>Supprimer le compte
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Vendor profile section -->
+            {% if user.user_type == 'vendeur' and vendor_form %}
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-store me-2"></i>Informations vendeur
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" id="vendorForm">
+                            {% csrf_token %}
+                            <input type="hidden" name="vendor_form" value="1">
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ vendor_form.business_name.id_for_label }}" class="form-label">Nom de l'entreprise</label>
+                                    {{ vendor_form.business_name }}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ vendor_form.business_license.id_for_label }}" class="form-label">Numéro de licence</label>
+                                    {{ vendor_form.business_license }}
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="{{ vendor_form.business_description.id_for_label }}" class="form-label">Description de l'entreprise</label>
+                                {{ vendor_form.business_description }}
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ vendor_form.tax_id.id_for_label }}" class="form-label">Numéro fiscal</label>
+                                    {{ vendor_form.tax_id }}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ vendor_form.bank_account.id_for_label }}" class="form-label">Compte bancaire</label>
+                                    {{ vendor_form.bank_account }}
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="{{ vendor_form.website.id_for_label }}" class="form-label">Site web</label>
+                                {{ vendor_form.website }}
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Enregistrer les informations vendeur
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Phone number formatting
+    const phoneInput = document.querySelector('input[name="phone_number"]');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            e.target.value = value;
+        });
+    }
+    
+    // Country code change
+    const countryCodeSelect = document.querySelector('select[name="country_code"]');
+    if (countryCodeSelect) {
+        countryCodeSelect.addEventListener('change', function() {
+            const countryCode = this.value;
+            const phoneInput = document.querySelector('input[name="phone_number"]');
+            
+            // Update placeholder based on country code
+            if (countryCode === '+225') {
+                phoneInput.placeholder = 'Numéro de téléphone ivoirien';
+            } else {
+                phoneInput.placeholder = 'Numéro de téléphone';
+            }
+        });
+    }
+    
+    // Image preview
+    const profilePictureInput = document.querySelector('input[name="profile_picture"]');
+    if (profilePictureInput) {
+        profilePictureInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.querySelector('.card-body img');
+                    if (img) {
+                        img.src = e.target.result;
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+    
+    // Form validation
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            const requiredFields = form.querySelectorAll('[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            });
+            
+            if (!isValid) {
+                e.preventDefault();
+                alert('Veuillez remplir tous les champs obligatoires.');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

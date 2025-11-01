@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation de livraison</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .delivery-confirmation {
+            background-color: #d4edda;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid #c3e6cb;
+        }
+        .delivery-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .order-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .product-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .product-item:last-child {
+            border-bottom: none;
+        }
+        .product-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+        .product-details {
+            flex: 1;
+        }
+        .product-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .product-price {
+            color: #007bff;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">{{ site_name }}</div>
+        <h1>Commande livrée</h1>
+    </div>
+
+    <div class="delivery-confirmation">
+        <h2>Bonjour {{ customer_name }},</h2>
+        <p>Votre commande a été livrée avec succès !</p>
+        <div class="delivery-badge">Livré</div>
+        <p><strong>Numéro de commande :</strong> {{ order.order_number }}</p>
+        <p><strong>Date de livraison :</strong> {{ delivery_date|date:"d/m/Y à H:i" }}</p>
+    </div>
+
+    <div class="order-info">
+        <h3>Produits livrés :</h3>
+        {% for item in order.items.all %}
+        <div class="product-item">
+            {% if item.product.main_image %}
+            <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}" class="product-image">
+            {% endif %}
+            <div class="product-details">
+                <div class="product-name">{{ item.product.name }}</div>
+                {% if item.variant %}
+                <div class="product-variant">Variante : {{ item.variant.name }}</div>
+                {% endif %}
+                <div class="product-quantity">Quantité : {{ item.quantity }}</div>
+                <div class="product-price">{{ item.total_price|floatformat:0 }} FCFA</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="{{ site_url }}/orders/{{ order.order_number }}/" class="btn">Voir ma commande</a>
+        <a href="{{ site_url }}/products/" class="btn">Continuer mes achats</a>
+    </div>
+
+    <div class="footer">
+        <p>Merci pour votre confiance !</p>
+        <p>L'équipe {{ site_name }}</p>
+        <p><a href="{{ site_url }}">{{ site_url }}</a></p>
+    </div>
+</body>
+</html>

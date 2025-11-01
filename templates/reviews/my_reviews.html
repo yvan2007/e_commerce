@@ -1,0 +1,266 @@
+{% extends 'reviews/base_review.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% translate "Mes avis" %} - KefyStore{% endblock %}
+
+{% block review_content %}
+<div class="row">
+    <div class="col-12">
+        <!-- En-tête -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold text-primary mb-3">
+                <i class="fas fa-star me-3"></i>
+                {% translate "Mes avis" %}
+            </h1>
+            <p class="lead text-muted">
+                {% translate "Gérez vos avis et commentaires" %}
+            </p>
+        </div>
+
+        <!-- Liste des avis -->
+        {% if reviews %}
+        <div class="reviews-list">
+            {% for review in reviews %}
+            <div class="card review-card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            {% if review.product.main_image %}
+                                <img src="{{ review.product.main_image.url }}" 
+                                     alt="{{ review.product.name }}" 
+                                     class="img-fluid rounded">
+                            {% else %}
+                                <div class="img-fluid rounded d-flex align-items-center justify-content-center bg-light" 
+                                     style="height: 120px; width: 120px;">
+                                    <i class="fas fa-image text-muted fa-3x"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-9">
+                            <!-- En-tête de l'avis -->
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title mb-1">{{ review.product.name }}</h5>
+                                    <div class="rating-stars mb-2">{{ review.rating_stars }}</div>
+                                    <small class="text-muted">
+                                        {% translate "Commande" %} #{{ review.order.order_number }} - 
+                                        {{ review.created_at|date:"d/m/Y" }}
+                                    </small>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" 
+                                            type="button" 
+                                            data-bs-toggle="dropdown">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" href="{% url 'reviews:update_review' review.id %}">
+                                                <i class="fas fa-edit me-2"></i>
+                                                {% translate "Modifier" %}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item text-danger" 
+                                               href="{% url 'reviews:delete_review' review.id %}"
+                                               onclick="return confirm('{% translate 'Êtes-vous sûr de vouloir supprimer cet avis ?' %}')">
+                                                <i class="fas fa-trash me-2"></i>
+                                                {% translate "Supprimer" %}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Titre et commentaire -->
+                            <h6 class="review-title">{{ review.title }}</h6>
+                            <p class="review-comment">{{ review.comment|truncatewords:30 }}</p>
+
+                            <!-- Photos -->
+                            {% if review.has_images %}
+                            <div class="review-images mb-3">
+                                {% if review.image_1 %}
+                                    <img src="{{ review.image_1.url }}" alt="Photo 1" class="review-image" onclick="openImageModal('{{ review.image_1.url }}')">
+                                {% endif %}
+                                {% if review.image_2 %}
+                                    <img src="{{ review.image_2.url }}" alt="Photo 2" class="review-image" onclick="openImageModal('{{ review.image_2.url }}')">
+                                {% endif %}
+                                {% if review.image_3 %}
+                                    <img src="{{ review.image_3.url }}" alt="Photo 3" class="review-image" onclick="openImageModal('{{ review.image_3.url }}')">
+                                {% endif %}
+                            </div>
+                            {% endif %}
+
+                            <!-- Statistiques -->
+                            <div class="d-flex align-items-center">
+                                <span class="badge bg-success me-2">
+                                    <i class="fas fa-check me-1"></i>
+                                    {% translate "Achat vérifié" %}
+                                </span>
+                                <span class="text-muted me-3">
+                                    <i class="fas fa-thumbs-up me-1"></i>
+                                    {{ review.is_helpful }} {% translate "personnes ont trouvé cet avis utile" %}
+                                </span>
+                                {% if review.is_public %}
+                                    <span class="badge bg-primary">
+                                        <i class="fas fa-eye me-1"></i>
+                                        {% translate "Public" %}
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-secondary">
+                                        <i class="fas fa-eye-slash me-1"></i>
+                                        {% translate "Privé" %}
+                                    </span>
+                                {% endif %}
+                            </div>
+
+                            <!-- Réponse du vendeur -->
+                            {% if review.response %}
+                            <div class="mt-3">
+                                <div class="alert alert-light">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="fas fa-store me-2 text-primary"></i>
+                                        <strong>{% translate "Réponse du vendeur" %}</strong>
+                                    </div>
+                                    <p class="mb-0">{{ review.response.response_text }}</p>
+                                    <small class="text-muted">{{ review.response.created_at|date:"d/m/Y" }}</small>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <nav aria-label="{% translate 'Pagination des avis' %}">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">
+                            <i class="fas fa-angle-double-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">
+                            <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-star fa-3x text-muted mb-3"></i>
+            <h4>{% translate "Aucun avis pour le moment" %}</h4>
+            <p class="text-muted mb-4">
+                {% translate "Vous n'avez pas encore évalué de produits. Vos avis apparaîtront ici une fois que vous aurez évalué vos commandes livrées." %}
+            </p>
+            <a href="{% url 'orders:order_list' %}" class="btn btn-primary">
+                <i class="fas fa-shopping-bag me-2"></i>
+                {% translate "Voir mes commandes" %}
+            </a>
+        </div>
+        {% endif %}
+
+        <!-- Actions -->
+        <div class="text-center mt-4">
+            <a href="{% url 'products:home_page' %}" class="btn btn-outline-primary">
+                <i class="fas fa-home me-2"></i>
+                {% translate "Retour à l'accueil" %}
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal pour les images -->
+<div class="modal fade" id="imageModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{% translate "Photo de l'avis" %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="modalImage" src="" alt="Photo" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.review-title {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.review-comment {
+    color: #666;
+    line-height: 1.6;
+}
+
+.rating-stars {
+    color: #ffc107;
+    font-size: 1.1em;
+}
+
+.review-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.review-image:hover {
+    transform: scale(1.1);
+}
+
+.dropdown-toggle::after {
+    display: none;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function openImageModal(imageSrc) {
+    document.getElementById('modalImage').src = imageSrc;
+    new bootstrap.Modal(document.getElementById('imageModal')).show();
+}
+</script>
+{% endblock %}

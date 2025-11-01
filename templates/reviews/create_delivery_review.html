@@ -1,0 +1,267 @@
+{% extends 'reviews/base_review.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% translate "Évaluer la livraison" %} - KefyStore{% endblock %}
+
+{% block review_content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <!-- En-tête -->
+        <div class="text-center mb-5">
+            <h1 class="display-5 fw-bold text-primary mb-3">
+                <i class="fas fa-truck me-3"></i>
+                {% translate "Évaluez votre livraison" %}
+            </h1>
+            <p class="lead text-muted">
+                {% translate "Partagez votre expérience de livraison" %}
+            </p>
+        </div>
+
+        <!-- Informations de la commande -->
+        <div class="card review-card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-shopping-bag me-2"></i>
+                    {% translate "Commande" %} #{{ order.order_number }}
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>{% translate "Date de livraison" %}:</strong> {{ order.updated_at|date:"d/m/Y" }}</p>
+                        <p><strong>{% translate "Adresse de livraison" %}:</strong></p>
+                        <address class="text-muted">
+                            {{ order.shipping_address }}<br>
+                            {{ order.shipping_city }}, {{ order.shipping_country }}
+                        </address>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>{% translate "Frais de livraison" %}:</strong> {{ order.shipping_cost }} FCFA</p>
+                        <p><strong>{% translate "Total commande" %}:</strong> {{ order.total_amount }} FCFA</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulaire d'avis livraison -->
+        <div class="card review-card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-edit me-2"></i>
+                    {% translate "Votre avis sur la livraison" %}
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="post" class="review-form">
+                    {% csrf_token %}
+                    
+                    <!-- Note générale -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">
+                            <i class="fas fa-star me-1"></i>
+                            {{ form.delivery_rating.label }}
+                        </label>
+                        <div class="rating-input">
+                            {% for choice in form.delivery_rating %}
+                                <div class="form-check form-check-inline">
+                                    {{ choice.tag }}
+                                    <label class="form-check-label rating-label" for="{{ choice.id_for_label }}">
+                                        <span class="rating-stars">{{ choice.choice_label }}</span>
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if form.delivery_rating.errors %}
+                            <div class="text-danger small">{{ form.delivery_rating.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Évaluations détaillées -->
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-clock fa-2x text-primary mb-3"></i>
+                                    <h6 class="card-title">{% translate "Rapidité" %}</h6>
+                                    <div class="rating-input-small">
+                                        {% for choice in form.delivery_speed_rating %}
+                                            <div class="form-check form-check-inline">
+                                                {{ choice.tag }}
+                                                <label class="form-check-label rating-label-small" for="{{ choice.id_for_label }}">
+                                                    <span class="rating-stars-small">{{ choice.choice_label }}</span>
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    {% if form.delivery_speed_rating.errors %}
+                                        <div class="text-danger small">{{ form.delivery_speed_rating.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-box fa-2x text-success mb-3"></i>
+                                    <h6 class="card-title">{% translate "Emballage" %}</h6>
+                                    <div class="rating-input-small">
+                                        {% for choice in form.packaging_rating %}
+                                            <div class="form-check form-check-inline">
+                                                {{ choice.tag }}
+                                                <label class="form-check-label rating-label-small" for="{{ choice.id_for_label }}">
+                                                    <span class="rating-stars-small">{{ choice.choice_label }}</span>
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    {% if form.packaging_rating.errors %}
+                                        <div class="text-danger small">{{ form.packaging_rating.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-user fa-2x text-info mb-3"></i>
+                                    <h6 class="card-title">{% translate "Livreur" %}</h6>
+                                    <div class="rating-input-small">
+                                        {% for choice in form.delivery_person_rating %}
+                                            <div class="form-check form-check-inline">
+                                                {{ choice.tag }}
+                                                <label class="form-check-label rating-label-small" for="{{ choice.id_for_label }}">
+                                                    <span class="rating-stars-small">{{ choice.choice_label }}</span>
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    {% if form.delivery_person_rating.errors %}
+                                        <div class="text-danger small">{{ form.delivery_person_rating.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Commentaire -->
+                    <div class="mb-4">
+                        <label for="{{ form.delivery_comment.id_for_label }}" class="form-label fw-bold">
+                            <i class="fas fa-comment me-1"></i>
+                            {{ form.delivery_comment.label }}
+                        </label>
+                        {{ form.delivery_comment }}
+                        {% if form.delivery_comment.errors %}
+                            <div class="text-danger small">{{ form.delivery_comment.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Badge livraison vérifiée -->
+                    <div class="alert alert-success d-flex align-items-center mb-4">
+                        <i class="fas fa-truck me-3 fa-2x"></i>
+                        <div>
+                            <strong>{% translate "Livraison vérifiée" %}</strong><br>
+                            <small>{% translate "Cet avis provient d'une livraison vérifiée sur KefyStore" %}</small>
+                        </div>
+                    </div>
+
+                    <!-- Boutons -->
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'reviews:review_order' order.id %}" 
+                           class="btn btn-outline-secondary me-md-2">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            {% translate "Annuler" %}
+                        </a>
+                        <button type="submit" class="btn btn-success pulse-animation">
+                            <i class="fas fa-paper-plane me-2"></i>
+                            {% translate "Publier l'avis" %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.rating-input {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.rating-input-small {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.rating-label {
+    cursor: pointer;
+    padding: 10px 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.rating-label-small {
+    cursor: pointer;
+    padding: 5px 8px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.rating-label:hover, .rating-label-small:hover {
+    border-color: #28a745;
+    background: #f8fff9;
+    transform: translateY(-2px);
+}
+
+.rating-input input[type="radio"]:checked + .rating-label,
+.rating-input-small input[type="radio"]:checked + .rating-label-small {
+    border-color: #28a745;
+    background: #f8fff9;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.rating-input input[type="radio"],
+.rating-input-small input[type="radio"] {
+    display: none;
+}
+
+.rating-stars {
+    font-size: 1.5em;
+    color: #ffc107;
+}
+
+.rating-stars-small {
+    font-size: 1.2em;
+    color: #ffc107;
+}
+
+.form-control:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.btn-success {
+    background: linear-gradient(45deg, #28a745, #20c997);
+    border: none;
+}
+
+.btn-success:hover {
+    background: linear-gradient(45deg, #218838, #1ea085);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+}
+</style>
+{% endblock %}

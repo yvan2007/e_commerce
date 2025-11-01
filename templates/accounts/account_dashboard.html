@@ -1,0 +1,368 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% translate "Mon Compte" %} - KefyStore{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <!-- En-tête -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h2 mb-1">
+                        <i class="fas fa-user-circle text-primary me-2"></i>
+                        {% translate "Mon Compte" %}
+                    </h1>
+                    <p class="text-muted mb-0">
+                        {% translate "Bonjour" %}, {{ user.get_full_name|default:user.username }} 
+                        <span class="badge bg-primary ms-2">{{ user_type }}</span>
+                    </p>
+                </div>
+                <div>
+                    <a href="{% url 'accounts:profile' %}" class="btn btn-outline-primary">
+                        <i class="fas fa-edit me-1"></i> {% translate "Modifier le profil" %}
+                    </a>
+                </div>
+            </div>
+
+            <!-- Options principales -->
+            <div class="row g-4 mb-5">
+                <!-- Profil -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm account-option-card">
+                        <div class="card-body text-center">
+                            <div class="account-icon mb-3">
+                                <i class="fas fa-user fa-3x text-primary"></i>
+                            </div>
+                            <h5 class="card-title">{% translate "Mon Profil" %}</h5>
+                            <p class="card-text text-muted">
+                                {% translate "Gérez vos informations personnelles et vos préférences" %}
+                            </p>
+                            <a href="{% url 'accounts:profile' %}" class="btn btn-primary">
+                                {% translate "Voir le profil" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                {% if user.user_type == 'client' %}
+                <!-- Panier -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm account-option-card">
+                        <div class="card-body text-center">
+                            <div class="account-icon mb-3">
+                                <i class="fas fa-shopping-cart fa-3x text-success"></i>
+                            </div>
+                            <h5 class="card-title">{% translate "Mon Panier" %}</h5>
+                            <p class="card-text text-muted">
+                                {% translate "Consultez et gérez vos articles" %}
+                            </p>
+                            <a href="{% url 'orders:cart' %}" class="btn btn-success">
+                                {% translate "Voir le panier" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Liste de souhaits -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm account-option-card">
+                        <div class="card-body text-center">
+                            <div class="account-icon mb-3">
+                                <i class="fas fa-heart fa-3x text-danger"></i>
+                            </div>
+                            <h5 class="card-title">{% translate "Ma Liste de Souhaits" %}</h5>
+                            <p class="card-text text-muted">
+                                {% translate "Vos produits favoris" %}
+                            </p>
+                            <a href="{% url 'wishlist:wishlist' %}" class="btn btn-danger">
+                                {% translate "Voir la liste" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Commandes -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm account-option-card">
+                        <div class="card-body text-center">
+                            <div class="account-icon mb-3">
+                                <i class="fas fa-shopping-bag fa-3x text-info"></i>
+                            </div>
+                            <h5 class="card-title">{% translate "Mes Commandes" %}</h5>
+                            <p class="card-text text-muted">
+                                {% translate "Suivez vos commandes et l'historique" %}
+                            </p>
+                            <a href="{% url 'orders:order_list' %}" class="btn btn-info">
+                                {% translate "Voir les commandes" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                {% elif user.user_type == 'vendeur' %}
+                <!-- Tableau de bord vendeur -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm account-option-card">
+                        <div class="card-body text-center">
+                            <div class="account-icon mb-3">
+                                <i class="fas fa-tachometer-alt fa-3x text-warning"></i>
+                            </div>
+                            <h5 class="card-title">{% translate "Tableau de Bord" %}</h5>
+                            <p class="card-text text-muted">
+                                {% translate "Gérez votre boutique et vos ventes" %}
+                            </p>
+                            <a href="{% url 'dashboard:vendor_dashboard' %}" class="btn btn-warning">
+                                {% translate "Accéder au tableau" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mes produits -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm account-option-card">
+                        <div class="card-body text-center">
+                            <div class="account-icon mb-3">
+                                <i class="fas fa-box fa-3x text-primary"></i>
+                            </div>
+                            <h5 class="card-title">{% translate "Mes Produits" %}</h5>
+                            <p class="card-text text-muted">
+                                {% translate "Gérez votre catalogue de produits" %}
+                            </p>
+                            <a href="{% url 'dashboard:vendor_products' %}" class="btn btn-primary">
+                                {% translate "Gérer les produits" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ajouter un produit -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm account-option-card">
+                        <div class="card-body text-center">
+                            <div class="account-icon mb-3">
+                                <i class="fas fa-plus fa-3x text-success"></i>
+                            </div>
+                            <h5 class="card-title">{% translate "Ajouter un Produit" %}</h5>
+                            <p class="card-text text-muted">
+                                {% translate "Ajoutez de nouveaux produits à votre boutique" %}
+                            </p>
+                            <a href="{% url 'products:product_create' %}" class="btn btn-success">
+                                {% translate "Ajouter" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mes commandes vendeur -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm account-option-card">
+                        <div class="card-body text-center">
+                            <div class="account-icon mb-3">
+                                <i class="fas fa-shopping-bag fa-3x text-info"></i>
+                            </div>
+                            <h5 class="card-title">{% translate "Mes Commandes" %}</h5>
+                            <p class="card-text text-muted">
+                                {% translate "Gérez les commandes de vos produits" %}
+                            </p>
+                            <a href="{% url 'dashboard:vendor_orders' %}" class="btn btn-info">
+                                {% translate "Voir les commandes" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                {% elif user.is_superuser or user.user_type == 'admin' %}
+                <!-- Administration -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm account-option-card">
+                        <div class="card-body text-center">
+                            <div class="account-icon mb-3">
+                                <i class="fas fa-cog fa-3x text-dark"></i>
+                            </div>
+                            <h5 class="card-title">{% translate "Administration" %}</h5>
+                            <p class="card-text text-muted">
+                                {% translate "Panneau d'administration du site" %}
+                            </p>
+                            <a href="{% url 'dashboard:admin_dashboard' %}" class="btn btn-dark">
+                                {% translate "Accéder" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gérer les utilisateurs -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm account-option-card">
+                        <div class="card-body text-center">
+                            <div class="account-icon mb-3">
+                                <i class="fas fa-users fa-3x text-primary"></i>
+                            </div>
+                            <h5 class="card-title">{% translate "Gérer les Utilisateurs" %}</h5>
+                            <p class="card-text text-muted">
+                                {% translate "Gérez les comptes utilisateurs" %}
+                            </p>
+                            <a href="{% url 'dashboard:admin_users' %}" class="btn btn-primary">
+                                {% translate "Gérer" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gérer les produits -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm account-option-card">
+                        <div class="card-body text-center">
+                            <div class="account-icon mb-3">
+                                <i class="fas fa-box fa-3x text-success"></i>
+                            </div>
+                            <h5 class="card-title">{% translate "Gérer les Produits" %}</h5>
+                            <p class="card-text text-muted">
+                                {% translate "Gérez tous les produits du site" %}
+                            </p>
+                            <a href="{% url 'dashboard:admin_products' %}" class="btn btn-success">
+                                {% translate "Gérer" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Paramètres -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm account-option-card">
+                        <div class="card-body text-center">
+                            <div class="account-icon mb-3">
+                                <i class="fas fa-cog fa-3x text-secondary"></i>
+                            </div>
+                            <h5 class="card-title">{% translate "Paramètres" %}</h5>
+                            <p class="card-text text-muted">
+                                {% translate "Modifiez votre mot de passe et vos préférences" %}
+                            </p>
+                            <div class="d-grid gap-2">
+                                <a href="{% url 'accounts:change_password' %}" class="btn btn-secondary">
+                                    {% translate "Modifier le mot de passe" %}
+                                </a>
+                                {% if user.two_factor_enabled %}
+                                    <a href="{% url 'accounts:disable_2fa' %}" class="btn btn-outline-success">
+                                        <i class="fas fa-shield-alt me-1"></i>
+                                        {% translate "2FA Activé" %}
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'accounts:setup_2fa' %}" class="btn btn-outline-warning">
+                                        <i class="fas fa-shield-alt me-1"></i>
+                                        {% translate "Activer 2FA" %}
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Déconnexion -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm account-option-card">
+                        <div class="card-body text-center">
+                            <div class="account-icon mb-3">
+                                <i class="fas fa-sign-out-alt fa-3x text-danger"></i>
+                            </div>
+                            <h5 class="card-title">{% translate "Déconnexion" %}</h5>
+                            <p class="card-text text-muted">
+                                {% translate "Se déconnecter de votre compte" %}
+                            </p>
+                            <a href="{% url 'accounts:logout' %}" class="btn btn-danger logout-btn" onclick="return confirm('Êtes-vous sûr de vouloir vous déconnecter ?')">
+                                {% translate "Se déconnecter" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informations récentes -->
+            {% if user.user_type == 'client' and recent_orders %}
+            <div class="row">
+                <div class="col-12">
+                    <h4 class="mb-3">{% translate "Commandes récentes" %}</h4>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>{% translate "Commande" %}</th>
+                                            <th>{% translate "Date" %}</th>
+                                            <th>{% translate "Statut" %}</th>
+                                            <th>{% translate "Total" %}</th>
+                                            <th>{% translate "Actions" %}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for order in recent_orders %}
+                                        <tr>
+                                            <td>#{{ order.order_number }}</td>
+                                            <td>{{ order.created_at|date:"d/m/Y" }}</td>
+                                            <td>
+                                                <span class="badge bg-{% if order.status == 'completed' %}success{% elif order.status == 'pending' %}warning{% else %}secondary{% endif %}">
+                                                    {{ order.get_status_display }}
+                                                </span>
+                                            </td>
+                                            <td>{{ order.total_amount }} FCFA</td>
+                                            <td>
+                                                <a href="{% url 'orders:order_detail' order.order_number %}" class="btn btn-sm btn-outline-primary">
+                                                    {% translate "Voir" %}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.account-option-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+}
+
+.account-option-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.account-icon {
+    transition: transform 0.2s ease-in-out;
+}
+
+.account-option-card:hover .account-icon {
+    transform: scale(1.1);
+}
+
+.card-title {
+    font-weight: 600;
+    color: #333;
+}
+
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.badge {
+    font-size: 0.8rem;
+}
+</style>
+{% endblock %}

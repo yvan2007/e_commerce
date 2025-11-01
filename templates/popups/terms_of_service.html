@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Conditions d'Utilisation{% endblock %}
+
+{% block extra_css %}
+<style>
+.terms-of-service {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    line-height: 1.8;
+}
+
+.terms-of-service h1 {
+    color: #333;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 2.5rem;
+}
+
+.terms-of-service h2 {
+    color: #007bff;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 0.5rem;
+}
+
+.terms-of-service h3 {
+    color: #333;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.terms-of-service p {
+    margin-bottom: 1rem;
+    color: #666;
+}
+
+.terms-of-service ul, .terms-of-service ol {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+}
+
+.terms-of-service li {
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.terms-of-service .highlight {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-left: 4px solid #007bff;
+    margin: 1rem 0;
+    border-radius: 0 5px 5px 0;
+}
+
+.terms-of-service .warning {
+    background-color: #fff3cd;
+    padding: 1rem;
+    border-left: 4px solid #ffc107;
+    margin: 1rem 0;
+    border-radius: 0 5px 5px 0;
+}
+
+.terms-of-service .contact-info {
+    background-color: #e3f2fd;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: 2rem 0;
+}
+
+.terms-of-service .last-updated {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+}
+
+.terms-of-service .back-btn {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 2rem;
+    transition: background-color 0.3s ease;
+}
+
+.terms-of-service .back-btn:hover {
+    background-color: #0056b3;
+    color: white;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .terms-of-service {
+        padding: 1rem;
+    }
+    
+    .terms-of-service h1 {
+        font-size: 2rem;
+    }
+    
+    .terms-of-service h2 {
+        font-size: 1.3rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="terms-of-service">
+    <a href="{% url 'products:home_page' %}" class="back-btn">← Retour à l'accueil</a>
+    
+    {% if terms_of_service %}
+        <h1>{{ terms_of_service.title }}</h1>
+        
+        <div class="last-updated">
+            Dernière mise à jour : {{ terms_of_service.updated_at|date:"d F Y" }}
+        </div>
+        
+        <div class="terms-content">
+            {{ terms_of_service.content|safe }}
+        </div>
+    {% else %}
+        <h1>Conditions d'Utilisation</h1>
+        
+        <div class="last-updated">
+            Dernière mise à jour : {{ "now"|date:"d F Y" }}
+        </div>
+        
+        <div class="terms-content">
+            <h2>1. Acceptation des conditions</h2>
+            <p>En accédant et en utilisant ce site e-commerce, vous acceptez d'être lié par ces conditions d'utilisation. Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser ce site.</p>
+            
+            <h2>2. Description du service</h2>
+            <p>Notre site e-commerce permet :</p>
+            <ul>
+                <li>La vente de produits en ligne</li>
+                <li>La création de comptes utilisateur</li>
+                <li>Le passage de commandes</li>
+                <li>Le paiement sécurisé</li>
+                <li>La livraison de produits</li>
+            </ul>
+            
+            <h2>3. Comptes utilisateur</h2>
+            <h3>3.1 Création de compte</h3>
+            <p>Pour utiliser certaines fonctionnalités, vous devez créer un compte en fournissant des informations exactes et à jour.</p>
+            
+            <h3>3.2 Responsabilités de l'utilisateur</h3>
+            <p>Vous êtes responsable de :</p>
+            <ul>
+                <li>La confidentialité de votre mot de passe</li>
+                <li>Toutes les activités sous votre compte</li>
+                <li>La mise à jour de vos informations</li>
+                <li>La notification immédiate de toute utilisation non autorisée</li>
+            </ul>
+            
+            <h2>4. Commandes et paiements</h2>
+            <h3>4.1 Processus de commande</h3>
+            <p>Les commandes sont traitées dans l'ordre de réception. Nous nous réservons le droit de refuser ou d'annuler toute commande.</p>
+            
+            <h3>4.2 Prix et taxes</h3>
+            <p>Les prix sont indiqués en francs CFA (XOF) et incluent toutes les taxes applicables en Côte d'Ivoire.</p>
+            
+            <h3>4.3 Méthodes de paiement</h3>
+            <p>Nous acceptons :</p>
+            <ul>
+                <li>Paiement à la livraison</li>
+                <li>Moov Money</li>
+                <li>Orange Money</li>
+                <li>MTN Money</li>
+                <li>Wave</li>
+                <li>Cartes bancaires</li>
+            </ul>
+            
+            <h2>5. Livraison</h2>
+            <h3>5.1 Zones de livraison</h3>
+            <p>Nous livrons uniquement en Côte d'Ivoire. Les délais de livraison sont indicatifs et peuvent varier.</p>
+            
+            <h3>5.2 Frais de livraison</h3>
+            <p>Les frais de livraison sont calculés selon la zone et le poids du colis. La livraison gratuite peut s'appliquer sous certaines conditions.</p>
+            
+            <h2>6. Retours et remboursements</h2>
+            <h3>6.1 Délai de retour</h3>
+            <p>Vous disposez de 14 jours pour retourner un produit non conforme ou défectueux.</p>
+            
+            <h3>6.2 Conditions de retour</h3>
+            <p>Les produits doivent être :</p>
+            <ul>
+                <li>Dans leur emballage d'origine</li>
+                <li>Non utilisés et en parfait état</li>
+                <li>Accompagnés du ticket de caisse</li>
+            </ul>
+            
+            <h2>7. Propriété intellectuelle</h2>
+            <p>Tous les contenus du site (textes, images, logos, etc.) sont protégés par le droit d'auteur et appartiennent à notre entreprise ou à nos partenaires.</p>
+            
+            <h2>8. Utilisation acceptable</h2>
+            <p>Il est interdit de :</p>
+            <ul>
+                <li>Utiliser le site à des fins illégales</li>
+                <li>Transmettre des virus ou codes malveillants</li>
+                <li>Tenter de contourner les mesures de sécurité</li>
+                <li>Collecter des informations sur d'autres utilisateurs</li>
+                <li>Utiliser des robots ou scripts automatisés</li>
+            </ul>
+            
+            <h2>9. Limitation de responsabilité</h2>
+            <div class="warning">
+                <p><strong>Attention :</strong> Notre responsabilité est limitée dans les cas suivants :</p>
+                <ul>
+                    <li>Dommages indirects ou consécutifs</li>
+                    <li>Perte de profits ou d'opportunités</li>
+                    <li>Interruption d'activité</li>
+                    <li>Dommages causés par des tiers</li>
+                </ul>
+            </div>
+            
+            <h2>10. Suspension et résiliation</h2>
+            <p>Nous nous réservons le droit de suspendre ou de résilier votre compte en cas de :</p>
+            <ul>
+                <li>Violation de ces conditions</li>
+                <li>Comportement frauduleux</li>
+                <li>Non-paiement</li>
+                <li>Demande des autorités compétentes</li>
+            </ul>
+            
+            <h2>11. Protection des données</h2>
+            <p>Vos données personnelles sont protégées conformément à notre politique de confidentialité et au RGPD.</p>
+            
+            <h2>12. Droit applicable</h2>
+            <p>Ces conditions sont régies par le droit ivoirien. Tout litige sera soumis à la compétence des tribunaux d'Abidjan.</p>
+            
+            <h2>13. Modifications</h2>
+            <p>Nous pouvons modifier ces conditions à tout moment. Les modifications importantes seront communiquées par email ou via une notification sur le site.</p>
+            
+            <h2>14. Contact</h2>
+            <div class="contact-info">
+                <p>Pour toute question concernant ces conditions d'utilisation :</p>
+                <ul>
+                    <li><strong>Email :</strong> legal@monsite.com</li>
+                    <li><strong>Téléphone :</strong> +225 XX XX XX XX</li>
+                    <li><strong>Adresse :</strong> Abidjan, Côte d'Ivoire</li>
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

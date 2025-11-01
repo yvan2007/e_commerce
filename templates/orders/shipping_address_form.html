@@ -1,0 +1,211 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}{% if object %}Modifier{% else %}Ajouter{% endif %} Adresse de Livraison - KefyStore{% endblock %}
+
+{% block extra_css %}
+<style>
+    .address-form-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        padding: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .form-header {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 15px 15px 0 0;
+        margin: -2rem -2rem 2rem -2rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    
+    .form-control, .form-select {
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+    
+    .btn-save {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 0.75rem 2rem;
+        border: none;
+        border-radius: 10px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-save:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="address-form-card">
+        <div class="form-header">
+            <h3 class="mb-0">
+                <i class="fas fa-{% if object %}edit{% else %}plus{% endif %} me-2"></i>
+                {% if object %}Modifier{% else %}Ajouter{% endif %} une Adresse
+            </h3>
+        </div>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="id_first_name" class="form-label">
+                        <i class="fas fa-user me-2"></i>Prénom
+                    </label>
+                    <input type="text" name="first_name" id="id_first_name" class="form-control" 
+                           value="{{ form.first_name.value|default:'' }}" required>
+                    {% if form.first_name.errors %}
+                        <div class="text-danger small">{{ form.first_name.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="col-md-6 form-group">
+                    <label for="id_last_name" class="form-label">
+                        <i class="fas fa-user me-2"></i>Nom
+                    </label>
+                    <input type="text" name="last_name" id="id_last_name" class="form-control" 
+                           value="{{ form.last_name.value|default:'' }}" required>
+                    {% if form.last_name.errors %}
+                        <div class="text-danger small">{{ form.last_name.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="id_phone_number" class="form-label">
+                    <i class="fas fa-phone me-2"></i>Téléphone
+                </label>
+                <input type="tel" name="phone_number" id="id_phone_number" class="form-control" 
+                       value="{{ form.phone_number.value|default:'' }}" required>
+                {% if form.phone_number.errors %}
+                    <div class="text-danger small">{{ form.phone_number.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_address_line_1" class="form-label">
+                    <i class="fas fa-map-marker-alt me-2"></i>Adresse complète
+                </label>
+                <input type="text" name="address_line_1" id="id_address_line_1" class="form-control" 
+                       value="{{ form.address_line_1.value|default:'' }}" required>
+                {% if form.address_line_1.errors %}
+                    <div class="text-danger small">{{ form.address_line_1.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_address_line_2" class="form-label">
+                    <i class="fas fa-map-pin me-2"></i>Complément d'adresse (optionnel)
+                </label>
+                <input type="text" name="address_line_2" id="id_address_line_2" class="form-control" 
+                       value="{{ form.address_line_2.value|default:'' }}">
+                {% if form.address_line_2.errors %}
+                    <div class="text-danger small">{{ form.address_line_2.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="id_city" class="form-label">
+                        <i class="fas fa-city me-2"></i>Ville
+                    </label>
+                    <input type="text" name="city" id="id_city" class="form-control" 
+                           value="{{ form.city.value|default:'' }}" required>
+                    {% if form.city.errors %}
+                        <div class="text-danger small">{{ form.city.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="col-md-6 form-group">
+                    <label for="id_postal_code" class="form-label">
+                        <i class="fas fa-mail-bulk me-2"></i>Code postal (optionnel)
+                    </label>
+                    <input type="text" name="postal_code" id="id_postal_code" class="form-control" 
+                           value="{{ form.postal_code.value|default:'' }}">
+                    {% if form.postal_code.errors %}
+                        <div class="text-danger small">{{ form.postal_code.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="id_country" class="form-label">
+                    <i class="fas fa-globe me-2"></i>Pays
+                </label>
+                <select name="country" id="id_country" class="form-select" required>
+                    <option value="">Sélectionnez un pays</option>
+                    <option value="Côte d'Ivoire" {% if form.country.value == "Côte d'Ivoire" %}selected{% endif %}>Côte d'Ivoire</option>
+                    <option value="Mali" {% if form.country.value == "Mali" %}selected{% endif %}>Mali</option>
+                    <option value="Burkina Faso" {% if form.country.value == "Burkina Faso" %}selected{% endif %}>Burkina Faso</option>
+                    <option value="Sénégal" {% if form.country.value == "Sénégal" %}selected{% endif %}>Sénégal</option>
+                    <option value="Ghana" {% if form.country.value == "Ghana" %}selected{% endif %}>Ghana</option>
+                    <option value="Togo" {% if form.country.value == "Togo" %}selected{% endif %}>Togo</option>
+                    <option value="Bénin" {% if form.country.value == "Bénin" %}selected{% endif %}>Bénin</option>
+                    <option value="Guinée" {% if form.country.value == "Guinée" %}selected{% endif %}>Guinée</option>
+                    <option value="Niger" {% if form.country.value == "Niger" %}selected{% endif %}>Niger</option>
+                    <option value="Nigeria" {% if form.country.value == "Nigeria" %}selected{% endif %}>Nigeria</option>
+                    <option value="Cameroun" {% if form.country.value == "Cameroun" %}selected{% endif %}>Cameroun</option>
+                    <option value="Congo" {% if form.country.value == "Congo" %}selected{% endif %}>Congo</option>
+                    <option value="Gabon" {% if form.country.value == "Gabon" %}selected{% endif %}>Gabon</option>
+                    <option value="Tchad" {% if form.country.value == "Tchad" %}selected{% endif %}>Tchad</option>
+                    <option value="RCA" {% if form.country.value == "RCA" %}selected{% endif %}>République Centrafricaine</option>
+                    <option value="Tunisie" {% if form.country.value == "Tunisie" %}selected{% endif %}>Tunisie</option>
+                    <option value="Maroc" {% if form.country.value == "Maroc" %}selected{% endif %}>Maroc</option>
+                    <option value="Algérie" {% if form.country.value == "Algérie" %}selected{% endif %}>Algérie</option>
+                </select>
+                {% if form.country.errors %}
+                    <div class="text-danger small">{{ form.country.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="checkbox" name="is_default" id="id_is_default" class="form-check-input" 
+                           {% if form.is_default.value %}checked{% endif %}>
+                    <label for="id_is_default" class="form-check-label">
+                        Définir comme adresse par défaut
+                    </label>
+                </div>
+            </div>
+            
+            <div class="d-flex gap-3 justify-content-end mt-4">
+                <a href="{% url 'orders:shipping_address_list' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-times me-2"></i>Annuler
+                </a>
+                <button type="submit" class="btn btn-save">
+                    <i class="fas fa-save me-2"></i>
+                    {% if object %}Modifier{% else %}Enregistrer{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

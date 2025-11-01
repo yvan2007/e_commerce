@@ -1,0 +1,265 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% translate "Vérification 2FA" %} - KefyStore{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-info text-white text-center py-4 rounded-top-3">
+                    <h3 class="mb-0">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        {% translate "Vérification" %}
+                    </h3>
+                    <p class="mb-0 mt-2">{% translate "Entrez le code de votre authentificateur" %}</p>
+                </div>
+                <div class="card-body p-4">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <div class="text-center mb-4">
+                        {% if method == 'totp' %}
+                            <i class="fas fa-mobile-alt fa-3x text-primary mb-3"></i>
+                            <h4>{% translate "Code de l'authentificateur" %}</h4>
+                            <p class="text-muted">{% translate "Ouvrez votre application d'authentification et entrez le code à 6 chiffres" %}</p>
+                        {% elif method == 'sms' %}
+                            <i class="fas fa-sms fa-3x text-success mb-3"></i>
+                            <h4>{% translate "Code SMS" %}</h4>
+                            <p class="text-muted">{% translate "Entrez le code à 6 chiffres envoyé par SMS" %}</p>
+                            <p class="small text-muted">{{ user.get_full_phone_number }}</p>
+                        {% elif method == 'email' %}
+                            <i class="fas fa-envelope fa-3x text-info mb-3"></i>
+                            <h4>{% translate "Code Email" %}</h4>
+                            <p class="text-muted">{% translate "Entrez le code à 6 chiffres envoyé par email" %}</p>
+                            <p class="small text-muted">{{ user.email }}</p>
+                        {% endif %}
+                    </div>
+
+                    <form method="post" id="verification-form">
+                        {% csrf_token %}
+                        
+                        <div class="mb-4">
+                            <label for="code" class="form-label fw-bold">
+                                {% translate "Code de vérification" %}
+                            </label>
+                            <input type="text" 
+                                   class="form-control form-control-lg text-center" 
+                                   id="code" 
+                                   name="code" 
+                                   maxlength="6" 
+                                   pattern="[0-9]{6}" 
+                                   placeholder="000000"
+                                   required
+                                   autocomplete="off">
+                            <div class="form-text">
+                                {% translate "Entrez le code à 6 chiffres" %}
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-check me-2"></i>
+                                {% translate "Vérifier" %}
+                            </button>
+                            
+                            {% if method == 'sms' or method == 'email' %}
+                            <button type="button" class="btn btn-outline-secondary" onclick="resendCode()">
+                                <i class="fas fa-redo me-2"></i>
+                                {% translate "Renvoyer le code" %}
+                            </button>
+                            {% endif %}
+                            
+                            <a href="{% url 'accounts:account_dashboard' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                {% translate "Annuler" %}
+                            </a>
+                        </div>
+                    </form>
+
+                    <!-- Codes de secours -->
+                    {% if user.backup_codes %}
+                    <div class="mt-4">
+                        <div class="text-center">
+                            <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#backupCodes">
+                                <i class="fas fa-key me-1"></i>
+                                {% translate "Utiliser un code de secours" %}
+                            </button>
+                        </div>
+                        
+                        <div class="collapse" id="backupCodes">
+                            <div class="card mt-3">
+                                <div class="card-body">
+                                    <h6>{% translate "Code de secours" %}</h6>
+                                    <p class="small text-muted">{% translate "Entrez un de vos codes de secours à 8 caractères" %}</p>
+                                    <div class="input-group">
+                                        <input type="text" 
+                                               class="form-control text-center" 
+                                               id="backup-code" 
+                                               maxlength="8" 
+                                               placeholder="XXXXXXXX">
+                                        <button class="btn btn-outline-primary" type="button" onclick="useBackupCode()">
+                                            {% translate "Utiliser" %}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.form-control-lg {
+    font-size: 1.5rem;
+    letter-spacing: 0.5rem;
+    font-weight: bold;
+}
+
+.card-header {
+    background: linear-gradient(135deg, #17a2b8, #138496) !important;
+}
+
+#code:focus {
+    box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+    border-color: #17a2b8;
+}
+
+/* Animation pour le code */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.form-control:focus {
+    animation: pulse 0.3s ease-in-out;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const codeInput = document.getElementById('code');
+    
+    // Auto-formatage du code
+    codeInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, ''); // Supprimer les non-chiffres
+        if (value.length > 6) {
+            value = value.substring(0, 6);
+        }
+        e.target.value = value;
+        
+        // Auto-submit si 6 chiffres
+        if (value.length === 6) {
+            setTimeout(() => {
+                document.getElementById('verification-form').submit();
+            }, 500);
+        }
+    });
+    
+    // Focus automatique
+    codeInput.focus();
+    
+    // Empêcher le collage de texte non numérique
+    codeInput.addEventListener('paste', function(e) {
+        e.preventDefault();
+        const paste = (e.clipboardData || window.clipboardData).getData('text');
+        const numbers = paste.replace(/\D/g, '').substring(0, 6);
+        this.value = numbers;
+        
+        if (numbers.length === 6) {
+            setTimeout(() => {
+                document.getElementById('verification-form').submit();
+            }, 500);
+        }
+    });
+});
+
+function resendCode() {
+    const button = event.target;
+    const originalText = button.innerHTML;
+    
+    button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>{% translate "Envoi..." %}';
+    button.disabled = true;
+    
+    // Simuler l'envoi (dans un vrai projet, vous feriez un appel AJAX)
+    setTimeout(() => {
+        button.innerHTML = originalText;
+        button.disabled = false;
+        showNotification('{% translate "Code renvoyé avec succès!" %}', 'success');
+    }, 2000);
+}
+
+function useBackupCode() {
+    const backupCode = document.getElementById('backup-code').value;
+    
+    if (backupCode.length !== 8) {
+        showNotification('{% translate "Le code de secours doit contenir 8 caractères" %}', 'error');
+        return;
+    }
+    
+    // Créer un formulaire temporaire pour soumettre le code de secours
+    const form = document.createElement('form');
+    form.method = 'post';
+    form.action = window.location.href;
+    
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = 'csrfmiddlewaretoken';
+    csrfInput.value = csrfToken;
+    
+    const codeInput = document.createElement('input');
+    codeInput.type = 'hidden';
+    codeInput.name = 'code';
+    codeInput.value = backupCode;
+    
+    const methodInput = document.createElement('input');
+    methodInput.type = 'hidden';
+    methodInput.name = 'method';
+    methodInput.value = 'backup';
+    
+    form.appendChild(csrfInput);
+    form.appendChild(codeInput);
+    form.appendChild(methodInput);
+    
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function showNotification(message, type = 'info') {
+    const alertClass = type === 'error' ? 'danger' : type;
+    const toast = document.createElement('div');
+    toast.className = `alert alert-${alertClass} alert-dismissible fade show position-fixed`;
+    toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    toast.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        if (toast.parentNode) {
+            toast.parentNode.removeChild(toast);
+        }
+    }, 3000);
+}
+</script>
+{% endblock %}

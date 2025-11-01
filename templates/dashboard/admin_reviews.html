@@ -1,0 +1,189 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Gestion des Avis - KefyStore{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dashboard-card { border: none; border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+    .card-header { background: var(--secondary-color) !important; border-bottom: 2px solid var(--accent-color); border-radius: 15px 15px 0 0 !important; }
+    .review-stars { color: #ffc107; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="fw-bold"><i class="fas fa-star me-2"></i>Gestion des Avis</h2>
+                <a href="{% url 'dashboard:admin_dashboard' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Retour
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card dashboard-card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="fas fa-list me-2"></i>Avis ({{ reviews.paginator.count }})</h5>
+                </div>
+                <div class="card-body p-0">
+                    {% if reviews %}
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Produit</th>
+                                        <th>Utilisateur</th>
+                                        <th>Note</th>
+                                        <th>Commentaire</th>
+                                        <th>Approuvé</th>
+                                        <th>Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for review in reviews %}
+                                    <tr>
+                                        <td><strong>{{ review.product.name }}</strong></td>
+                                        <td>{{ review.user.get_display_name }}</td>
+                                        <td>
+                                            <div class="review-stars">
+                                                {% for i in "12345" %}
+                                                    {% if forloop.counter <= review.rating %}
+                                                        <i class="fas fa-star"></i>
+                                                    {% else %}
+                                                        <i class="far fa-star"></i>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </td>
+                                        <td>{{ review.comment|truncatewords:10 }}</td>
+                                        <td>
+                                            {% if review.is_approved %}
+                                                <span class="badge bg-success">Oui</span>
+                                            {% else %}
+                                                <span class="badge bg-warning">Non</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ review.created_at|date:"d/m/Y" }}</td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" 
+                                                        class="btn btn-sm btn-outline-{% if review.is_approved %}warning{% else %}success{% endif %} toggle-review-btn" 
+                                                        data-review-id="{{ review.id }}"
+                                                        data-is-approved="{{ review.is_approved|lower }}"
+                                                        title="{% if review.is_approved %}Désapprouver{% else %}Approuver{% endif %}">
+                                                    <i class="fas fa-{% if review.is_approved %}times{% else %}check{% endif %}"></i>
+                                                </button>
+                                                <button type="button" 
+                                                        class="btn btn-sm btn-outline-danger delete-review-btn" 
+                                                        data-review-id="{{ review.id }}"
+                                                        data-product-name="{{ review.product.name }}"
+                                                        title="Supprimer">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5"><i class="fas fa-star fa-3x text-muted mb-3"></i><p>Aucun avis</p></div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Fonction pour obtenir le token CSRF
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const csrftoken = getCookie('csrftoken');
+    
+    // Toggle approbation avis
+    document.querySelectorAll('.toggle-review-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const reviewId = this.dataset.reviewId;
+            const isApproved = this.dataset.isApproved === 'true';
+            
+            if (confirm(`Êtes-vous sûr de vouloir ${isApproved ? 'désapprouver' : 'approuver'} cet avis ?`)) {
+                fetch(`/dashboard/api/approve-review/${reviewId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrftoken,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Erreur: ' + (data.error || 'Une erreur est survenue'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Une erreur est survenue lors de la modification de l\'avis');
+                });
+            }
+        });
+    });
+
+    // Supprimer avis
+    document.querySelectorAll('.delete-review-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const reviewId = this.dataset.reviewId;
+            const productName = this.dataset.productName;
+            
+            if (confirm(`Êtes-vous sûr de vouloir supprimer cet avis pour "${productName}" ?\n\nCette action est irréversible !`)) {
+                fetch(`/dashboard/api/delete-review/${reviewId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrftoken,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Erreur: ' + (data.error || 'Une erreur est survenue'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Une erreur est survenue lors de la suppression de l\'avis');
+                });
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
+

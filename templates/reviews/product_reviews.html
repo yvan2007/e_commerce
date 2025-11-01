@@ -1,0 +1,393 @@
+{% extends 'reviews/base_review.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% translate "Avis" %} - {{ product.name }} - KefyStore{% endblock %}
+
+{% block review_content %}
+<div class="row">
+    <div class="col-12">
+        <!-- En-tête du produit -->
+        <div class="card review-card mb-4">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-3">
+                        {% if product.main_image %}
+                            <img src="{{ product.main_image.url }}" 
+                                 alt="{{ product.name }}" 
+                                 class="img-fluid rounded">
+                        {% else %}
+                            <div class="img-fluid rounded d-flex align-items-center justify-content-center bg-light" 
+                                 style="height: 120px; width: 120px;">
+                                <i class="fas fa-image text-muted fa-3x"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-9">
+                        <h2 class="card-title">{{ product.name }}</h2>
+                        <p class="card-text text-muted">{{ product.description|truncatewords:30 }}</p>
+                        
+                        <!-- Statistiques des avis -->
+                        {% if stats.total_reviews > 0 %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="me-3 fw-bold">{% translate "Note moyenne" %}:</span>
+                                    <div class="rating-stars me-2">
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= stats.average_rating %}
+                                                ⭐
+                                            {% else %}
+                                                ☆
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <span class="fw-bold">{{ stats.average_rating|floatformat:1 }}/5</span>
+                                </div>
+                                <p class="text-muted mb-0">
+                                    {% blocktranslate count counter=stats.total_reviews %}
+                                        {{ counter }} avis
+                                    {% plural %}
+                                        {{ counter }} avis
+                                    {% endblocktranslate %}
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="progress-stats">
+                                    {% for rating in "54321" %}
+                                    <div class="d-flex align-items-center mb-1">
+                                        <span class="me-2">{{ rating }}⭐</span>
+                                        <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                            {% if rating == "5" %}
+                                                <div class="progress-bar bg-success" style="width: {% widthratio stats.five_star stats.total_reviews 100 %}%"></div>
+                                            {% elif rating == "4" %}
+                                                <div class="progress-bar bg-info" style="width: {% widthratio stats.four_star stats.total_reviews 100 %}%"></div>
+                                            {% elif rating == "3" %}
+                                                <div class="progress-bar bg-warning" style="width: {% widthratio stats.three_star stats.total_reviews 100 %}%"></div>
+                                            {% elif rating == "2" %}
+                                                <div class="progress-bar bg-warning" style="width: {% widthratio stats.two_star stats.total_reviews 100 %}%"></div>
+                                            {% else %}
+                                                <div class="progress-bar bg-danger" style="width: {% widthratio stats.one_star stats.total_reviews 100 %}%"></div>
+                                            {% endif %}
+                                        </div>
+                                        <span class="small text-muted">
+                                            {% if rating == "5" %}{{ stats.five_star }}
+                                            {% elif rating == "4" %}{{ stats.four_star }}
+                                            {% elif rating == "3" %}{{ stats.three_star }}
+                                            {% elif rating == "2" %}{{ stats.two_star }}
+                                            {% else %}{{ stats.one_star }}
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            {% translate "Aucun avis pour ce produit pour le moment." %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtres et recherche -->
+        <div class="card review-card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-filter me-2"></i>
+                    {% translate "Filtrer les avis" %}
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="get" class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">{% translate "Rechercher" %}</label>
+                        <input type="text" 
+                               class="form-control" 
+                               name="query" 
+                               value="{{ request.GET.query }}" 
+                               placeholder="{% translate 'Rechercher dans les avis...' %}">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">{% translate "Note" %}</label>
+                        <select name="rating_filter" class="form-select">
+                            <option value="">{% translate "Toutes les notes" %}</option>
+                            <option value="5" {% if request.GET.rating_filter == '5' %}selected{% endif %}>⭐⭐⭐⭐⭐ {% translate "Excellent" %}</option>
+                            <option value="4" {% if request.GET.rating_filter == '4' %}selected{% endif %}>⭐⭐⭐⭐ {% translate "Très bien" %}</option>
+                            <option value="3" {% if request.GET.rating_filter == '3' %}selected{% endif %}>⭐⭐⭐ {% translate "Bien" %}</option>
+                            <option value="2" {% if request.GET.rating_filter == '2' %}selected{% endif %}>⭐⭐ {% translate "Moyen" %}</option>
+                            <option value="1" {% if request.GET.rating_filter == '1' %}selected{% endif %}>⭐ {% translate "Décevant" %}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">{% translate "Trier par" %}</label>
+                        <select name="sort_by" class="form-select">
+                            <option value="newest" {% if request.GET.sort_by == 'newest' or not request.GET.sort_by %}selected{% endif %}>{% translate "Plus récents" %}</option>
+                            <option value="oldest" {% if request.GET.sort_by == 'oldest' %}selected{% endif %}>{% translate "Plus anciens" %}</option>
+                            <option value="highest_rating" {% if request.GET.sort_by == 'highest_rating' %}selected{% endif %}>{% translate "Meilleures notes" %}</option>
+                            <option value="lowest_rating" {% if request.GET.sort_by == 'lowest_rating' %}selected{% endif %}>{% translate "Moins bonnes notes" %}</option>
+                            <option value="most_helpful" {% if request.GET.sort_by == 'most_helpful' %}selected{% endif %}>{% translate "Plus utiles" %}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">{% translate "Options" %}</label>
+                        <div class="form-check">
+                            <input type="checkbox" 
+                                   class="form-check-input" 
+                                   id="with_images" 
+                                   name="with_images" 
+                                   {% if request.GET.with_images %}checked{% endif %}>
+                            <label class="form-check-label" for="with_images">
+                                <i class="fas fa-images me-1"></i>
+                                {% translate "Avec photos" %}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search me-2"></i>
+                            {% translate "Filtrer" %}
+                        </button>
+                        <a href="{% url 'reviews:product_reviews' product.id %}" class="btn btn-outline-secondary ms-2">
+                            <i class="fas fa-times me-2"></i>
+                            {% translate "Effacer" %}
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Liste des avis -->
+        {% if page_obj %}
+        <div class="reviews-list">
+            {% for review in page_obj %}
+            <div class="card review-card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <!-- En-tête de l'avis -->
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="me-3">
+                                    <div class="avatar-circle bg-primary text-white d-flex align-items-center justify-content-center">
+                                        {{ review.user.first_name|first|upper }}{{ review.user.last_name|first|upper }}
+                                    </div>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">
+                                        {{ review.user.first_name }} {{ review.user.last_name }}
+                                        {% if review.is_verified_purchase %}
+                                            <span class="badge bg-success ms-2">
+                                                <i class="fas fa-check me-1"></i>
+                                                {% translate "Achat vérifié" %}
+                                            </span>
+                                        {% endif %}
+                                    </h6>
+                                    <div class="rating-stars mb-1">{{ review.rating_stars }}</div>
+                                    <small class="text-muted">{{ review.created_at|date:"d/m/Y" }}</small>
+                                </div>
+                            </div>
+
+                            <!-- Titre et commentaire -->
+                            <h5 class="review-title">{{ review.title }}</h5>
+                            <p class="review-comment">{{ review.comment }}</p>
+
+                            <!-- Photos -->
+                            {% if review.has_images %}
+                            <div class="review-images">
+                                {% if review.image_1 %}
+                                    <img src="{{ review.image_1.url }}" alt="Photo 1" class="review-image" onclick="openImageModal('{{ review.image_1.url }}')">
+                                {% endif %}
+                                {% if review.image_2 %}
+                                    <img src="{{ review.image_2.url }}" alt="Photo 2" class="review-image" onclick="openImageModal('{{ review.image_2.url }}')">
+                                {% endif %}
+                                {% if review.image_3 %}
+                                    <img src="{{ review.image_3.url }}" alt="Photo 3" class="review-image" onclick="openImageModal('{{ review.image_3.url }}')">
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <!-- Actions -->
+                            <div class="text-end">
+                                <button class="btn helpful-btn" 
+                                        data-review-id="{{ review.id }}"
+                                        onclick="markHelpful({{ review.id }})">
+                                    <i class="fas fa-thumbs-up me-1"></i>
+                                    <span class="helpful-count">{{ review.is_helpful }}</span>
+                                    {% translate "Utile" %}
+                                </button>
+                            </div>
+
+                            <!-- Réponse du vendeur -->
+                            {% if review.response %}
+                            <div class="mt-3">
+                                <div class="alert alert-light">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="fas fa-store me-2 text-primary"></i>
+                                        <strong>{% translate "Réponse du vendeur" %}</strong>
+                                    </div>
+                                    <p class="mb-0">{{ review.response.response_text }}</p>
+                                    <small class="text-muted">{{ review.response.created_at|date:"d/m/Y" }}</small>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="{% translate 'Pagination des avis' %}">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1{% if request.GET.query %}&query={{ request.GET.query }}{% endif %}{% if request.GET.rating_filter %}&rating_filter={{ request.GET.rating_filter }}{% endif %}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.with_images %}&with_images=on{% endif %}">
+                            <i class="fas fa-angle-double-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.query %}&query={{ request.GET.query }}{% endif %}{% if request.GET.rating_filter %}&rating_filter={{ request.GET.rating_filter }}{% endif %}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.with_images %}&with_images=on{% endif %}">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}{% if request.GET.query %}&query={{ request.GET.query }}{% endif %}{% if request.GET.rating_filter %}&rating_filter={{ request.GET.rating_filter }}{% endif %}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.with_images %}&with_images=on{% endif %}">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.query %}&query={{ request.GET.query }}{% endif %}{% if request.GET.rating_filter %}&rating_filter={{ request.GET.rating_filter }}{% endif %}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.with_images %}&with_images=on{% endif %}">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.query %}&query={{ request.GET.query }}{% endif %}{% if request.GET.rating_filter %}&rating_filter={{ request.GET.rating_filter }}{% endif %}{% if request.GET.sort_by %}&sort_by={{ request.GET.sort_by }}{% endif %}{% if request.GET.with_images %}&with_images=on{% endif %}">
+                            <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <h4>{% translate "Aucun avis trouvé" %}</h4>
+            <p class="text-muted">{% translate "Essayez de modifier vos critères de recherche." %}</p>
+        </div>
+        {% endif %}
+
+        <!-- Retour au produit -->
+        <div class="text-center mt-4">
+            <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary">
+                <i class="fas fa-arrow-left me-2"></i>
+                {% translate "Retour au produit" %}
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal pour les images -->
+<div class="modal fade" id="imageModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{% translate "Photo de l'avis" %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="modalImage" src="" alt="Photo" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.avatar-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+.review-title {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.review-comment {
+    color: #666;
+    line-height: 1.6;
+}
+
+.progress-stats .progress {
+    background-color: #e9ecef;
+}
+
+.progress-stats .progress-bar {
+    transition: width 0.6s ease;
+}
+
+.rating-stars {
+    color: #ffc107;
+    font-size: 1.1em;
+}
+
+.helpful-btn {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.helpful-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.review-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.review-image:hover {
+    transform: scale(1.1);
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function openImageModal(imageSrc) {
+    document.getElementById('modalImage').src = imageSrc;
+    new bootstrap.Modal(document.getElementById('imageModal')).show();
+}
+</script>
+{% endblock %}

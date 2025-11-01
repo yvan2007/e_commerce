@@ -1,0 +1,181 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Recherche - KefyStore{% endblock %}
+
+{% block extra_css %}
+<style>
+    .search-header {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+    
+    .search-header h1 {
+        color: var(--primary-color);
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+    
+    .search-query {
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .search-results-count {
+        color: var(--text-dark);
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    
+    .search-product-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+    
+    .search-product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .search-product-card .card-img-top {
+        height: 200px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    
+    .search-product-card:hover .card-img-top {
+        transform: scale(1.05);
+    }
+    
+    .search-product-card .card-body {
+        padding: 1.5rem;
+    }
+    
+    .search-product-card .card-title {
+        color: var(--text-dark);
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+    
+    .search-product-card .card-text {
+        color: var(--primary-color);
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .search-product-card .btn {
+        border-radius: 10px;
+        padding: 0.5rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .search-product-card .btn-primary {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        border: none;
+    }
+    
+    .search-product-card .btn-primary:hover {
+        background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+    }
+    
+    .no-results {
+        padding: 4rem 2rem;
+        text-align: center;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .no-results i {
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+    }
+    
+    .no-results h3 {
+        color: var(--text-muted);
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+    
+    .no-results p {
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+    }
+    
+    .no-results .btn {
+        border-radius: 10px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+    }
+    
+    .no-image-placeholder {
+        background: linear-gradient(135deg, var(--accent-color), #E8F4FD);
+        color: var(--primary-color);
+        font-size: 3rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="search-header">
+                <h1>Résultats de recherche</h1>
+                {% if query %}
+                    <p class="search-query">Recherche pour : "{{ query }}"</p>
+                {% endif %}
+                
+                {% if products %}
+                    <p class="search-results-count">{{ total_results }} produit(s) trouvé(s)</p>
+                {% endif %}
+            </div>
+            
+            {% if products %}
+                
+                <div class="row">
+                    {% for product in products %}
+                    <div class="col-md-4 mb-4">
+                        <div class="search-product-card card">
+                            {% if product.main_image %}
+                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                            {% else %}
+                                <div class="card-img-top no-image-placeholder d-flex align-items-center justify-content-center" style="height: 200px;">
+                                    <i class="fas fa-image fa-3x"></i>
+                                </div>
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ product.name }}</h5>
+                                <p class="card-text">{{ product.price }} FCFA</p>
+                                <a href="{{ product.get_absolute_url }}" class="btn btn-primary">Voir</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-results">
+                    <i class="fas fa-search fa-5x mb-4"></i>
+                    <h3>Aucun produit trouvé</h3>
+                    <p>Essayez de modifier vos critères de recherche ou explorez nos catégories.</p>
+                    <a href="{% url 'products:product_list' %}" class="btn btn-primary">
+                        <i class="fas fa-shopping-bag"></i> Voir tous les produits
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

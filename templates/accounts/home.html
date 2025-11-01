@@ -1,0 +1,50 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">Tableau de bord</h1>
+            
+            {% if user.is_authenticated %}
+                <div class="alert alert-success">
+                    <h4>Bienvenue, {{ user.get_display_name }} !</h4>
+                    <p>Vous êtes connecté en tant que {{ user.get_user_type_display }}.</p>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Mon Profil</h5>
+                                <p class="card-text">Gérez vos informations personnelles.</p>
+                                <a href="{% url 'accounts:profile' %}" class="btn btn-primary">Voir le profil</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Mes Commandes</h5>
+                                <p class="card-text">Consultez l'historique de vos commandes.</p>
+                                <a href="{% url 'orders:order_list' %}" class="btn btn-primary">Voir les commandes</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    <h4>Bienvenue sur notre site !</h4>
+                    <p>Connectez-vous ou créez un compte pour accéder à toutes les fonctionnalités.</p>
+                    <a href="{% url 'accounts:login' %}" class="btn btn-primary me-2">Se connecter</a>
+                    <a href="{% url 'accounts:register' %}" class="btn btn-outline-primary">S'inscrire</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

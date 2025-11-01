@@ -1,0 +1,249 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load humanize %}
+
+{% block title %}Commande - KefyStore{% endblock %}
+
+{% block extra_css %}
+<meta name="csrf-token" content="{{ csrf_token }}">
+<style>
+    /* Masquer les messages d'erreur HTML5 */
+    input:invalid {
+        box-shadow: none !important;
+    }
+    
+    input:invalid:not(:focus):not(:placeholder-shown) {
+        border-color: var(--border-color) !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="checkout-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="checkout-card">
+                    <!-- En-tête -->
+                    <div class="checkout-header">
+                        <h2 class="mb-2">
+                            <i class="fas fa-shopping-cart me-2"></i>
+                            Finaliser ma commande
+                        </h2>
+                        <p class="mb-0">Sécurisé et rapide avec KefyStore</p>
+                    </div>
+                    
+                    <form method="post" id="checkout-form" novalidate>
+                        {% csrf_token %}
+                        <input type="hidden" name="calculated_delivery_fee" id="calculated_delivery_fee" value="0">
+                        <input type="hidden" name="shipping_city_int" id="form_shipping_city_int">
+                        <input type="hidden" name="shipping_region" id="form_shipping_region">
+                        
+                        <!-- Informations de livraison -->
+                        <div class="checkout-form-section">
+                            <h5>
+                                <i class="fas fa-truck"></i>
+                                Adresse de livraison
+                            </h5>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Prénom</label>
+                                    <input type="text" name="shipping_first_name" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Nom</label>
+                                    <input type="text" name="shipping_last_name" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Téléphone</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="phone-prefix">+225</span>
+                                        <input type="text" name="shipping_phone" id="shipping_phone" class="form-control" placeholder="0XXXXXXXXX">
+                                    </div>
+                                    <div id="phone-error" class="text-danger small mt-1" style="display: none;"></div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Pays</label>
+                                    <select name="shipping_country" id="shipping_country" class="form-control" required>
+                                        <option value="Côte d'Ivoire">Côte d'Ivoire</option>
+                                        <option value="Mali">Mali</option>
+                                        <option value="Burkina Faso">Burkina Faso</option>
+                                        <option value="Sénégal">Sénégal</option>
+                                        <option value="Ghana">Ghana</option>
+                                        <option value="Togo">Togo</option>
+                                        <option value="Bénin">Bénin</option>
+                                        <option value="Guinée">Guinée</option>
+                                        <option value="Niger">Niger</option>
+                                        <option value="Nigeria">Nigeria</option>
+                                        <option value="Cameroun">Cameroun</option>
+                                        <option value="Congo">Congo</option>
+                                        <option value="Gabon">Gabon</option>
+                                        <option value="Tchad">Tchad</option>
+                                        <option value="RCA">République Centrafricaine</option>
+                                        <option value="Tunisie">Tunisie</option>
+                                        <option value="Maroc">Maroc</option>
+                                        <option value="Algérie">Algérie</option>
+                                        <option value="Autre">Autre pays</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="row" id="civ-address-fields">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Région</label>
+                                    <select id="shipping_region" name="shipping_region" class="form-control form-select-region" required>
+                                        <option value="">Sélectionnez une région</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Ville</label>
+                                    <select id="shipping_city" name="shipping_city" class="form-control form-select-city" required>
+                                        <option value="">Sélectionnez d'abord une région</option>
+                                    </select>
+                                    <input type="hidden" name="shipping_city_name" id="shipping_city_name">
+                                </div>
+                            </div>
+                            
+                            <div class="row" id="international-address-fields" style="display: none;">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Ville</label>
+                                    <input type="text" id="shipping_city_int" name="shipping_city_int" class="form-control">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Code postal</label>
+                                    <input type="text" id="shipping_postal_code" name="shipping_postal_code" class="form-control">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Adresse complète</label>
+                                <textarea name="shipping_address" class="form-control" rows="3" required></textarea>
+                            </div>
+                            
+                            <!-- Affichage des frais de livraison -->
+                            <div class="delivery-fee-display" id="delivery-fee-display" style="display: none;">
+                                <div>
+                                    <i class="fas fa-truck me-2"></i>
+                                    <span>Frais de livraison pour <span id="delivery-city-name"></span></span>
+                                </div>
+                                <strong id="delivery-fee-amount">0 FCFA</strong>
+                            </div>
+                        </div>
+                        
+                        <!-- Méthode de paiement -->
+                        <div class="checkout-form-section">
+                            <h5>
+                                <i class="fas fa-credit-card"></i>
+                                Méthode de paiement
+                            </h5>
+                            
+                            <div class="payment-method-grid" id="payment-methods-grid">
+                                <!-- Les options de paiement seront injectées ici via JavaScript -->
+                            </div>
+                            
+                            <!-- Formulaires de paiement -->
+                            <div id="payment-forms-container">
+                                <!-- Les formulaires de paiement seront injectés ici via JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="checkout-form-section">
+                            <h5>
+                                <i class="fas fa-comments"></i>
+                                Notes de commande (optionnel)
+                            </h5>
+                            <textarea name="notes" class="form-control" rows="3" placeholder="Instructions spéciales pour la livraison..."></textarea>
+                        </div>
+                        
+                        <div class="text-center mb-4">
+                            <button type="submit" class="btn-place-order">
+                                <i class="fas fa-lock me-2"></i>
+                                Confirmer et payer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Résumé de la commande -->
+            <div class="col-lg-4">
+                <div class="order-summary-sidebar">
+                    <h5 class="fw-bold mb-4">
+                        <i class="fas fa-receipt me-2"></i>
+                        Récapitulatif
+                    </h5>
+                    
+                    <div class="order-summary-item">
+                        <span>Sous-total ({{ cart_count }} article{{ cart_count|pluralize }})</span>
+                        <span id="summary-subtotal">{{ cart_total|intcomma }} FCFA</span>
+                    </div>
+                    <div class="order-summary-item" id="delivery-fee-summary" style="display: none;">
+                        <span>Frais de livraison</span>
+                        <span id="summary-delivery-fee">0 FCFA</span>
+                    </div>
+                    <div class="order-summary-item">
+                        <span>Total</span>
+                        <span id="summary-total">{{ cart_total|intcomma }} FCFA</span>
+                    </div>
+                    
+                    <div class="mt-3 d-flex align-items-center gap-2">
+                        <img src="{% static 'images/payment/secure.png' %}" alt="Paiement sécurisé" style="max-width: 25px; height: auto; display: inline-block;">
+                        <small class="text-muted">
+                            <i class=""></i>
+                            Paiement sécurisé
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/checkout.js' %}?v=8.0"></script>
+<script>
+// Gestion de la validation du numéro de téléphone
+document.getElementById('shipping_phone').addEventListener('input', function() {
+    const phone = this.value;
+    const digitsOnly = phone.replace(/[^\d]/g, '');
+    
+    // Masquer l'erreur si le numéro est valide
+    if (digitsOnly.length >= 8) {
+        this.setCustomValidity('');
+        document.getElementById('phone-error').style.display = 'none';
+        this.classList.remove('is-invalid');
+        this.classList.add('is-valid');
+    } else if (phone.length > 0) {
+        this.setCustomValidity('Le numéro doit contenir au moins 8 chiffres');
+        this.classList.remove('is-valid');
+        this.classList.add('is-invalid');
+    } else {
+        this.setCustomValidity('');
+        this.classList.remove('is-invalid', 'is-valid');
+    }
+});
+
+// Désactiver la validation HTML5 pour ce formulaire
+document.getElementById('checkout-form').addEventListener('submit', function(e) {
+    const phoneInput = document.getElementById('shipping_phone');
+    const phone = phoneInput.value;
+    const digitsOnly = phone.replace(/[^\d]/g, '');
+    
+    if (digitsOnly.length < 8) {
+        e.preventDefault();
+        document.getElementById('phone-error').textContent = 'Le numéro de téléphone doit contenir au moins 8 chiffres';
+        document.getElementById('phone-error').style.display = 'block';
+        phoneInput.classList.add('is-invalid');
+        phoneInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return false;
+    }
+    
+    // Réinitialiser l'erreur
+    document.getElementById('phone-error').style.display = 'none';
+    phoneInput.classList.remove('is-invalid');
+});
+</script>
+{% endblock %}

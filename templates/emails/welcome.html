@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenue sur KefyStore</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .email-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #4A90E2, #357ABD);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .content {
+            padding: 30px;
+        }
+        .welcome-message {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #4A90E2;
+        }
+        .features {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .features ul {
+            list-style: none;
+            padding: 0;
+        }
+        .features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .features li:last-child {
+            border-bottom: none;
+        }
+        .features li:before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #4A90E2, #357ABD);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .social-links {
+            margin: 20px 0;
+        }
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #4A90E2;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>✨ Bienvenue sur KefyStore !</h1>
+        </div>
+        
+        <div class="content">
+            <div class="welcome-message">
+                🎁 Bonjour {{ user.first_name|default:user.username }},
+            </div>
+            
+            <p>Nous sommes ravis de vous compter parmi nos clients ! Votre compte a été créé avec succès.</p>
+            
+            <div class="features">
+                <h3>🌟 Découvrez ce que vous pouvez faire :</h3>
+                <ul>
+                    <li>🛍️ Parcourir des milliers de produits de qualité</li>
+                    <li>🔒 Passer des commandes en toute sécurité</li>
+                    <li>📍 Suivre vos livraisons en temps réel</li>
+                    <li>⭐ Laisser des avis sur vos achats</li>
+                    <li>🎁 Profiter de promotions exclusives</li>
+                    <li>💬 Bénéficier d'un support client 24/7</li>
+                </ul>
+            </div>
+            
+            <p>Votre compte est maintenant actif et vous pouvez commencer vos achats immédiatement.</p>
+            
+            <div style="text-align: center;">
+                <a href="{{ site_url }}" class="cta-button">
+                    🛒 Commencer mes achats maintenant
+                </a>
+            </div>
+            
+            <p><strong>📋 Informations de votre compte :</strong></p>
+            <ul>
+                <li>👤 <strong>Nom d'utilisateur :</strong> {{ user.username }}</li>
+                <li>📧 <strong>Email :</strong> {{ user.email }}</li>
+                <li>🏷️ <strong>Type de compte :</strong> {{ user.get_user_type_display }}</li>
+                <li>📅 <strong>Date d'inscription :</strong> {{ user.date_joined|date:"d/m/Y à H:i" }}</li>
+            </ul>
+            
+            <p>Si vous avez des questions, n'hésitez pas à nous contacter. Notre équipe est là pour vous aider !</p>
+        </div>
+        
+        <div class="footer">
+            <p><strong>KefyStore</strong> - Votre boutique en ligne de confiance</p>
+            <div class="social-links">
+                <a href="#">📘 Facebook</a>
+                <a href="#">🐦 Twitter</a>
+                <a href="#">📷 Instagram</a>
+            </div>
+            <p>Cet email a été envoyé à {{ user.email }}. Si vous n'avez pas créé de compte, ignorez cet email.</p>
+        </div>
+    </div>
+</body>
+</html>

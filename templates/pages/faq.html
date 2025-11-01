@@ -1,0 +1,299 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}FAQ - Questions Fréquentes - KefyStore{% endblock %}
+
+{% block extra_css %}
+<style>
+    .faq-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 4rem 0;
+        color: white;
+        text-align: center;
+    }
+    
+    .faq-card {
+        background: white;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        overflow: hidden;
+    }
+    
+    .faq-question {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        cursor: pointer;
+        font-weight: 600;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+    
+    .faq-question:hover {
+        background: #e9ecef;
+    }
+    
+    .faq-question.active {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+    }
+    
+    .faq-answer {
+        padding: 0 1.5rem;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    
+    .faq-answer.show {
+        padding: 1.5rem;
+        max-height: 500px;
+    }
+    
+    .faq-icon {
+        font-size: 1.25rem;
+        transition: transform 0.3s ease;
+    }
+    
+    .faq-question.active .faq-icon {
+        transform: rotate(180deg);
+    }
+    
+    .category-card {
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        padding: 2rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .category-card:hover,
+    .category-card.active {
+        border-color: #667eea;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+    }
+    
+    .category-icon {
+        font-size: 3rem;
+        color: #667eea;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="faq-hero">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">Questions Fréquentes</h1>
+        <p class="lead">Trouvez rapidement les réponses à vos questions</p>
+    </div>
+</section>
+
+<!-- FAQ Content -->
+<div class="container my-5">
+    <!-- Categories -->
+    <div class="row g-3 mb-5" id="faqCategories">
+        <div class="col-md-3" onclick="filterFAQ('all')">
+            <div class="category-card active" data-category="all">
+                <i class="fas fa-th category-icon"></i>
+                <h6 class="fw-bold">Tout voir</h6>
+            </div>
+        </div>
+        <div class="col-md-3" onclick="filterFAQ('commandes')">
+            <div class="category-card" data-category="commandes">
+                <i class="fas fa-shopping-cart category-icon"></i>
+                <h6 class="fw-bold">Commandes</h6>
+            </div>
+        </div>
+        <div class="col-md-3" onclick="filterFAQ('paiement')">
+            <div class="category-card" data-category="paiement">
+                <i class="fas fa-credit-card category-icon"></i>
+                <h6 class="fw-bold">Paiement</h6>
+            </div>
+        </div>
+        <div class="col-md-3" onclick="filterFAQ('livraison')">
+            <div class="category-card" data-category="livraison">
+                <i class="fas fa-truck category-icon"></i>
+                <h6 class="fw-bold">Livraison</h6>
+            </div>
+        </div>
+    </div>
+    
+    <!-- FAQ Questions -->
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <!-- Commandes -->
+            <div class="faq-item" data-category="commandes">
+                <div class="faq-card">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Comment passer une commande ? <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="mb-0">Pour passer une commande, ajoutez les articles que vous souhaitez à votre panier, puis cliquez sur "Passer la commande". Remplissez le formulaire de livraison et choisissez votre mode de paiement.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item" data-category="commandes">
+                <div class="faq-card">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Puis-je modifier ou annuler ma commande ? <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="mb-0">Oui, vous pouvez annuler votre commande tant qu'elle n'est pas expédiée. Contactez-nous au plus vite au +225 00 00 00 00 ou via email à contact@kefystore.com.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item" data-category="commandes">
+                <div class="faq-card">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Comment suivre ma commande ? <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="mb-0">Vous recevrez un email de confirmation avec un numéro de suivi. Connectez-vous à votre compte pour suivre l'état de votre commande en temps réel.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Paiement -->
+            <div class="faq-item" data-category="paiement">
+                <div class="faq-card">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Quels modes de paiement acceptez-vous ? <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="mb-0">Nous acceptons les paiements par Mobile Money (Orange Money, MTN Money, Moov Money, Wave), carte bancaire, virement bancaire, et paiement à la livraison.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item" data-category="paiement">
+                <div class="faq-card">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Le paiement est-il sécurisé ? <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="mb-0">Oui, absolument. Tous nos paiements sont sécurisés via des systèmes cryptés SSL. Nous ne stockons jamais vos informations de carte bancaire.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item" data-category="paiement">
+                <div class="faq-card">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Quand serai-je débité ? <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="mb-0">Le montant est débité immédiatement pour les paiements en ligne. Pour le paiement à la livraison, vous payez le livreur en espèces ou par Mobile Money.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Livraison -->
+            <div class="faq-item" data-category="livraison">
+                <div class="faq-card">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Combien coûte la livraison ? <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="mb-0">Les frais de livraison dépendent de votre zone : Express (24h) à 15,000 FCFA, Standard (2-3 jours) à 10,000 FCFA. Livraison gratuite dès 100,000 FCFA d'achat.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item" data-category="livraison">
+                <div class="faq-card">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Dans quel délai ma commande sera-t-elle livrée ? <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="mb-0">La livraison se fait en 24h à Abidjan (Express) ou en 2-3 jours en standard. Les commandes passées le week-end sont traitées le lundi suivant.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item" data-category="livraison">
+                <div class="faq-card">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Livrez-vous en dehors d'Abidjan ? <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="mb-0">Oui, nous livrons dans toute la Côte d'Ivoire. Les frais et délais peuvent varier selon la destination. Contactez-nous pour plus d'informations.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item" data-category="livraison">
+                <div class="faq-card">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Que faire si je ne suis pas présent lors de la livraison ? <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="mb-0">Le livreur vous appellera au numéro fourni. Si vous n'êtes pas joignable, il laissera un message et repassera le lendemain. Vous pouvez aussi récupérer votre commande dans notre boutique.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contact Support -->
+    <div class="row mt-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="alert alert-primary border-0 text-center" role="alert">
+                <h5 class="alert-heading fw-bold">Vous ne trouvez pas votre réponse ?</h5>
+                <p class="mb-3">Notre équipe est là pour vous aider 24/7</p>
+                <a href="{% url 'pages:contact' %}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-envelope me-2"></i>Contactez-nous
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function toggleFAQ(element) {
+    const question = element;
+    const answer = element.nextElementSibling;
+    
+    // Close all other FAQs
+    document.querySelectorAll('.faq-question.active').forEach(q => {
+        if (q !== question) {
+            q.classList.remove('active');
+            q.nextElementSibling.classList.remove('show');
+        }
+    });
+    
+    // Toggle current FAQ
+    question.classList.toggle('active');
+    answer.classList.toggle('show');
+}
+
+function filterFAQ(category) {
+    // Update active category card
+    document.querySelectorAll('.category-card').forEach(card => {
+        card.classList.remove('active');
+    });
+    document.querySelector(`[data-category="${category}"]`).classList.add('active');
+    
+    // Show/hide FAQs
+    document.querySelectorAll('.faq-item').forEach(item => {
+        if (category === 'all' || item.getAttribute('data-category') === category) {
+            item.style.display = '';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+</script>
+{% endblock %}
+

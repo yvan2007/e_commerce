@@ -1,0 +1,263 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Gestion des Catégories - KefyStore{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dashboard-card { border: none; border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+    .card-header { background: var(--secondary-color) !important; border-bottom: 2px solid var(--accent-color); border-radius: 15px 15px 0 0 !important; }
+    .badge { border-radius: 20px; padding: 0.5em 1em; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="fw-bold"><i class="fas fa-tags me-2"></i>Gestion des Catégories</h2>
+                <div class="d-flex gap-2">
+                    <a href="{% url 'dashboard:admin_dashboard' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Retour
+                    </a>
+                    <a href="{% url 'dashboard:admin_category_create' %}" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Nouvelle Catégorie
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtres -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form method="GET" class="row g-3">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="search" 
+                                   value="{{ search_query }}" placeholder="Rechercher une catégorie...">
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" name="active">
+                                <option value="">Tous les statuts</option>
+                                <option value="true" {% if current_active == 'true' %}selected{% endif %}>Actives</option>
+                                <option value="false" {% if current_active == 'false' %}selected{% endif %}>Inactives</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search me-2"></i>Filtrer
+                            </button>
+                        </div>
+                        {% if search_query or current_active %}
+                        <div class="col-md-3">
+                            <a href="{% url 'dashboard:admin_categories' %}" class="btn btn-outline-secondary w-100">
+                                <i class="fas fa-times me-2"></i>Réinitialiser
+                            </a>
+                        </div>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card dashboard-card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="fas fa-list me-2"></i>Catégories ({{ categories.paginator.count }})</h5>
+                </div>
+                <div class="card-body p-0">
+                    {% if categories %}
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Nom</th>
+                                        <th>Slug</th>
+                                        <th>Parent</th>
+                                        <th>Actif</th>
+                                        <th>Produits</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for category in categories %}
+                                    <tr>
+                                        <td><strong>{{ category.name }}</strong></td>
+                                        <td><code>{{ category.slug }}</code></td>
+                                        <td>{{ category.parent.name|default:"-" }}</td>
+                                        <td>
+                                            {% if category.is_active %}
+                                                <span class="badge bg-success">Active</span>
+                                            {% else %}
+                                                <span class="badge bg-danger">Inactive</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-secondary">
+                                                {{ category.products.count }} produit{{ category.products.count|pluralize }}
+                                            </span>
+                                            {% if category.children.exists %}
+                                                <br>
+                                                <small class="text-muted">
+                                                    {{ category.children.count }} sous-catégorie{{ category.children.count|pluralize }}
+                                                </small>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a href="{% url 'products:category_detail' category.slug %}" 
+                                                   class="btn btn-sm btn-outline-primary" title="Voir">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="{% url 'dashboard:admin_category_update' category.id %}" 
+                                                   class="btn btn-sm btn-outline-success" title="Modifier">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <button type="button" 
+                                                        class="btn btn-sm btn-outline-danger" 
+                                                        title="Supprimer"
+                                                        onclick="deleteCategory({{ category.id }}, '{{ category.name }}', {{ category.products.count }}, {{ category.children.count }})">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        {% if categories.has_other_pages %}
+                        <div class="card-footer bg-light">
+                            <nav aria-label="Navigation des catégories">
+                                <ul class="pagination justify-content-center mb-0">
+                                    {% if categories.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if current_active %}&active={{ current_active }}{% endif %}">
+                                                <i class="fas fa-angle-double-left"></i>
+                                            </a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ categories.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if current_active %}&active={{ current_active }}{% endif %}">
+                                                <i class="fas fa-angle-left"></i>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    
+                                    {% for num in categories.paginator.page_range %}
+                                        {% if categories.number == num %}
+                                            <li class="page-item active">
+                                                <span class="page-link">{{ num }}</span>
+                                            </li>
+                                        {% elif num > categories.number|add:'-3' and num < categories.number|add:'3' %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if current_active %}&active={{ current_active }}{% endif %}">
+                                                    {{ num }}
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    
+                                    {% if categories.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ categories.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if current_active %}&active={{ current_active }}{% endif %}">
+                                                <i class="fas fa-angle-right"></i>
+                                            </a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ categories.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if current_active %}&active={{ current_active }}{% endif %}">
+                                                <i class="fas fa-angle-double-right"></i>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-tags fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">Aucune catégorie trouvée</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de suppression -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteModalLabel">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Confirmer la suppression
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous sûr de vouloir supprimer la catégorie <strong id="categoryNameModal"></strong> ?</p>
+                <div id="categoryWarnings" class="alert alert-warning" style="display: none;">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <span id="warningMessage"></span>
+                </div>
+                <p class="text-danger"><small>Cette action est irréversible.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i>
+                    Annuler
+                </button>
+                <form id="deleteForm" method="POST" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger" id="confirmDeleteBtn">
+                        <i class="fas fa-trash me-2"></i>
+                        Supprimer
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function deleteCategory(categoryId, categoryName, productsCount, subcategoriesCount) {
+    document.getElementById('categoryNameModal').textContent = categoryName;
+    
+    const form = document.getElementById('deleteForm');
+    form.action = "{% url 'dashboard:admin_category_delete' 0 %}".replace('0', categoryId);
+    
+    const warningDiv = document.getElementById('categoryWarnings');
+    const warningMessage = document.getElementById('warningMessage');
+    const confirmBtn = document.getElementById('confirmDeleteBtn');
+    
+    if (productsCount > 0 || subcategoriesCount > 0) {
+        warningDiv.style.display = 'block';
+        warningMessage.textContent = 
+            `Cette catégorie contient ${productsCount} produit${productsCount > 1 ? 's' : ''} ` +
+            `et ${subcategoriesCount} sous-catégorie${subcategoriesCount > 1 ? 's' : ''}. ` +
+            `La suppression sera impossible.`;
+        confirmBtn.disabled = true;
+        confirmBtn.classList.add('disabled');
+    } else {
+        warningDiv.style.display = 'none';
+        confirmBtn.disabled = false;
+        confirmBtn.classList.remove('disabled');
+    }
+    
+    const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    modal.show();
+}
+</script>
+{% endblock %}
+

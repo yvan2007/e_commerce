@@ -1,0 +1,243 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load humanize %}
+
+{% block title %}{% translate "Mon Panier" %} - KefyStore{% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    {% csrf_token %}
+    <div class="row">
+        <!-- Panier -->
+        <div class="col-lg-8">
+            <h2 class="mb-4">
+                <i class="fas fa-shopping-cart me-2"></i>
+                {% translate "Mon Panier" %}
+            </h2>
+            
+            {% if cart_items %}
+                {% for item in cart_items %}
+                <div class="cart-item" data-item-id="{{ item.id }}">
+                    <div class="row align-items-center">
+                        <div class="col-md-2">
+                            {% if item.product.main_image %}
+                                <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}" class="img-fluid rounded">
+                            {% else %}
+                                <div class="bg-light d-flex align-items-center justify-content-center rounded" style="width: 100px; height: 100px;">
+                                    <i class="fas fa-image text-muted fa-2x"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4">
+                            <h5 class="mb-1">{{ item.product.name }}</h5>
+                            {% if item.variant %}
+                                <small class="text-muted">{{ item.variant.name }}</small>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-2">
+                            <span class="text-muted">Prix unitaire:</span>
+                            <strong>{{ item.get_unit_price }} FCFA</strong>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="d-flex flex-column align-items-center gap-2">
+                                <div class="quantity-controls">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm decrease-qty" data-item-id="{{ item.id }}">-</button>
+                                    <input type="number" class="form-control" value="{{ item.quantity }}" min="1" max="{{ item.variant.stock|default:item.product.stock }}" data-item-id="{{ item.id }}">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm increase-qty" data-item-id="{{ item.id }}">+</button>
+                                </div>
+                                <button class="btn btn-sm btn-danger remove-item d-flex align-items-center justify-content-center" data-item-id="{{ item.id }}" title="Supprimer" style="width: auto; min-width: 70px; height: 28px; padding: 0.25rem 0.5rem; font-size: 0.75rem;">
+                                    <i class="fas fa-trash me-1"></i>Supprimer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-cart">
+                    <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
+                    <h3>{% translate "Votre panier est vide" %}</h3>
+                    <p class="text-muted">{% translate "Ajoutez des produits pour commencer" %}</p>
+                    <a href="{% url 'products:home_page' %}" class="btn btn-primary mt-3">
+                        <i class="fas fa-store me-2"></i>{% translate "Continuer les achats" %}
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- Résumé -->
+        <div class="col-lg-4">
+            <div class="cart-summary">
+                <h4 class="mb-4">{% translate "Résumé" %}</h4>
+                
+                <div class="d-flex justify-content-between mb-3">
+                    <span>{% translate "Sous-total" %} ({{ cart_count }} {% translate "article" %}{{ cart_count|pluralize }}):</span>
+                    <strong id="cart-subtotal">{{ cart_total }} FCFA</strong>
+                </div>
+                
+                <div class="d-flex justify-content-between mb-3">
+                    <span>{% translate "Total" %}:</span>
+                    <strong class="text-primary" id="cart-total">{{ cart_total }} FCFA</strong>
+                </div>
+                
+                <hr>
+                
+                <a href="{% url 'orders:checkout' %}" class="btn btn-primary btn-lg w-100 mb-2 {% if not cart_items %}disabled{% endif %}">
+                    <i class="fas fa-credit-card me-2"></i>{% translate "Passer la commande" %}
+                </a>
+                
+                <a href="{% url 'products:home_page' %}" class="btn btn-outline-secondary w-100">
+                    <i class="fas fa-arrow-left me-2"></i>{% translate "Continuer les achats" %}
+                </a>
+                
+                <div class="mt-3 text-center">
+                    <div class="payment-logo-container justify-content-center mb-2">
+                        {% include 'base/payment_logos.html' %}
+                    </div>
+                    <small class="text-muted">
+                        <i class="fas fa-lock me-1"></i>Paiement sécurisé
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/animations.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function getCSRFToken() {
+        return document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
+               document.querySelector('meta[name=csrf-token]')?.getAttribute('content');
+    }
+    
+    function formatPrice(price) {
+        return parseFloat(price).toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' FCFA';
+    }
+    
+    // Augmenter la quantité
+    document.querySelectorAll('.increase-qty').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const itemId = this.dataset.itemId;
+            const input = document.querySelector(`input[data-item-id="${itemId}"]`);
+            const max = parseInt(input.max);
+            const current = parseInt(input.value);
+            if (current < max) {
+                input.value = current + 1;
+                updateQuantity(itemId, current + 1, input);
+            }
+        });
+    });
+    
+    // Diminuer la quantité
+    document.querySelectorAll('.decrease-qty').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const itemId = this.dataset.itemId;
+            const input = document.querySelector(`input[data-item-id="${itemId}"]`);
+            const current = parseInt(input.value);
+            if (current > 1) {
+                input.value = current - 1;
+                updateQuantity(itemId, current - 1, input);
+            }
+        });
+    });
+    
+    // Mettre à jour la quantité
+    function updateQuantity(itemId, quantity, inputElement) {
+        // Animation de pulse sur le champ de quantité
+        inputElement.closest('.cart-item').classList.add('updating');
+        
+        fetch(`/orders/api/cart/${itemId}/update/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken(),
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({ quantity: quantity })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Mettre à jour les totaux avec animation
+                animateQuantityUpdate(document.getElementById('cart-subtotal'));
+                animateQuantityUpdate(document.getElementById('cart-total'));
+                
+                document.getElementById('cart-subtotal').textContent = formatPrice(data.total);
+                document.getElementById('cart-total').textContent = formatPrice(data.total);
+                
+                // Animation de succès
+                showCartAnimation(inputElement.closest('.cart-item'));
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            showNotification('Erreur lors de la mise à jour', 'danger');
+        })
+        .finally(() => {
+            inputElement.closest('.cart-item').classList.remove('updating');
+        });
+    }
+    
+    // Supprimer un article
+    document.querySelectorAll('.remove-item').forEach(btn => {
+        btn.addEventListener('click', function() {
+            if (!confirm('Êtes-vous sûr de vouloir supprimer cet article ?')) {
+                return;
+            }
+            
+            const itemId = this.dataset.itemId;
+            const item = document.querySelector(`.cart-item[data-item-id="${itemId}"]`);
+            
+            // Animation de suppression
+            item.style.transition = 'all 0.5s ease-out';
+            item.style.opacity = '0';
+            item.style.transform = 'translateX(-100%)';
+            
+            fetch(`/orders/api/cart/${itemId}/remove/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCSRFToken(),
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    setTimeout(() => {
+                        item.remove();
+                    }, 500);
+                    
+                    // Mettre à jour les totaux
+                    animateQuantityUpdate(document.getElementById('cart-subtotal'));
+                    animateQuantityUpdate(document.getElementById('cart-total'));
+                    
+                    document.getElementById('cart-subtotal').textContent = formatPrice(data.total);
+                    document.getElementById('cart-total').textContent = formatPrice(data.total);
+                    
+                    showNotification('Article supprimé du panier', 'success');
+                    
+                    // Si le panier est vide, recharger la page après 1 seconde
+                    if (data.cart_count === 0) {
+                        setTimeout(() => location.reload(), 1500);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                item.style.opacity = '1';
+                item.style.transform = 'translateX(0)';
+                showNotification('Erreur lors de la suppression', 'danger');
+            });
+        });
+    });
+});
+</script>
+{% endblock %}

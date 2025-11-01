@@ -1,0 +1,152 @@
+# Django
+Django==4.2.7
+django-crispy-forms==2.1
+crispy-bootstrap5==0.7
+
+# CKEditor
+django-ckeditor==6.7.0
+Pillow==10.1.0
+
+# REST Framework
+djangorestframework==3.14.0
+django-cors-headers==4.3.1
+django-filter==23.3
+
+# Database
+psycopg2-binary==2.9.9
+dj-database-url==2.1.0
+
+# Authentication
+django-allauth==0.57.0
+django-otp==1.2.0
+qrcode==7.4.2
+
+# Payments
+stripe==7.8.0
+requests==2.31.0
+
+# Notifications
+celery==5.3.4
+redis==5.0.1
+django-celery-beat==2.5.0
+
+# File handling
+openpyxl==3.1.2
+xlsxwriter==3.1.9
+
+# Testing
+pytest==7.4.3
+pytest-django==4.7.0
+pytest-cov==4.1.0
+pytest-mock==3.12.0
+factory-boy==3.3.0
+faker==20.1.0
+
+# Development
+django-debug-toolbar==4.2.0
+django-extensions==3.2.3
+
+# Security
+django-ratelimit==4.1.0
+django-csp==3.7
+
+# Monitoring
+django-silk==5.0.4
+
+# Internationalization
+django-modeltranslation==0.18.11
+
+# Utilities
+python-decouple==3.8
+whitenoise==6.6.0
+gunicorn==21.2.0
+
+# Data export
+django-import-export==3.3.1
+
+# Charts and analytics
+plotly==5.17.0
+pandas==2.1.4
+
+# Email
+django-anymail==10.1
+
+# SMS
+twilio==8.10.0
+
+# Image processing
+django-imagekit==4.1.0
+
+# Search
+django-haystack==3.2.1
+whoosh==2.7.4
+
+# Caching
+django-redis==5.4.0
+
+# Forms
+django-formtools==2.4.1
+
+# Admin
+django-admin-interface==0.25.0
+django-admin-honeypot==1.1.0
+
+# API Documentation
+drf-yasg==1.21.7
+
+# Background tasks
+django-rq==2.8.1
+
+# File storage
+django-storages==1.14.2
+boto3==1.34.0
+
+# Environment
+python-dotenv==1.0.0
+
+# Date handling
+python-dateutil==2.8.2
+
+# JSON handling
+simplejson==3.19.2
+
+# HTTP requests
+httpx==0.25.2
+
+# Validation
+django-phonenumber-field==7.1.0
+phonenumbers==8.13.25
+
+# Timezone
+pytz==2023.3
+
+# UUID
+shortuuid==1.0.11
+
+# Compression
+django-compressor==4.4
+
+# Sitemap (intégré dans Django, pas besoin de package séparé)
+# django.contrib.sitemaps est inclus dans Django
+
+# Robots
+django-robots==4.0
+
+# Maintenance
+django-maintenance-mode==0.17.1
+
+# Health checks
+django-health-check==3.17.0
+
+# Performance (django-slowtests nécessite Django installé avant, installé séparément si nécessaire)
+# django-slowtests==0.1.0
+
+# Code quality
+black==23.11.0
+flake8==6.1.0
+isort==5.12.0
+mypy==1.7.1
+
+# Documentation
+sphinx==7.2.6
+sphinx-rtd-theme==1.3.0

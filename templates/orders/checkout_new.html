@@ -1,0 +1,354 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Commande - KefyStore{% endblock %}
+
+{% block extra_css %}
+<meta name="csrf-token" content="{{ csrf_token }}">
+<style>
+    .checkout-page {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 2rem 0;
+    }
+    
+    .checkout-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        overflow: hidden;
+    }
+    
+    .checkout-header {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 2rem;
+    }
+    
+    .checkout-form-section {
+        padding: 2rem;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .checkout-form-section:last-child {
+        border-bottom: none;
+    }
+    
+    .checkout-form-section h5 {
+        color: #667eea;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .checkout-form-section h5 i {
+        font-size: 1.5rem;
+    }
+    
+    .form-select-region, .form-select-city {
+        padding: 0.75rem 1rem;
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-select-region:focus, .form-select-city:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+    
+    .delivery-fee-display {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 10px;
+        margin-top: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .delivery-fee-display strong {
+        color: #667eea;
+        font-size: 1.2rem;
+    }
+    
+    .payment-method-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .payment-option {
+        border: 2px solid #e9ecef;
+        border-radius: 15px;
+        padding: 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+    }
+    
+    .payment-option:hover {
+        border-color: #667eea;
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+    }
+    
+    .payment-option.active {
+        border-color: #667eea;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+    }
+    
+    .payment-option input[type="radio"] {
+        display: none;
+    }
+    
+    .payment-option img {
+        width: 60px;
+        height: 40px;
+        object-fit: contain;
+        margin-bottom: 0.5rem;
+    }
+    
+    .payment-form-details {
+        display: none;
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-top: 1rem;
+    }
+    
+    .payment-form-details.active {
+        display: block;
+    }
+    
+    .order-summary-sidebar {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        padding: 2rem;
+        height: fit-content;
+        position: sticky;
+        top: 2rem;
+    }
+    
+    .order-summary-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .order-summary-item:last-child {
+        border-bottom: none;
+        font-weight: 700;
+        font-size: 1.2rem;
+        color: #667eea;
+    }
+    
+    .btn-place-order {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 10px;
+        font-weight: 700;
+        width: 100%;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-place-order:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    .loading-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .loading-overlay.active {
+        display: flex;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="checkout-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="checkout-card">
+                    <!-- En-tête -->
+                    <div class="checkout-header">
+                        <h2 class="mb-2">
+                            <i class="fas fa-shopping-cart me-2"></i>
+                            Finaliser ma commande
+                        </h2>
+                        <p class="mb-0">Sécurisé et rapide avec KefyStore</p>
+                    </div>
+                    
+                    <form method="post" id="checkout-form">
+                        {% csrf_token %}
+                        
+                        <!-- Informations de livraison -->
+                        <div class="checkout-form-section">
+                            <h5>
+                                <i class="fas fa-truck"></i>
+                                Adresse de livraison
+                            </h5>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Prénom</label>
+                                    <input type="text" name="shipping_first_name" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Nom</label>
+                                    <input type="text" name="shipping_last_name" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Téléphone</label>
+                                    <input type="tel" name="shipping_phone" class="form-control" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Pays</label>
+                                    <select name="shipping_country" id="shipping_country" class="form-control" required>
+                                        <option value="Côte d'Ivoire">Côte d'Ivoire</option>
+                                        <option value="Autre">Autre pays</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="row" id="civ-address-fields">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Région</label>
+                                    <select id="shipping_region" name="shipping_region" class="form-control form-select-region" required>
+                                        <option value="">Sélectionnez une région</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Ville</label>
+                                    <select id="shipping_city" name="shipping_city" class="form-control form-select-city" required>
+                                        <option value="">Sélectionnez d'abord une région</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="row" id="international-address-fields" style="display: none;">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Ville</label>
+                                    <input type="text" id="shipping_city_int" name="shipping_city_int" class="form-control">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold">Code postal</label>
+                                    <input type="text" id="shipping_postal_code" name="shipping_postal_code" class="form-control">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Adresse complète</label>
+                                <textarea name="shipping_address" class="form-control" rows="3" required></textarea>
+                            </div>
+                            
+                            <!-- Affichage des frais de livraison -->
+                            <div class="delivery-fee-display" id="delivery-fee-display" style="display: none;">
+                                <div>
+                                    <i class="fas fa-truck me-2"></i>
+                                    <span>Frais de livraison pour <span id="delivery-city-name"></span></span>
+                                </div>
+                                <strong id="delivery-fee-amount">0 FCFA</strong>
+                            </div>
+                        </div>
+                        
+                        <!-- Méthode de paiement -->
+                        <div class="checkout-form-section">
+                            <h5>
+                                <i class="fas fa-credit-card"></i>
+                                Méthode de paiement
+                            </h5>
+                            
+                            <div class="payment-method-grid" id="payment-methods-grid">
+                                <!-- Les options de paiement seront injectées ici via JavaScript -->
+                            </div>
+                            
+                            <!-- Formulaires de paiement -->
+                            <div id="payment-forms-container">
+                                <!-- Les formulaires de paiement seront injectés ici via JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="checkout-form-section">
+                            <h5>
+                                <i class="fas fa-comments"></i>
+                                Notes de commande (optionnel)
+                            </h5>
+                            <textarea name="notes" class="form-control" rows="3" placeholder="Instructions spéciales pour la livraison..."></textarea>
+                        </div>
+                        
+                        <div class="text-center mb-4">
+                            <button type="submit" class="btn-place-order">
+                                <i class="fas fa-lock me-2"></i>
+                                Confirmer et payer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Résumé de la commande -->
+            <div class="col-lg-4">
+                <div class="order-summary-sidebar">
+                    <h5 class="fw-bold mb-4">
+                        <i class="fas fa-receipt me-2"></i>
+                        Récapitulatif
+                    </h5>
+                    
+                    <div class="order-summary-item">
+                        <span>Sous-total ({{ cart_count }} article{{ cart_count|pluralize }})</span>
+                        <span id="summary-subtotal">{{ cart_total }} FCFA</span>
+                    </div>
+                    <div class="order-summary-item">
+                        <span>Frais de livraison</span>
+                        <span id="summary-delivery-fee">2500 FCFA</span>
+                    </div>
+                    <div class="order-summary-item">
+                        <span>Total</span>
+                        <span id="summary-total">0 FCFA</span>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <img src="{% static 'images/payment/secure-payment.png' %}" alt="Paiement sécurisé" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Overlay de chargement -->
+<div class="loading-overlay" id="loading-overlay">
+    <div class="text-center text-white">
+        <div class="spinner-border mb-3" role="status" style="width: 3rem; height: 3rem;">
+            <span class="visually-hidden">Chargement...</span>
+        </div>
+        <h4>Traitement de votre commande...</h4>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/checkout.js' %}"></script>
+{% endblock %}

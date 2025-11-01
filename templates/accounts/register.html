@@ -1,0 +1,365 @@
+{% extends 'base/auth_base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Inscription - E-Commerce CI{% endblock %}
+
+{% block auth_content %}
+    <div class="text-center mb-4">
+        <h4 class="fw-bold">Créer un compte</h4>
+        <p class="text-muted">Rejoignez notre communauté d'acheteurs</p>
+    </div>
+    
+    <!-- Affichage des erreurs générales -->
+    {% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        <h6 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>Erreurs dans le formulaire</h6>
+        <ul class="mb-0">
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                    <li><strong>{{ field }}:</strong> {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    
+    <!-- Debug: Afficher les erreurs non-validées -->
+    {% if form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+        <h6 class="alert-heading">Erreurs non liées aux champs</h6>
+        <ul class="mb-0">
+            {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    
+    <!-- Registration form -->
+    <form method="post" id="registrationForm">
+        {% csrf_token %}
+        
+        <!-- Champ caché pour user_type -->
+        <input type="hidden" name="user_type" value="client">
+        
+        <div class="mb-3">
+            <label for="{{ form.username.id_for_label }}" class="form-label">Nom d'utilisateur *</label>
+            {{ form.username }}
+            <div class="form-text">Entrez un nom d'utilisateur unique.</div>
+            {% if form.username.errors %}
+                <div class="text-danger small mt-1">
+                    {% for error in form.username.errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="mb-3">
+            <label for="{{ form.email.id_for_label }}" class="form-label">Email *</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="text-danger small mt-1">
+                    {% for error in form.email.errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="{{ form.first_name.id_for_label }}" class="form-label">Prénom *</label>
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.first_name.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="{{ form.last_name.id_for_label }}" class="form-label">Nom *</label>
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.last_name.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="{{ form.country_code.id_for_label }}" class="form-label">Code pays *</label>
+                {{ form.country_code }}
+                {% if form.country_code.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.country_code.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-md-8 mb-3">
+                <label for="{{ form.phone_number.id_for_label }}" class="form-label">Numéro de téléphone *</label>
+                {{ form.phone_number }}
+                {% if form.phone_number.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.phone_number.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <label for="{{ form.password1.id_for_label }}" class="form-label">Mot de passe *</label>
+            {{ form.password1 }}
+            {% if form.password1.errors %}
+                <div class="text-danger small mt-1">
+                    {% for error in form.password1.errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="mb-3">
+            <label for="{{ form.password2.id_for_label }}" class="form-label">Confirmation du mot de passe *</label>
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+                <div class="text-danger small mt-1">
+                    {% for error in form.password2.errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="mb-3 form-check">
+            {{ form.terms_accepted }}
+            <label class="form-check-label" for="{{ form.terms_accepted.id_for_label }}">
+                J'accepte les <a href="#" class="text-primary">conditions d'utilisation</a> et la <a href="#" class="text-primary">politique de confidentialité</a> *
+            </label>
+            {% if form.terms_accepted.errors %}
+                <div class="text-danger small mt-1">
+                    {% for error in form.terms_accepted.errors %}
+                        <div>{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-user-plus me-2"></i>
+                Créer mon compte
+            </button>
+        </div>
+    </form>
+    
+    <div class="text-center mt-4">
+        <div class="divider">
+            <span class="divider-text">ou</span>
+        </div>
+        
+        <div class="social-login mt-3">
+            <button class="btn btn-outline-danger w-100 mb-2" onclick="window.location.href='/accounts/google/login/?process=signup'">
+                <i class="fab fa-google me-2"></i>
+                Continuer avec Google
+            </button>
+            <button class="btn btn-outline-primary w-100 mb-3">
+                <i class="fab fa-facebook-f me-2"></i>
+                Continuer avec Facebook
+            </button>
+        </div>
+        
+        <p class="text-muted">
+            Déjà un compte ? 
+            <a href="{% url 'accounts:login' %}" class="text-primary fw-bold text-decoration-none">
+                Se connecter
+            </a>
+        </p>
+    </div>
+</div>
+
+<!-- Google Account Selection Modal -->
+<div class="modal fade" id="googleAccountModal" tabindex="-1" aria-labelledby="googleAccountModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="googleAccountModalLabel">
+                    <i class="fab fa-google text-danger me-2"></i>
+                    Choisir un compte Google
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="google-accounts-list">
+                    <div class="google-account-item" onclick="selectGoogleAccount('user1@gmail.com', 'John Doe')">
+                        <div class="account-avatar">
+                            <i class="fas fa-user-circle fa-2x text-primary"></i>
+                        </div>
+                        <div class="account-info">
+                            <div class="account-name">John Doe</div>
+                            <div class="account-email">user1@gmail.com</div>
+                        </div>
+                        <div class="account-check">
+                            <i class="fas fa-check-circle text-success"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="google-account-item" onclick="selectGoogleAccount('user2@gmail.com', 'Jane Smith')">
+                        <div class="account-avatar">
+                            <i class="fas fa-user-circle fa-2x text-success"></i>
+                        </div>
+                        <div class="account-info">
+                            <div class="account-name">Jane Smith</div>
+                            <div class="account-email">user2@gmail.com</div>
+                        </div>
+                        <div class="account-check">
+                            <i class="fas fa-check-circle text-success"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="google-account-item" onclick="selectGoogleAccount('yvan@gmail.com', 'Yvan Kouakou')">
+                        <div class="account-avatar">
+                            <i class="fas fa-user-circle fa-2x text-warning"></i>
+                        </div>
+                        <div class="account-info">
+                            <div class="account-name">Yvan Kouakou</div>
+                            <div class="account-email">yvan@gmail.com</div>
+                        </div>
+                        <div class="account-check">
+                            <i class="fas fa-check-circle text-success"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" onclick="confirmGoogleLogin()">
+                    <i class="fab fa-google me-2"></i>
+                    Se connecter
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block auth_js %}
+<script>
+let selectedGoogleAccount = null;
+
+// Google Sign In Functions
+function window.location.href='/accounts/google/login/?process=signup' {
+    // Simuler l'ouverture du modal de sélection Google
+    const modal = new bootstrap.Modal(document.getElementById('googleAccountModal'));
+    modal.show();
+}
+
+function selectGoogleAccount(email, name) {
+    // Désélectionner tous les comptes
+    document.querySelectorAll('.google-account-item').forEach(item => {
+        item.classList.remove('selected');
+    });
+    
+    // Sélectionner le compte cliqué
+    event.currentTarget.classList.add('selected');
+    selectedGoogleAccount = { email: email, name: name };
+    
+    // Mettre à jour le bouton de confirmation
+    const confirmBtn = document.querySelector('#googleAccountModal .btn-primary');
+    confirmBtn.disabled = false;
+    confirmBtn.innerHTML = `<i class="fab fa-google me-2"></i>Se connecter avec ${name}`;
+}
+
+function confirmGoogleLogin() {
+    if (selectedGoogleAccount) {
+        // Envoyer les données à notre API Django
+        const formData = new FormData();
+        formData.append('email', selectedGoogleAccount.email);
+        formData.append('name', selectedGoogleAccount.name);
+        formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+        
+        fetch('{% url "accounts:google_auth" %}', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Afficher le message de succès
+                alert(data.message);
+                
+                // Fermer le modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('googleAccountModal'));
+                modal.hide();
+                
+                // Rediriger vers la page d'accueil
+                window.location.href = data.redirect_url;
+            } else {
+                alert('Erreur: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert('Une erreur est survenue lors de la connexion Google.');
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Phone number formatting
+    const phoneInput = document.querySelector('input[name="phone_number"]');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            e.target.value = value;
+        });
+    }
+    
+    // Real-time validation
+    const emailInput = document.querySelector('input[name="email"]');
+    if (emailInput) {
+        emailInput.addEventListener('blur', function() {
+            const email = this.value;
+            if (email) {
+                fetch('{% url "accounts:check_email" %}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'email=' + encodeURIComponent(email)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.available) {
+                        this.classList.add('is-invalid');
+                        if (!this.nextElementSibling || !this.nextElementSibling.classList.contains('invalid-feedback')) {
+                            const feedback = document.createElement('div');
+                            feedback.className = 'invalid-feedback';
+                            feedback.textContent = 'Cette adresse email est déjà utilisée.';
+                            this.parentNode.appendChild(feedback);
+                        }
+                    } else {
+                        this.classList.remove('is-invalid');
+                        const feedback = this.parentNode.querySelector('.invalid-feedback');
+                        if (feedback) {
+                            feedback.remove();
+                        }
+                    }
+                });
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

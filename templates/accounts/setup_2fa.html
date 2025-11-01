@@ -1,0 +1,181 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% translate "Configuration 2FA" %} - KefyStore{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-primary text-white text-center py-4 rounded-top-3">
+                    <h3 class="mb-0">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        {% translate "Authentification à 2 facteurs" %}
+                    </h3>
+                    <p class="mb-0 mt-2">{% translate "Sécurisez votre compte avec une authentification renforcée" %}</p>
+                </div>
+                <div class="card-body p-4">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <div class="text-center mb-4">
+                        <i class="fas fa-lock fa-3x text-primary mb-3"></i>
+                        <h4>{% translate "Choisissez votre méthode d'authentification" %}</h4>
+                        <p class="text-muted">{% translate "Sélectionnez la méthode qui vous convient le mieux" %}</p>
+                    </div>
+
+                    <form method="post" id="2fa-setup-form">
+                        {% csrf_token %}
+                        
+                        <div class="row g-3">
+                            <!-- Authentificateur TOTP -->
+                            <div class="col-md-4">
+                                <div class="card h-100 method-card" data-method="totp">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-mobile-alt fa-2x text-primary mb-3"></i>
+                                        <h5>{% translate "Authentificateur" %}</h5>
+                                        <p class="small text-muted">{% translate "Google Authenticator, Authy, etc." %}</p>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="method" value="totp" id="method-totp" checked>
+                                            <label class="form-check-label" for="method-totp">
+                                                {% translate "Recommandé" %}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SMS -->
+                            <div class="col-md-4">
+                                <div class="card h-100 method-card" data-method="sms">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-sms fa-2x text-success mb-3"></i>
+                                        <h5>{% translate "SMS" %}</h5>
+                                        <p class="small text-muted">{% translate "Code envoyé par SMS" %}</p>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="method" value="sms" id="method-sms">
+                                            <label class="form-check-label" for="method-sms">
+                                                {% if user.phone_number %}
+                                                    {% translate "Disponible" %}
+                                                {% else %}
+                                                    {% translate "Téléphone requis" %}
+                                                {% endif %}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="col-md-4">
+                                <div class="card h-100 method-card" data-method="email">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-envelope fa-2x text-info mb-3"></i>
+                                        <h5>{% translate "Email" %}</h5>
+                                        <p class="small text-muted">{% translate "Code envoyé par email" %}</p>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="method" value="email" id="method-email">
+                                            <label class="form-check-label" for="method-email">
+                                                {% translate "Disponible" %}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-cog me-2"></i>
+                                {% translate "Configurer l'authentification" %}
+                            </button>
+                            <a href="{% url 'accounts:account_dashboard' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                {% translate "Retour" %}
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.method-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.method-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    border-color: var(--primary-color);
+}
+
+.method-card.selected {
+    border-color: var(--primary-color);
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.form-check-input:checked + .form-check-label {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #007bff, #0056b3) !important;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const methodCards = document.querySelectorAll('.method-card');
+    const radioInputs = document.querySelectorAll('input[name="method"]');
+    
+    methodCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const method = this.dataset.method;
+            const radio = document.getElementById('method-' + method);
+            
+            // Désélectionner toutes les cartes
+            methodCards.forEach(c => c.classList.remove('selected'));
+            
+            // Sélectionner la carte cliquée
+            this.classList.add('selected');
+            radio.checked = true;
+        });
+    });
+    
+    // Sélectionner la première carte par défaut
+    if (methodCards.length > 0) {
+        methodCards[0].classList.add('selected');
+    }
+    
+    // Gérer les changements de radio
+    radioInputs.forEach(radio => {
+        radio.addEventListener('change', function() {
+            methodCards.forEach(card => {
+                card.classList.remove('selected');
+                if (card.dataset.method === this.value) {
+                    card.classList.add('selected');
+                }
+            });
+        });
+    });
+});
+</script>
+{% endblock %}

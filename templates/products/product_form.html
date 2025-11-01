@@ -1,0 +1,620 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}{% if object %}Modifier{% else %}Créer{% endif %} un Produit - KefyStore{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-section {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .form-section-header {
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-section-header h5 {
+        color: #333;
+        font-weight: 600;
+        margin: 0;
+    }
+    
+    .form-section-header h5 i {
+        color: var(--primary-color);
+        margin-right: 0.5rem;
+    }
+    
+    .help-text {
+        color: #6c757d;
+        font-size: 0.875rem;
+        font-style: italic;
+    }
+    
+    #id_tags {
+        border: 1px solid #ced4da;
+        border-radius: 0.375rem;
+        background-color: white;
+        padding: 1rem;
+    }
+    
+    #id_tags li {
+        list-style: none;
+        margin-bottom: 0.5rem;
+    }
+    
+    #id_tags .form-check {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem;
+        border-radius: 0.375rem;
+        transition: background-color 0.2s ease;
+    }
+    
+    #id_tags .form-check:hover {
+        background-color: #f8f9fa;
+    }
+    
+    #id_tags .form-check-input:checked {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+    
+    #id_tags .form-check-label {
+        margin-left: 0.5rem;
+        cursor: pointer;
+        user-select: none;
+        font-size: 0.95rem;
+        color: #333;
+    }
+    
+    .preview-image {
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 8px;
+        border: 2px solid #e9ecef;
+        padding: 0.5rem;
+        margin-top: 1rem;
+    }
+    
+    .ckeditor-container {
+        border: 1px solid #ced4da;
+        border-radius: 0.375rem;
+    }
+    
+    .required-field {
+        color: #dc3545;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>
+                    <i class="fas fa-box me-2"></i>
+                    {% if object %}
+                        Modifier le Produit
+                    {% else %}
+                        Créer un Nouveau Produit
+                    {% endif %}
+                </h2>
+                <a href="{% url 'dashboard:vendor_products' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>
+                    Retour à mes produits
+                </a>
+            </div>
+
+            <!-- Formulaire -->
+            <form method="post" enctype="multipart/form-data" id="productForm">
+                {% csrf_token %}
+                
+                <!-- Informations de base -->
+                <div class="form-section">
+                    <div class="form-section-header">
+                        <h5><i class="fas fa-info-circle"></i>Informations de Base</h5>
+                    </div>
+                    
+                    <div class="row">
+                        <!-- Nom du produit -->
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                <label for="id_name" class="form-label">
+                                    Nom du Produit <span class="required-field">*</span>
+                                </label>
+                                {{ form.name }}
+                                {% if form.name.errors %}
+                                    <div class="text-danger">{{ form.name.errors }}</div>
+                                {% endif %}
+                                <small class="help-text">Nom descriptif et accrocheur pour votre produit</small>
+                            </div>
+                        </div>
+                        
+                        <!-- Catégorie -->
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="id_category" class="form-label">
+                                    Catégorie Principale <span class="required-field">*</span>
+                                </label>
+                                {{ form.category }}
+                                {% if form.category.errors %}
+                                    <div class="text-danger">{{ form.category.errors }}</div>
+                                {% endif %}
+                                <small class="help-text">Sélectionnez la catégorie principale du produit</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Description courte -->
+                    <div class="mb-3">
+                        <label for="id_short_description" class="form-label">
+                            Description Courte <span class="required-field">*</span>
+                        </label>
+                        {{ form.short_description }}
+                        {% if form.short_description.errors %}
+                            <div class="text-danger">{{ form.short_description.errors }}</div>
+                        {% endif %}
+                        <small class="help-text">Une courte description qui sera affichée dans les listes de produits (max 500 caractères)</small>
+                    </div>
+                    
+                    <!-- Description détaillée -->
+                    <div class="mb-3">
+                        <label for="id_description" class="form-label">
+                            Description Détaillée <span class="required-field">*</span>
+                        </label>
+                        <div class="ckeditor-container">
+                            {{ form.description }}
+                        </div>
+                        {% if form.description.errors %}
+                            <div class="text-danger">{{ form.description.errors }}</div>
+                        {% endif %}
+                        <small class="help-text">Description complète du produit avec formatage enrichi</small>
+                    </div>
+                    
+                    <!-- Tags -->
+                    <div class="mb-3">
+                        <label class="form-label">
+                            <i class="fas fa-tags me-2"></i>Étiquettes (Tags)
+                        </label>
+                        <div style="border: 1px solid #ced4da; border-radius: 0.375rem; background-color: white; padding: 1rem; max-height: 300px; overflow-y: auto;">
+                            <div class="row g-2">
+                                {% for tag in form.tags.field.queryset %}
+                                <div class="col-md-4 col-lg-3">
+                                    <div class="form-check">
+                                        <input type="checkbox" 
+                                               name="tags" 
+                                               value="{{ tag.id }}" 
+                                               id="tag_{{ tag.id }}" 
+                                               class="form-check-input">
+                                        <label class="form-check-label" for="tag_{{ tag.id }}" style="cursor: pointer;">
+                                            <span class="badge" style="background-color: {{ tag.color|default:'#007bff' }}; color: white; padding: 0.35rem 0.65rem; border-radius: 0.25rem; font-weight: 500;">
+                                                {{ tag.name }}
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <div class="col-12">
+                                    <p class="text-muted">Aucune étiquette disponible.</p>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% if form.tags.errors %}
+                            <div class="text-danger mt-2">
+                                <i class="fas fa-exclamation-triangle me-1"></i>
+                                {{ form.tags.errors }}
+                            </div>
+                        {% endif %}
+                        <small class="help-text d-block mt-2">
+                            <i class="fas fa-info-circle me-1 text-primary"></i>
+                            Sélectionnez les étiquettes qui correspondent à votre produit
+                        </small>
+                    </div>
+                </div>
+
+                <!-- Images -->
+                <div class="form-section">
+                    <div class="form-section-header">
+                        <h5><i class="fas fa-images"></i>Image du Produit</h5>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_main_image" class="form-label">Image Principale <span class="required-field">*</span></label>
+                        {{ form.main_image }}
+                        {% if form.main_image.errors %}
+                            <div class="text-danger">{{ form.main_image.errors }}</div>
+                        {% endif %}
+                        <small class="help-text">Image principale du produit (recommandé: 800x800px, max 5MB)</small>
+                        
+                        {% if object.main_image %}
+                            <div class="mt-3">
+                                <p class="text-muted mb-2">Image actuelle:</p>
+                                <img src="{{ object.main_image.url }}" alt="{{ object.name }}" class="preview-image">
+                                <p class="text-muted mt-2 small">Sélectionnez une nouvelle image pour la remplacer</p>
+                            </div>
+                        {% endif %}
+                        
+                        <div id="imagePreviewContainer" style="display: none;">
+                            <p class="text-success mt-2">Nouvelle image sélectionnée:</p>
+                            <img id="previewNewImage" src="" class="preview-image" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prix et Stock -->
+                <div class="form-section">
+                    <div class="form-section-header">
+                        <h5><i class="fas fa-dollar-sign"></i>Prix et Stock</h5>
+                    </div>
+                    
+                    <div class="row">
+                        <!-- Prix -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_price" class="form-label">
+                                    Prix de Vente (FCFA) <span class="required-field">*</span>
+                                </label>
+                                {{ form.price }}
+                                {% if form.price.errors %}
+                                    <div class="text-danger">{{ form.price.errors }}</div>
+                                {% endif %}
+                                <small class="help-text">Prix actuel du produit</small>
+                            </div>
+                        </div>
+                        
+                        <!-- Prix original (pour promotions) -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_original_price" class="form-label">
+                                    Prix Original (FCFA)
+                                </label>
+                                {{ form.original_price }}
+                                {% if form.original_price.errors %}
+                                    <div class="text-danger">{{ form.original_price.errors }}</div>
+                                {% endif %}
+                                <small class="help-text">Prix avant promotion (optionnel)</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <!-- Stock -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_stock" class="form-label">
+                                    Stock Disponible <span class="required-field">*</span>
+                                </label>
+                                {{ form.stock }}
+                                {% if form.stock.errors %}
+                                    <div class="text-danger">{{ form.stock.errors }}</div>
+                                {% endif %}
+                                <small class="help-text">Quantité en stock</small>
+                            </div>
+                        </div>
+                        
+                        <!-- Stock minimum -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_min_stock" class="form-label">
+                                    Stock Minimum
+                                </label>
+                                {{ form.min_stock }}
+                                {% if form.min_stock.errors %}
+                                    <div class="text-danger">{{ form.min_stock.errors }}</div>
+                                {% endif %}
+                                <small class="help-text">Seuil d'alerte de stock faible (par défaut: 5)</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Promotion -->
+                <div class="form-section">
+                    <div class="form-section-header">
+                        <h5><i class="fas fa-tags"></i>Promotion</h5>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            {{ form.is_on_sale }}
+                            <label class="form-check-label" for="id_is_on_sale">
+                                Activer la promotion
+                            </label>
+                        </div>
+                        <small class="help-text">Cochez pour mettre ce produit en promotion</small>
+                    </div>
+                    
+                    <div id="promotionFields" style="display: none;">
+                        <div class="row">
+                            <!-- Début promotion -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="id_sale_start_date" class="form-label">
+                                        Date de Début de Promotion
+                                    </label>
+                                    {{ form.sale_start_date }}
+                                    {% if form.sale_start_date.errors %}
+                                        <div class="text-danger">{{ form.sale_start_date.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <!-- Fin promotion -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="id_sale_end_date" class="form-label">
+                                        Date de Fin de Promotion
+                                    </label>
+                                    {{ form.sale_end_date }}
+                                    {% if form.sale_end_date.errors %}
+                                        <div class="text-danger">{{ form.sale_end_date.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <!-- Pourcentage de réduction -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="id_discount_percentage" class="form-label">
+                                        Pourcentage de Réduction (%)
+                                    </label>
+                                    {{ form.discount_percentage }}
+                                    {% if form.discount_percentage.errors %}
+                                        <div class="text-danger">{{ form.discount_percentage.errors }}</div>
+                                    {% endif %}
+                                    <small class="help-text">Exemple: 20 pour 20% de réduction</small>
+                                </div>
+                            </div>
+                            
+                            <!-- Prix de comparaison -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="id_compare_price" class="form-label">
+                                        Prix de Comparaison (FCFA)
+                                    </label>
+                                    {{ form.compare_price }}
+                                    {% if form.compare_price.errors %}
+                                        <div class="text-danger">{{ form.compare_price.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Options Avancées -->
+                <div class="form-section">
+                    <div class="form-section-header">
+                        <h5><i class="fas fa-cog"></i>Options Avancées</h5>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_status" class="form-label">
+                                    Statut <span class="required-field">*</span>
+                                </label>
+                                {{ form.status }}
+                                {% if form.status.errors %}
+                                    <div class="text-danger">{{ form.status.errors }}</div>
+                                {% endif %}
+                                <small class="help-text">
+                                    <strong>Brouillon:</strong> non visible | 
+                                    <strong>Publié:</strong> visible sur le site | 
+                                    <strong>Archivé:</strong> masqué du site
+                                </small>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_scheduled_publish_at" class="form-label">
+                                    <i class="fas fa-calendar-alt me-1"></i>Publication programmée
+                                </label>
+                                {{ form.scheduled_publish_at }}
+                                {% if form.scheduled_publish_at.errors %}
+                                    <div class="text-danger">{{ form.scheduled_publish_at.errors }}</div>
+                                {% endif %}
+                                <small class="help-text">
+                                    Définissez une date/heure pour publier automatiquement ce produit. 
+                                    Le produit restera en brouillon jusqu'à cette date.
+                                </small>
+                                {% if object and object.scheduled_publish_at %}
+                                    <div class="alert alert-info mt-2 mb-0">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Publication programmée le {{ object.scheduled_publish_at|date:"d/m/Y à H:i" }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_is_digital" class="form-label">
+                                    Type de Produit
+                                </label>
+                                <div class="form-check form-switch">
+                                    {{ form.is_digital }}
+                                    <label class="form-check-label" for="id_is_digital">
+                                        Produit Numérique
+                                    </label>
+                                </div>
+                                <small class="help-text">Cochez si c'est un produit téléchargeable (pas de livraison nécessaire)</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check form-switch">
+                            {{ form.is_featured }}
+                            <label class="form-check-label" for="id_is_featured">
+                                Produit Vedette
+                            </label>
+                        </div>
+                        <small class="help-text">Mettre en avant ce produit sur la page d'accueil (recommandé: vos meilleurs produits)</small>
+                    </div>
+                </div>
+
+                <!-- Boutons d'action -->
+                <div class="d-flex justify-content-between align-items-center mt-4 mb-5">
+                    <a href="{% url 'dashboard:vendor_products' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-times me-2"></i>
+                        Annuler
+                    </a>
+                    
+                    <div>
+                        {% if object %}
+                            <button type="submit" name="save_draft" class="btn btn-outline-warning me-2">
+                                <i class="fas fa-save me-2"></i>
+                                Enregistrer comme Brouillon
+                            </button>
+                            <button type="submit" name="save_archived" class="btn btn-outline-secondary me-2">
+                                <i class="fas fa-archive me-2"></i>
+                                Archiver
+                            </button>
+                        {% endif %}
+                        <button type="submit" name="save_publish" class="btn btn-primary">
+                            <i class="fas fa-rocket me-2"></i>
+                            {% if object %}
+                                {% if object.scheduled_publish_at %}
+                                    Programmer la Publication
+                                {% else %}
+                                    Publier Maintenant
+                                {% endif %}
+                            {% else %}
+                                Créer et Publier
+                            {% endif %}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Afficher/masquer les champs de promotion
+document.addEventListener('DOMContentLoaded', function() {
+    // Pré-cocher les tags existants pour un produit en édition
+    {% if object %}
+    const existingTagIds = [{% for tag in object.tags.all %}{{ tag.id }}{% if not forloop.last %}, {% endif %}{% endfor %}];
+    console.log('Tags existants:', existingTagIds);
+    existingTagIds.forEach(tagId => {
+        const checkbox = document.getElementById('tag_' + tagId);
+        if (checkbox) {
+            checkbox.checked = true;
+        }
+    });
+    {% endif %}
+    
+    // Compter les tags disponibles
+    const tagCheckboxes = document.querySelectorAll('input[name="tags"]');
+    console.log('Nombre de tags disponibles:', tagCheckboxes.length);
+    
+    const isOnSale = document.getElementById('id_is_on_sale');
+    const promotionFields = document.getElementById('promotionFields');
+    
+    if (isOnSale) {
+        // État initial
+        if (isOnSale.checked) {
+            promotionFields.style.display = 'block';
+        }
+        
+        // Changer l'état
+        isOnSale.addEventListener('change', function() {
+            if (this.checked) {
+                promotionFields.style.display = 'block';
+                promotionFields.style.animation = 'fadeIn 0.3s';
+            } else {
+                promotionFields.style.display = 'none';
+            }
+        });
+    }
+    
+    // Prévisualisation de l'image
+    const mainImageInput = document.getElementById('id_main_image');
+    if (mainImageInput) {
+        mainImageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Vérifier la taille (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('L\'image est trop grande. Taille maximum: 5MB');
+                    this.value = '';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewContainer = document.getElementById('imagePreviewContainer');
+                    const previewImg = document.getElementById('previewNewImage');
+                    
+                    if (previewContainer && previewImg) {
+                        previewImg.src = e.target.result;
+                        previewImg.style.display = 'block';
+                        previewContainer.style.display = 'block';
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+    
+    // Validation du formulaire
+    const productForm = document.getElementById('productForm');
+    if (productForm) {
+        productForm.addEventListener('submit', function(e) {
+            // Vérifier que les champs requis sont remplis
+            const name = document.getElementById('id_name').value;
+            const price = document.getElementById('id_price').value;
+            const stock = document.getElementById('id_stock').value;
+            const category = document.getElementById('id_category').value;
+            const mainImage = document.getElementById('id_main_image').files[0];
+            
+            if (!name || !price || !stock || !category) {
+                e.preventDefault();
+                alert('Veuillez remplir tous les champs obligatoires (marqués d\'un *)');
+                return false;
+            }
+            
+            // Vérifier l'image si création d'un nouveau produit
+            {% if not object %}
+            if (!mainImage) {
+                e.preventDefault();
+                alert('Veuillez sélectionner une image pour le produit');
+                return false;
+            }
+            {% endif %}
+            
+            return true;
+        });
+    }
+});
+
+// Animation fadeIn
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}
+

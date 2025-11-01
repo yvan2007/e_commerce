@@ -1,0 +1,264 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}{{ title }} - KefyStore{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="fw-bold">
+                    <i class="fas fa-user-{% if action == 'create' %}plus{% else %}edit{% endif %} me-2"></i>
+                    {{ title }}
+                </h2>
+                <a href="{% url 'dashboard:admin_users' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Retour à la liste
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Informations de l'utilisateur
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endif %}
+
+                    <form method="post" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        
+                        <h6 class="text-primary mb-3"><i class="fas fa-user me-2"></i>Informations de connexion</h6>
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.username.id_for_label }}" class="form-label">
+                                    Nom d'utilisateur <span class="text-danger">*</span>
+                                </label>
+                                {{ form.username }}
+                                {% if form.username.errors %}
+                                    <div class="text-danger small">{{ form.username.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.email.id_for_label }}" class="form-label">
+                                    Email <span class="text-danger">*</span>
+                                </label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    <div class="text-danger small">{{ form.email.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if action == 'create' %}
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.password1.id_for_label }}" class="form-label">
+                                        Mot de passe <span class="text-danger">*</span>
+                                    </label>
+                                    {{ form.password1 }}
+                                    {% if form.password1.errors %}
+                                        <div class="text-danger small">{{ form.password1.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.password2.id_for_label }}" class="form-label">
+                                        Confirmer le mot de passe <span class="text-danger">*</span>
+                                    </label>
+                                    {{ form.password2 }}
+                                    {% if form.password2.errors %}
+                                        <div class="text-danger small">{{ form.password2.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <hr class="my-4">
+                        <h6 class="text-primary mb-3"><i class="fas fa-id-card me-2"></i>Informations personnelles</h6>
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.first_name.id_for_label }}" class="form-label">
+                                    Prénom <span class="text-danger">*</span>
+                                </label>
+                                {{ form.first_name }}
+                                {% if form.first_name.errors %}
+                                    <div class="text-danger small">{{ form.first_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.last_name.id_for_label }}" class="form-label">
+                                    Nom <span class="text-danger">*</span>
+                                </label>
+                                {{ form.last_name }}
+                                {% if form.last_name.errors %}
+                                    <div class="text-danger small">{{ form.last_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.phone_number.id_for_label }}" class="form-label">
+                                    Téléphone
+                                </label>
+                                <div class="input-group">
+                                    {{ form.country_code }}
+                                    {{ form.phone_number }}
+                                </div>
+                                {% if form.phone_number.errors %}
+                                    <div class="text-danger small">{{ form.phone_number.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.date_of_birth.id_for_label }}" class="form-label">
+                                    Date de naissance
+                                </label>
+                                {{ form.date_of_birth }}
+                                {% if form.date_of_birth.errors %}
+                                    <div class="text-danger small">{{ form.date_of_birth.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.profile_picture.id_for_label }}" class="form-label">
+                                    Photo de profil
+                                </label>
+                                {{ form.profile_picture }}
+                                {% if form.profile_picture.errors %}
+                                    <div class="text-danger small">{{ form.profile_picture.errors.0 }}</div>
+                                {% endif %}
+                                {% if user and user.profile_picture %}
+                                    <div class="mt-2">
+                                        <img src="{{ user.profile_picture.url }}" alt="Photo actuelle" 
+                                             class="img-thumbnail" style="max-width: 150px;">
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            {% if action == 'create' %}
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_user_type" class="form-label">
+                                        Type d'utilisateur <span class="text-danger">*</span>
+                                    </label>
+                                    <select name="user_type" id="id_user_type" class="form-select" required>
+                                        <option value="client">Client</option>
+                                        <option value="vendeur">Vendeur</option>
+                                        <option value="admin">Administrateur</option>
+                                    </select>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <hr class="my-4">
+                        <h6 class="text-primary mb-3"><i class="fas fa-map-marker-alt me-2"></i>Adresse</h6>
+                        <div class="mb-3">
+                            <label for="{{ form.address.id_for_label }}" class="form-label">
+                                Adresse complète
+                            </label>
+                            {{ form.address }}
+                            {% if form.address.errors %}
+                                <div class="text-danger small">{{ form.address.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.city.id_for_label }}" class="form-label">
+                                    Ville
+                                </label>
+                                {{ form.city }}
+                                {% if form.city.errors %}
+                                    <div class="text-danger small">{{ form.city.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.postal_code.id_for_label }}" class="form-label">
+                                    Code postal
+                                </label>
+                                {{ form.postal_code }}
+                                {% if form.postal_code.errors %}
+                                    <div class="text-danger small">{{ form.postal_code.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if action == 'edit' %}
+                            <hr class="my-4">
+                            <h6 class="text-primary mb-3"><i class="fas fa-cog me-2"></i>Paramètres du compte</h6>
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_user_type_edit" class="form-label">
+                                        Type d'utilisateur <span class="text-danger">*</span>
+                                    </label>
+                                    <select name="user_type" id="id_user_type_edit" class="form-select" required>
+                                        <option value="client" {% if user.user_type == 'client' %}selected{% endif %}>Client</option>
+                                        <option value="vendeur" {% if user.user_type == 'vendeur' %}selected{% endif %}>Vendeur</option>
+                                        <option value="admin" {% if user.user_type == 'admin' %}selected{% endif %}>Administrateur</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label d-block">Statut du compte</label>
+                                    <div class="form-check">
+                                        <input type="checkbox" name="is_active" id="id_is_active" 
+                                               class="form-check-input" {% if user.is_active %}checked{% endif %}>
+                                        <label class="form-check-label" for="id_is_active">
+                                            Compte actif
+                                        </label>
+                                    </div>
+                                    <div class="form-check mt-2">
+                                        <input type="checkbox" name="is_staff" id="id_is_staff" 
+                                               class="form-check-input" {% if user.is_staff %}checked{% endif %}>
+                                        <label class="form-check-label" for="id_is_staff">
+                                            Accès administrateur
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{% url 'dashboard:admin_users' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-times me-2"></i>Annuler
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Enregistrer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

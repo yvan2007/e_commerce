@@ -1,0 +1,251 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Tableau de Bord Analytics{% endblock %}
+
+{% block extra_css %}
+<!-- Plotly.js pour les graphiques -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<style>
+    .metric-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    .metric-card h3 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin: 0;
+    }
+    .metric-card p {
+        margin: 5px 0 0 0;
+        opacity: 0.9;
+    }
+    .chart-container {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .period-selector {
+        background: white;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <!-- En-tête avec sélecteur de période -->
+    <div class="row">
+        <div class="col-12">
+            <div class="period-selector">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2><i class="fas fa-chart-line"></i> Tableau de Bord Analytics</h2>
+                    <div class="btn-group" role="group">
+                        <a href="?period=7d" class="btn btn-outline-primary {% if period == '7d' %}active{% endif %}">7 jours</a>
+                        <a href="?period=30d" class="btn btn-outline-primary {% if period == '30d' %}active{% endif %}">30 jours</a>
+                        <a href="?period=90d" class="btn btn-outline-primary {% if period == '90d' %}active{% endif %}">90 jours</a>
+                        <a href="?period=1y" class="btn btn-outline-primary {% if period == '1y' %}active{% endif %}">1 an</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Métriques principales -->
+    <div class="row">
+        <div class="col-lg-3 col-md-6">
+            <div class="metric-card">
+                <h3>{{ total_orders|floatformat:0 }}</h3>
+                <p><i class="fas fa-shopping-cart"></i> Commandes</p>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="metric-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <h3>{{ total_revenue|floatformat:0 }} XOF</h3>
+                <p><i class="fas fa-money-bill-wave"></i> Chiffre d'Affaires</p>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="metric-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                <h3>{{ total_customers|floatformat:0 }}</h3>
+                <p><i class="fas fa-users"></i> Nouveaux Clients</p>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="metric-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                <h3>{{ avg_order_value|floatformat:0 }} XOF</h3>
+                <p><i class="fas fa-chart-bar"></i> Panier Moyen</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graphiques -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="chart-container">
+                <h4><i class="fas fa-chart-line"></i> Évolution des Ventes</h4>
+                {% if sales_chart %}
+                    <div id="sales-chart"></div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-chart-line fa-3x text-muted"></i>
+                        <p class="text-muted mt-3">Aucune donnée de vente disponible</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="chart-container">
+                <h4><i class="fas fa-shopping-bag"></i> Commandes par Jour</h4>
+                {% if orders_chart %}
+                    <div id="orders-chart"></div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-shopping-bag fa-3x text-muted"></i>
+                        <p class="text-muted mt-3">Aucune donnée de commande disponible</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="chart-container">
+                <h4><i class="fas fa-users"></i> Nouveaux Clients</h4>
+                {% if customers_chart %}
+                    <div id="customers-chart"></div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-users fa-3x text-muted"></i>
+                        <p class="text-muted mt-3">Aucune donnée client disponible</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="chart-container">
+                <h4><i class="fas fa-box"></i> Top Produits</h4>
+                {% if products_chart %}
+                    <div id="products-chart"></div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-box fa-3x text-muted"></i>
+                        <p class="text-muted mt-3">Aucune donnée produit disponible</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="chart-container">
+                <h4><i class="fas fa-tags"></i> Répartition par Catégorie</h4>
+                {% if categories_chart %}
+                    <div id="categories-chart"></div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-tags fa-3x text-muted"></i>
+                        <p class="text-muted mt-3">Aucune donnée de catégorie disponible</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions rapides -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5><i class="fas fa-bolt"></i> Actions Rapides</h5>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <a href="{% url 'analytics:sales_report' %}" class="btn btn-outline-primary btn-block">
+                                <i class="fas fa-file-alt"></i> Rapport de Ventes
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{% url 'analytics:customer_analytics' %}" class="btn btn-outline-info btn-block">
+                                <i class="fas fa-user-chart"></i> Analytics Clients
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{% url 'analytics:product_analytics' %}" class="btn btn-outline-success btn-block">
+                                <i class="fas fa-chart-pie"></i> Analytics Produits
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{% url 'analytics:export_csv' 'sales' %}" class="btn btn-outline-warning btn-block">
+                                <i class="fas fa-download"></i> Exporter CSV
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Graphique des ventes
+    {% if sales_chart %}
+    var salesData = {{ sales_chart|safe }};
+    Plotly.newPlot('sales-chart', salesData.data, salesData.layout, {responsive: true});
+    {% endif %}
+
+    // Graphique des commandes
+    {% if orders_chart %}
+    var ordersData = {{ orders_chart|safe }};
+    Plotly.newPlot('orders-chart', ordersData.data, ordersData.layout, {responsive: true});
+    {% endif %}
+
+    // Graphique des clients
+    {% if customers_chart %}
+    var customersData = {{ customers_chart|safe }};
+    Plotly.newPlot('customers-chart', customersData.data, customersData.layout, {responsive: true});
+    {% endif %}
+
+    // Graphique des produits
+    {% if products_chart %}
+    var productsData = {{ products_chart|safe }};
+    Plotly.newPlot('products-chart', productsData.data, productsData.layout, {responsive: true});
+    {% endif %}
+
+    // Graphique des catégories
+    {% if categories_chart %}
+    var categoriesData = {{ categories_chart|safe }};
+    Plotly.newPlot('categories-chart', categoriesData.data, categoriesData.layout, {responsive: true});
+    {% endif %}
+
+    // Redimensionner les graphiques lors du redimensionnement de la fenêtre
+    window.addEventListener('resize', function() {
+        {% if sales_chart %}
+        Plotly.Plots.resize('sales-chart');
+        {% endif %}
+        {% if orders_chart %}
+        Plotly.Plots.resize('orders-chart');
+        {% endif %}
+        {% if customers_chart %}
+        Plotly.Plots.resize('customers-chart');
+        {% endif %}
+        {% if products_chart %}
+        Plotly.Plots.resize('products-chart');
+        {% endif %}
+        {% if categories_chart %}
+        Plotly.Plots.resize('categories-chart');
+        {% endif %}
+    });
+</script>
+{% endblock %}

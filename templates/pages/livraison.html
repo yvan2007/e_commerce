@@ -1,0 +1,202 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Livraison - KefyStore{% endblock %}
+
+{% block extra_css %}
+<style>
+    .delivery-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 4rem 0;
+        color: white;
+        text-align: center;
+    }
+    
+    .delivery-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+    }
+    
+    .delivery-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    }
+    
+    .delivery-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: white;
+        margin: 0 auto 1.5rem;
+    }
+    
+    .delivery-step {
+        display: flex;
+        align-items: start;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: #f8f9fa;
+        border-radius: 10px;
+    }
+    
+    .delivery-step-number {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.25rem;
+        flex-shrink: 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="delivery-hero">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">Livraison gratuite</h1>
+        <p class="lead">Nous livrons partout en Côte d'Ivoire</p>
+    </div>
+</section>
+
+<!-- Delivery Content -->
+<div class="container my-5">
+    <!-- Delivery Methods -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-6 col-lg-4">
+            <div class="delivery-card">
+                <div class="delivery-icon">
+                    <i class="fas fa-truck-fast"></i>
+                </div>
+                <h4 class="fw-bold mb-3">Livraison Express</h4>
+                <p class="text-muted mb-3">Réception en 24h à Abidjan</p>
+                <p class="h5 text-primary fw-bold">15,000 FCFA</p>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-4">
+            <div class="delivery-card">
+                <div class="delivery-icon">
+                    <i class="fas fa-shipping-fast"></i>
+                </div>
+                <h4 class="fw-bold mb-3">Livraison Standard</h4>
+                <p class="text-muted mb-3">Réception en 2-3 jours</p>
+                <p class="h5 text-primary fw-bold">10,000 FCFA</p>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-4">
+            <div class="delivery-card">
+                <div class="delivery-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <h4 class="fw-bold mb-3">Livraison Gratuite</h4>
+                <p class="text-muted mb-3">Commande de 100,000 FCFA minimum</p>
+                <p class="h5 text-success fw-bold">GRATUIT</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delivery Process -->
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <h2 class="fw-bold mb-4 text-center">Comment ça fonctionne ?</h2>
+            
+            <div class="delivery-step">
+                <div class="delivery-step-number">1</div>
+                <div>
+                    <h5 class="fw-bold">Passez votre commande</h5>
+                    <p class="text-muted mb-0">Choisissez vos produits et validez votre commande avec paiement sécurisé.</p>
+                </div>
+            </div>
+            
+            <div class="delivery-step">
+                <div class="delivery-step-number">2</div>
+                <div>
+                    <h5 class="fw-bold">Confirmation de commande</h5>
+                    <p class="text-muted mb-0">Vous recevez un email de confirmation et votre numéro de suivi.</p>
+                </div>
+            </div>
+            
+            <div class="delivery-step">
+                <div class="delivery-step-number">3</div>
+                <div>
+                    <h5 class="fw-bold">Préparation</h5>
+                    <p class="text-muted mb-0">Nous préparons votre commande avec soin (24h ouvrables).</p>
+                </div>
+            </div>
+            
+            <div class="delivery-step">
+                <div class="delivery-step-number">4</div>
+                <div>
+                    <h5 class="fw-bold">Livraison</h5>
+                    <p class="text-muted mb-0">Le livreur se rendra à votre adresse avec votre commande.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delivery Zones -->
+    <div class="row mt-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h3 class="fw-bold mb-4 text-center">Zones de livraison</h3>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <h6 class="fw-bold text-primary">Abidjan</h6>
+                            <ul class="list-unstyled text-muted">
+                                <li>✓ Cocody</li>
+                                <li>✓ Marcory</li>
+                                <li>✓ Yopougon</li>
+                                <li>✓ Abobo</li>
+                                <li>✓ Adjame</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-bold text-primary">Autres villes</h6>
+                            <ul class="list-unstyled text-muted">
+                                <li>✓ Bouaké</li>
+                                <li>✓ Daloa</li>
+                                <li>✓ Korhogo</li>
+                                <li>✓ San-Pedro</li>
+                                <li>✓ Gagnoa</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contact Support -->
+    <div class="row mt-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="alert alert-info border-0 text-center" role="alert">
+                <h5 class="alert-heading fw-bold">Besoin d'aide ?</h5>
+                <p class="mb-3">Pour toute question sur la livraison, contactez-nous :</p>
+                <p class="mb-0">
+                    <i class="fas fa-phone me-2"></i> +225 00 00 00 00<br>
+                    <i class="fas fa-envelope me-2"></i> contact@kefystore.com
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,31 @@
+{% load static %}
+<!-- Page Loader Personnalisé KefyStore -->
+<div class="page-loader" id="page-loader" style="display: flex; opacity: 1; visibility: visible;">
+  <div class="kefy-loader-content">
+    <div class="kefy-icon">
+      <i class="fas fa-store"></i>
+    </div>
+    <div class="kefystore-logo">KefyStore</div>
+    <div class="kefy-loading-dots">
+      <div class="kefy-dot"></div>
+      <div class="kefy-dot"></div>
+      <div class="kefy-dot"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Loading Overlay pour actions spécifiques -->
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-content">
+    <div class="loading-icon">
+      <svg viewBox="0 0 50 50">
+        <circle cx="25" cy="25" r="20" fill="none" stroke="#667eea" stroke-width="4" stroke-dasharray="31.416" stroke-dashoffset="31.416">
+          <animate attributeName="stroke-dashoffset" values="31.416;0" dur="1s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="1;0" dur="1s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+    </div>
+    <div class="loading-title" id="loading-title">Traitement en cours</div>
+    <div class="loading-text" id="loading-text">Veuillez patienter...</div>
+  </div>
+</div>

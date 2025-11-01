@@ -1,0 +1,472 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Vérification de Sécurité{% endblock %}
+
+{% block extra_css %}
+<style>
+.captcha-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.captcha-content {
+    background: white;
+    border-radius: 15px;
+    padding: 3rem;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    animation: captchaSlideIn 0.5s ease-out;
+}
+
+@keyframes captchaSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.captcha-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.captcha-icon.verify {
+    color: #007bff;
+}
+
+.captcha-icon.error {
+    color: #dc3545;
+}
+
+.captcha-icon.success {
+    color: #28a745;
+}
+
+.captcha-title {
+    color: #333;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.captcha-question {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    border-left: 4px solid #007bff;
+}
+
+.captcha-question h3 {
+    margin: 0 0 1rem 0;
+    color: #333;
+    font-size: 1.2rem;
+}
+
+.captcha-question p {
+    margin: 0;
+    color: #666;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.captcha-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.captcha-option {
+    padding: 1rem;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.captcha-option:hover {
+    border-color: #007bff;
+    background-color: #f8f9fa;
+}
+
+.captcha-option.selected {
+    border-color: #007bff;
+    background-color: #e3f2fd;
+}
+
+.captcha-option input {
+    margin-right: 0.5rem;
+}
+
+.captcha-option label {
+    cursor: pointer;
+    margin: 0;
+    font-weight: 500;
+}
+
+.captcha-form {
+    margin-bottom: 2rem;
+}
+
+.captcha-form .form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.captcha-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.captcha-form input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.captcha-form input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.captcha-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.captcha-btn {
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.captcha-btn.verify {
+    background-color: #007bff;
+    color: white;
+}
+
+.captcha-btn.verify:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.captcha-btn.verify:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.captcha-btn.refresh {
+    background-color: #6c757d;
+    color: white;
+}
+
+.captcha-btn.refresh:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+}
+
+.captcha-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 0.75rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    display: none;
+}
+
+.captcha-success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 0.75rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    display: none;
+}
+
+.captcha-attempts {
+    color: #dc3545;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 600px) {
+    .captcha-content {
+        padding: 2rem;
+        margin: 1rem;
+    }
+    
+    .captcha-buttons {
+        flex-direction: column;
+    }
+    
+    .captcha-btn {
+        width: 100%;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="captcha-container" id="captchaContainer">
+    <div class="captcha-content">
+        <div class="captcha-icon verify">🔒</div>
+        <h1 class="captcha-title">Vérification de Sécurité</h1>
+        <p>Veuillez résoudre ce défi pour continuer :</p>
+        
+        <div class="captcha-error" id="captchaError">
+            <strong>Erreur :</strong> <span id="captchaErrorMessage"></span>
+        </div>
+        
+        <div class="captcha-success" id="captchaSuccess">
+            <strong>Succès :</strong> Vérification réussie !
+        </div>
+        
+        <div class="captcha-attempts" id="captchaAttempts" style="display: none;">
+            Tentatives restantes : <span id="attemptsCount">3</span>
+        </div>
+        
+        <div class="captcha-question" id="captchaQuestion">
+            <h3>Question :</h3>
+            <p id="questionText">Chargement...</p>
+        </div>
+        
+        <div class="captcha-options" id="captchaOptions" style="display: none;">
+            <!-- Les options seront générées dynamiquement -->
+        </div>
+        
+        <form class="captcha-form" id="captchaForm" style="display: none;">
+            <div class="form-group">
+                <label for="captchaAnswer">Votre réponse :</label>
+                <input type="text" id="captchaAnswer" name="answer" placeholder="Entrez votre réponse" required>
+            </div>
+        </form>
+        
+        <div class="captcha-buttons">
+            <button type="button" class="captcha-btn verify" id="verifyCaptchaBtn" onclick="verifyCaptcha()" disabled>
+                Vérifier
+            </button>
+            <button type="button" class="captcha-btn refresh" onclick="refreshCaptcha()">
+                Nouveau défi
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let currentSessionId = null;
+let currentChallengeType = null;
+let attempts = 0;
+const maxAttempts = 3;
+
+document.addEventListener('DOMContentLoaded', function() {
+    generateCaptcha();
+});
+
+function generateCaptcha() {
+    const verifyBtn = document.getElementById('verifyCaptchaBtn');
+    const questionDiv = document.getElementById('captchaQuestion');
+    const optionsDiv = document.getElementById('captchaOptions');
+    const formDiv = document.getElementById('captchaForm');
+    const attemptsDiv = document.getElementById('captchaAttempts');
+    
+    // Réinitialiser l'interface
+    verifyBtn.disabled = true;
+    verifyBtn.textContent = 'Vérifier';
+    hideMessages();
+    attemptsDiv.style.display = 'none';
+    
+    fetch('{% url "popups:generate_captcha" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            currentSessionId = data.data.session_id;
+            currentChallengeType = data.data.challenge_type;
+            
+            // Afficher la question
+            document.getElementById('questionText').textContent = data.data.question;
+            
+            // Afficher l'interface selon le type de défi
+            if (data.data.challenge_type === 'image' || data.data.challenge_type === 'checkbox') {
+                // Défi à choix multiples
+                showOptions(data.data.options);
+                optionsDiv.style.display = 'grid';
+                formDiv.style.display = 'none';
+            } else {
+                // Défi de saisie de texte
+                optionsDiv.style.display = 'none';
+                formDiv.style.display = 'block';
+                document.getElementById('captchaAnswer').value = '';
+            }
+            
+            verifyBtn.disabled = false;
+        } else {
+            showError(data.message || 'Erreur lors de la génération du captcha.');
+        }
+    })
+    .catch(error => {
+        console.error('Erreur lors de la génération du captcha:', error);
+        showError('Une erreur est survenue. Veuillez réessayer.');
+    });
+}
+
+function showOptions(options) {
+    const optionsDiv = document.getElementById('captchaOptions');
+    optionsDiv.innerHTML = '';
+    
+    options.forEach((option, index) => {
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'captcha-option';
+        optionDiv.innerHTML = `
+            <input type="radio" name="captchaOption" value="${option}" id="option${index}">
+            <label for="option${index}">${option}</label>
+        `;
+        
+        optionDiv.addEventListener('click', function() {
+            // Désélectionner toutes les autres options
+            document.querySelectorAll('.captcha-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            // Sélectionner cette option
+            this.classList.add('selected');
+            this.querySelector('input').checked = true;
+        });
+        
+        optionsDiv.appendChild(optionDiv);
+    });
+}
+
+function verifyCaptcha() {
+    const verifyBtn = document.getElementById('verifyCaptchaBtn');
+    const answer = getAnswer();
+    
+    if (!answer) {
+        showError('Veuillez entrer une réponse.');
+        return;
+    }
+    
+    verifyBtn.disabled = true;
+    verifyBtn.textContent = 'Vérification...';
+    
+    fetch('{% url "popups:verify_captcha" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+            session_id: currentSessionId,
+            answer: answer
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success' && data.is_solved) {
+            showSuccess();
+            // Rediriger vers la page d'accueil après 2 secondes
+            setTimeout(function() {
+                window.location.href = '{% url "products:home_page" %}';
+            }, 2000);
+        } else {
+            attempts++;
+            showError(data.message || 'Réponse incorrecte.');
+            
+            if (attempts >= maxAttempts) {
+                showError('Trop de tentatives. Veuillez réessayer plus tard.');
+                verifyBtn.disabled = true;
+                return;
+            }
+            
+            // Afficher le nombre de tentatives restantes
+            const attemptsDiv = document.getElementById('captchaAttempts');
+            const attemptsCount = document.getElementById('attemptsCount');
+            attemptsDiv.style.display = 'block';
+            attemptsCount.textContent = maxAttempts - attempts;
+        }
+    })
+    .catch(error => {
+        console.error('Erreur lors de la vérification du captcha:', error);
+        showError('Une erreur est survenue. Veuillez réessayer.');
+    })
+    .finally(function() {
+        verifyBtn.disabled = false;
+        verifyBtn.textContent = 'Vérifier';
+    });
+}
+
+function getAnswer() {
+    if (currentChallengeType === 'image' || currentChallengeType === 'checkbox') {
+        const selectedOption = document.querySelector('input[name="captchaOption"]:checked');
+        return selectedOption ? selectedOption.value : null;
+    } else {
+        return document.getElementById('captchaAnswer').value;
+    }
+}
+
+function refreshCaptcha() {
+    attempts = 0;
+    generateCaptcha();
+}
+
+function showError(message) {
+    const errorDiv = document.getElementById('captchaError');
+    const errorMessage = document.getElementById('captchaErrorMessage');
+    
+    errorMessage.textContent = message;
+    errorDiv.style.display = 'block';
+    
+    // Masquer le message après 5 secondes
+    setTimeout(function() {
+        errorDiv.style.display = 'none';
+    }, 5000);
+}
+
+function showSuccess() {
+    const successDiv = document.getElementById('captchaSuccess');
+    successDiv.style.display = 'block';
+}
+
+function hideMessages() {
+    document.getElementById('captchaError').style.display = 'none';
+    document.getElementById('captchaSuccess').style.display = 'none';
+}
+</script>
+{% endblock %}

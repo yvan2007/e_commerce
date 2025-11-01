@@ -1,0 +1,283 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Paiement {{ order.order_number }} - KefyStore{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Résumé de la commande -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-shopping-cart me-2"></i>
+                        Résumé de la commande #{{ order.order_number }}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Date :</strong> {{ order.created_at|date:"d/m/Y à H:i" }}</p>
+                            <p><strong>Statut :</strong> 
+                                <span class="badge bg-warning">{{ order.get_status_display }}</span>
+                            </p>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <p><strong>Total :</strong> 
+                                <span class="h5 text-primary">{{ order.total_amount|floatformat:0 }} FCFA</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Formulaire de paiement -->
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-mobile-alt me-2"></i>
+                        Paiement Mobile Money
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" id="paymentForm">
+                        {% csrf_token %}
+                        
+                        <!-- Sélection du provider -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Choisissez votre opérateur :</label>
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="provider" value="mtn" id="mtn">
+                                        <label class="form-check-label" for="mtn">
+                                            <img src="{% static 'images/payment/mtn-money.png' %}" 
+                                                 alt="MTN" class="img-fluid" style="max-height: 25px;">
+                                            <br><small>MTN Money</small>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="provider" value="moov" id="moov">
+                                        <label class="form-check-label" for="moov">
+                                            <img src="{% static 'images/payment/moov-money.png' %}" 
+                                                 alt="Moov" class="img-fluid" style="max-height: 25px;">
+                                            <br><small>Moov Money</small>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="provider" value="orange" id="orange">
+                                        <label class="form-check-label" for="orange">
+                                            <img src="{% static 'images/payment/orange-money.png' %}" 
+                                                 alt="Orange" class="img-fluid" style="max-height: 25px;">
+                                            <br><small>Orange Money</small>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="provider" value="wave" id="wave">
+                                        <label class="form-check-label" for="wave">
+                                            <img src="{% static 'images/payment/wave.svg' %}" 
+                                                 alt="Wave" class="img-fluid" style="max-height: 25px;">
+                                            <br><small>Wave</small>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Numéro de téléphone -->
+                        <div class="mb-4">
+                            <label for="phone_number" class="form-label fw-bold">
+                                <i class="fas fa-phone me-2"></i>
+                                Numéro de téléphone
+                            </label>
+                            <input type="tel" class="form-control form-control-lg" 
+                                   id="phone_number" name="phone_number" 
+                                   placeholder="+225XXXXXXXXX ou 0XXXXXXXXX"
+                                   required>
+                            <div class="form-text">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Format accepté : +225XXXXXXXXX, 225XXXXXXXXX ou 0XXXXXXXXX
+                            </div>
+                        </div>
+                        
+                        <!-- Montant à payer -->
+                        <div class="mb-4">
+                            <div class="alert alert-info">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <h6 class="mb-1">
+                                            <i class="fas fa-money-bill-wave me-2"></i>
+                                            Montant à payer
+                                        </h6>
+                                        <p class="mb-0 text-muted">Le montant sera débité de votre compte mobile money</p>
+                                    </div>
+                                    <div class="col-md-4 text-md-end">
+                                        <span class="h4 text-primary">{{ order.total_amount|floatformat:0 }} FCFA</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Boutons d'action -->
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                            <a href="{% url 'orders:order_detail' slug=order.order_number %}" 
+                               class="btn btn-outline-secondary btn-lg">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                Retour à la commande
+                            </a>
+                            <button type="submit" class="btn btn-success btn-lg" id="payButton">
+                                <i class="fas fa-mobile-alt me-2"></i>
+                                Payer maintenant
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Informations de sécurité -->
+            <div class="mt-4">
+                <div class="card border-0 bg-light">
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            <i class="fas fa-shield-alt text-success me-2"></i>
+                            Sécurité et confidentialité
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="list-unstyled mb-0">
+                                    <li><i class="fas fa-check text-success me-2"></i>Paiements 100% sécurisés</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Données chiffrées</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-unstyled mb-0">
+                                    <li><i class="fas fa-check text-success me-2"></i>Confirmation par SMS</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Support 24/7</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.form-check-input:checked {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.form-check-label {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.form-check-label:hover {
+    background-color: #f8f9fa;
+}
+
+#payButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('paymentForm');
+    const phoneInput = document.getElementById('phone_number');
+    const payButton = document.getElementById('payButton');
+    const providerInputs = document.querySelectorAll('input[name="provider"]');
+    
+    // Validation du numéro de téléphone
+    function validatePhoneNumber(phone) {
+        const cleaned = phone.replace(/\s/g, '').replace(/-/g, '');
+        
+        // Format +225XXXXXXXXX
+        if (cleaned.match(/^\+225[0-9]{9}$/)) return true;
+        // Format 225XXXXXXXXX
+        if (cleaned.match(/^225[0-9]{9}$/)) return true;
+        // Format 0XXXXXXXXX
+        if (cleaned.match(/^0[0-9]{9}$/)) return true;
+        
+        return false;
+    }
+    
+    // Formatage automatique du numéro
+    phoneInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        
+        if (value.startsWith('225')) {
+            e.target.value = '+' + value;
+        } else if (value.startsWith('0')) {
+            e.target.value = '+225' + value.substring(1);
+        } else if (value.length > 0 && !value.startsWith('225')) {
+            e.target.value = '+225' + value;
+        }
+        
+        updatePayButton();
+    });
+    
+    // Mise à jour du bouton de paiement
+    function updatePayButton() {
+        const isProviderSelected = Array.from(providerInputs).some(input => input.checked);
+        const isPhoneValid = validatePhoneNumber(phoneInput.value);
+        
+        payButton.disabled = !isProviderSelected || !isPhoneValid;
+        
+        if (isProviderSelected && isPhoneValid) {
+            payButton.innerHTML = '<i class="fas fa-mobile-alt me-2"></i>Payer maintenant';
+        } else {
+            payButton.innerHTML = '<i class="fas fa-mobile-alt me-2"></i>Sélectionnez une méthode';
+        }
+    }
+    
+    // Écouter les changements de provider
+    providerInputs.forEach(input => {
+        input.addEventListener('change', updatePayButton);
+    });
+    
+    // Validation du formulaire
+    form.addEventListener('submit', function(e) {
+        const selectedProvider = Array.from(providerInputs).find(input => input.checked);
+        
+        if (!selectedProvider) {
+            e.preventDefault();
+            alert('Veuillez sélectionner un opérateur mobile money.');
+            return;
+        }
+        
+        if (!validatePhoneNumber(phoneInput.value)) {
+            e.preventDefault();
+            alert('Veuillez saisir un numéro de téléphone valide.');
+            return;
+        }
+        
+        // Confirmation avant paiement
+        const confirmMessage = `Confirmer le paiement de ${phoneInput.value} avec ${selectedProvider.value.toUpperCase()} Money ?`;
+        if (!confirm(confirmMessage)) {
+            e.preventDefault();
+        } else {
+            payButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Traitement...';
+            payButton.disabled = true;
+        }
+    });
+    
+    // Initialisation
+    updatePayButton();
+});
+</script>
+{% endblock %}

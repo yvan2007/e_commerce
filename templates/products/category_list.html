@@ -1,0 +1,49 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Catégories - KefyStore{% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block content %}
+<div class="container py-5 category-list-page">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">Toutes les catégories</h1>
+            
+            {% if categories %}
+                <div class="row">
+                    {% for category in categories %}
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                        <a href="{{ category.get_absolute_url }}" class="category-card card h-100">
+                                {% if category.image %}
+                                    <img src="{{ category.image.url }}" class="card-img-top" alt="{{ category.name }}" style="height: 200px; object-fit: cover;">
+                                {% else %}
+                                    <div class="card-img-top category-icon-placeholder d-flex align-items-center justify-content-center" style="height: 200px;">
+                                        <i class="fas fa-folder fa-3x"></i>
+                                    </div>
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ category.name }}</h5>
+                                    {% if category.description %}
+                                        <p class="card-text">{{ category.description|truncatewords:20 }}</p>
+                                    {% endif %}
+                                    <p class="text-muted small mb-0">
+                                        <i class="fas fa-box me-1"></i>
+                                        {{ published_products_count }} produit{{ published_products_count|pluralize }}
+                                    </p>
+                                </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info" role="alert">
+                    Aucune catégorie disponible pour le moment.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

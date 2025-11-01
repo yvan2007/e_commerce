@@ -1,0 +1,463 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load product_filters %}
+
+{% block title %}KefyStore - Votre Boutique en Ligne{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Styles spécifiques uniquement pour cette page */
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="white" opacity="0.1"><polygon points="0,0 1000,100 1000,0"/></svg>');
+        background-size: cover;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="home-page">
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="hero-content">
+                    <h1 class="display-4 fw-bold mb-4">
+                        Bienvenue sur <span class="text-warning">KefyStore</span>
+                    </h1>
+                    <p class="lead mb-4">
+                        Découvrez une sélection exceptionnelle de produits de qualité à des prix imbattables. 
+                        Votre satisfaction est notre priorité.
+                    </p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="{% url 'products:product_list' %}" class="btn btn-warning btn-lg">
+                            <i class="fas fa-shopping-bag me-2"></i>Commencer mes achats
+                        </a>
+                        <a href="{% url 'products:category_list' %}" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-th-large me-2"></i>Voir les catégories
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="hero-image text-center position-relative">
+                    <div class="hero-image-container">
+                        <img src="{% static 'images/man.shopping2.jpg' %}" alt="Shopping" class="img-fluid hero-main-image">
+                        <div class="hero-image-overlay">
+                            <div class="floating-elements">
+                                <div class="floating-icon icon-1">
+                                    <i class="fas fa-shopping-bag"></i>
+                                </div>
+                                <div class="floating-icon icon-2">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <div class="floating-icon icon-3">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="display-5 fw-bold text-primary">Pourquoi choisir KefyStore ?</h2>
+                <p class="lead text-muted">Nous nous engageons à vous offrir la meilleure expérience d'achat</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <h5 class="fw-bold">Livraison Rapide</h5>
+                    <p class="text-muted">Livraison gratuite sur toute la Côte d'Ivoire en 24-48h</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h5 class="fw-bold">Paiement Sécurisé</h5>
+                    <p class="text-muted">Paiement 100% sécurisé </p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-undo"></i>
+                    </div>
+                    <h5 class="fw-bold">Retour Gratuit</h5>
+                    <p class="text-muted">Retour gratuit sous 30 jours si vous n'êtes pas satisfait</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h5 class="fw-bold">Support 24/7</h5>
+                    <p class="text-muted">Notre équipe est disponible 24h/24 pour vous aider</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Categories Section -->
+{% if categories %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="display-5 fw-bold text-primary">Nos Catégories</h2>
+                <p class="lead text-muted">Explorez notre large gamme de produits</p>
+            </div>
+        </div>
+        <div class="row g-4 justify-content-center">
+            {% for category in categories|slice:":6" %}
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+                <a href="{{ category.get_absolute_url }}" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-tag"></i>
+                    </div>
+                    <h5 class="fw-bold">{{ category.name }}</h5>
+                    <p class="text-muted small">{{ category.description|truncatewords:8 }}</p>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'products:category_list' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-th-large me-2"></i>Voir toutes les catégories
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Featured Products Section -->
+{% if featured_products %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="display-5 fw-bold text-primary">Produits Vedettes</h2>
+                <p class="lead text-muted">Découvrez nos meilleures offres</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            {% for product in featured_products|slice:":8" %}
+            <div class="col-lg-3 col-md-6">
+                <div class="card product-card">
+                    <div class="position-relative">
+                        <a href="{{ product.get_absolute_url }}" class="text-decoration-none">
+                            {% if product.main_image %}
+                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}" 
+                                     class="card-img-top product-image">
+                            {% elif product.images.first %}
+                                <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" 
+                                     class="card-img-top product-image">
+                            {% else %}
+                                <img src="{% static 'images/no-image.svg' %}" alt="{{ product.name }}" 
+                                     class="card-img-top product-image">
+                            {% endif %}
+                        </a>
+                        
+                        {% if product|is_new_product %}
+                            <span class="badge-new">
+                                <i class="fas fa-sparkles me-1"></i>Nouveau
+                            </span>
+                        {% endif %}
+                        {% if product.compare_price and product.compare_price > product.price %}
+                            <span class="badge-sale">-{{ product.get_discount_percentage }}%</span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="mb-2">
+                            <small class="text-muted">{{ product.vendor.get_display_name }}</small>
+                        </div>
+                        
+                        <h6 class="card-title">
+                            <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-dark">
+                                {{ product.name|truncatewords:8 }}
+                            </a>
+                        </h6>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <span class="price-tag">{{ product.price }} FCFA</span>
+                                {% if product.compare_price %}
+                                    <span class="compare-price">{{ product.compare_price }} FCFA</span>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="rating-stars">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= product.rating %}
+                                        <i class="fas fa-star"></i>
+                                    {% else %}
+                                        <i class="far fa-star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                                <small class="text-muted ms-1">({{ product.review_count }})</small>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            {% if product.stock > 0 %}
+                                <small class="text-success">
+                                    <i class="fas fa-check-circle me-1"></i>En stock
+                                </small>
+                            {% else %}
+                                <small class="text-danger">
+                                    <i class="fas fa-times-circle me-1"></i>Rupture
+                                </small>
+                            {% endif %}
+                            
+                            <button class="btn btn-primary btn-sm" 
+                                    {% if product.stock == 0 %}disabled{% endif %}>
+                                <i class="fas fa-cart-plus me-1"></i>Ajouter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'products:product_list' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-shopping-bag me-2"></i>Voir tous les produits
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Latest Products Section -->
+{% if latest_products %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="display-5 fw-bold text-primary">Nouveautés</h2>
+                <p class="lead text-muted">Les derniers produits ajoutés à notre catalogue</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            {% for product in latest_products|slice:":8" %}
+            <div class="col-lg-3 col-md-6">
+                <div class="card product-card">
+                    <div class="position-relative">
+                        <a href="{{ product.get_absolute_url }}" class="text-decoration-none">
+                            {% if product.main_image %}
+                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}" 
+                                     class="card-img-top product-image">
+                            {% elif product.images.first %}
+                                <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" 
+                                     class="card-img-top product-image">
+                            {% else %}
+                                <img src="{% static 'images/no-image.svg' %}" alt="{{ product.name }}" 
+                                     class="card-img-top product-image">
+                            {% endif %}
+                        </a>
+                        
+                        {% if product|is_new_product %}
+                            <span class="badge-new">
+                                <i class="fas fa-sparkles me-1"></i>Nouveau
+                            </span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="mb-2">
+                            <small class="text-muted">{{ product.vendor.get_display_name }}</small>
+                        </div>
+                        
+                        <h6 class="card-title">
+                            <a href="{{ product.get_absolute_url }}" class="text-decoration-none text-dark">
+                                {{ product.name|truncatewords:8 }}
+                            </a>
+                        </h6>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <span class="price-tag">{{ product.price }} FCFA</span>
+                            </div>
+                            
+                            <div class="rating-stars">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= product.rating %}
+                                        <i class="fas fa-star"></i>
+                                    {% else %}
+                                        <i class="far fa-star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            {% if product.stock > 0 %}
+                                <small class="text-success">
+                                    <i class="fas fa-check-circle me-1"></i>En stock
+                                </small>
+                            {% else %}
+                                <small class="text-danger">
+                                    <i class="fas fa-times-circle me-1"></i>Rupture
+                                </small>
+                            {% endif %}
+                            
+                            <button class="btn btn-primary btn-sm" 
+                                    {% if product.stock == 0 %}disabled{% endif %}>
+                                <i class="fas fa-cart-plus me-1"></i>Ajouter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-item">
+                    <div class="stat-number">1000+</div>
+                    <div class="stat-label">Produits</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-item">
+                    <div class="stat-number">5000+</div>
+                    <div class="stat-label">Clients Satisfaits</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support Client</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Satisfaction</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="newsletter-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h3 class="fw-bold text-primary mb-3">Restez informé de nos offres</h3>
+                <p class="text-muted">Inscrivez-vous à notre newsletter et recevez des offres exclusives directement dans votre boîte mail.</p>
+            </div>
+            <div class="col-lg-6">
+                <form class="newsletter-form">
+                    <div class="input-group">
+                        <input type="email" class="form-control form-control-lg" placeholder="Votre adresse email">
+                        <button class="btn btn-primary btn-lg" type="submit">
+                            <i class="fas fa-paper-plane me-2"></i>S'abonner
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add to cart functionality
+    const addToCartBtns = document.querySelectorAll('.btn[data-product-id]');
+    addToCartBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const productId = this.dataset.productId;
+            
+            // Add loading state
+            this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Ajout...';
+            this.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-check me-1"></i>Ajouté';
+                this.classList.remove('btn-primary');
+                this.classList.add('btn-success');
+                
+                // Update cart count
+                const cartCount = document.getElementById('cart-count');
+                if (cartCount) {
+                    cartCount.textContent = parseInt(cartCount.textContent) + 1;
+                }
+                
+                // Show success message
+                showNotification('Produit ajouté au panier !', 'success');
+            }, 1000);
+        });
+    });
+    
+    // Newsletter form
+    const newsletterForm = document.querySelector('.newsletter-form');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            
+            if (email) {
+                showNotification('Merci pour votre inscription !', 'success');
+                this.reset();
+            }
+        });
+    }
+});
+
+function showNotification(message, type) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    notification.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.remove();
+        }
+    }, 3000);
+}
+</script>
+{% endblock %}

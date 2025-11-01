@@ -1,0 +1,180 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Méthodes de Paiement - KefyStore{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-credit-card me-2"></i>
+                        Méthodes de Paiement Disponibles
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-4">
+                        Choisissez votre méthode de paiement préférée pour finaliser votre commande.
+                    </p>
+                    
+                    <div class="row g-4">
+                        <!-- MTN Mobile Money -->
+                        <div class="col-md-6">
+                            <div class="payment-method-card h-100" data-provider="mtn">
+                                <div class="card border-0 shadow-sm h-100">
+                                    <div class="card-body text-center">
+                                        <div class="payment-icon mb-3">
+                                            <img src="{% static 'images/payment/mtn-money.png' %}" 
+                                                 alt="MTN Money" class="img-fluid" style="max-height: 30px;">
+                                        </div>
+                                        <h5 class="card-title text-primary">MTN Mobile Money</h5>
+                                        <p class="card-text text-muted">
+                                            Payez facilement avec votre compte MTN Mobile Money
+                                        </p>
+                                        <div class="payment-features">
+                                            <small class="text-success">
+                                                <i class="fas fa-check me-1"></i>Paiement instantané<br>
+                                                <i class="fas fa-check me-1"></i>Sécurisé<br>
+                                                <i class="fas fa-check me-1"></i>Disponible 24/7
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Moov Money -->
+                        <div class="col-md-6">
+                            <div class="payment-method-card h-100" data-provider="moov">
+                                <div class="card border-0 shadow-sm h-100">
+                                    <div class="card-body text-center">
+                                        <div class="payment-icon mb-3">
+                                            <img src="{% static 'images/payment/moov-money.png' %}" 
+                                                 alt="Moov Money" class="img-fluid" style="max-height: 30px;">
+                                        </div>
+                                        <h5 class="card-title text-success">Moov Money</h5>
+                                        <p class="card-text text-muted">
+                                            Utilisez votre compte Moov Money pour vos achats
+                                        </p>
+                                        <div class="payment-features">
+                                            <small class="text-success">
+                                                <i class="fas fa-check me-1"></i>Paiement rapide<br>
+                                                <i class="fas fa-check me-1"></i>Protégé<br>
+                                                <i class="fas fa-check me-1"></i>Simple d'utilisation
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Orange Money -->
+                        <div class="col-md-6">
+                            <div class="payment-method-card h-100" data-provider="orange">
+                                <div class="card border-0 shadow-sm h-100">
+                                    <div class="card-body text-center">
+                                        <div class="payment-icon mb-3">
+                                            <img src="{% static 'images/payment/orange-money.png' %}" 
+                                                 alt="Orange Money" class="img-fluid" style="max-height: 30px;">
+                                        </div>
+                                        <h5 class="card-title" style="color: #ff6600;">Orange Money</h5>
+                                        <p class="card-text text-muted">
+                                            Payez avec votre compte Orange Money
+                                        </p>
+                                        <div class="payment-features">
+                                            <small class="text-success">
+                                                <i class="fas fa-check me-1"></i>Paiement sécurisé<br>
+                                                <i class="fas fa-check me-1"></i>Confirmation SMS<br>
+                                                <i class="fas fa-check me-1"></i>Service fiable
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Wave -->
+                        <div class="col-md-6">
+                            <div class="payment-method-card h-100" data-provider="wave">
+                                <div class="card border-0 shadow-sm h-100">
+                                    <div class="card-body text-center">
+                                         <div class="payment-icon mb-3">
+                                             <img src="{% static 'images/payment/wave.png' %}" 
+                                                  alt="Wave" class="img-fluid" style="max-height: 30px;">
+                                         </div>
+                                        <h5 class="card-title text-info">Wave</h5>
+                                        <p class="card-text text-muted">
+                                            Solution de paiement mobile innovante
+                                        </p>
+                                        <div class="payment-features">
+                                            <small class="text-success">
+                                                <i class="fas fa-check me-1"></i>Paiement instantané<br>
+                                                <i class="fas fa-check me-1"></i>Interface moderne<br>
+                                                <i class="fas fa-check me-1"></i>Très sécurisé
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Information :</strong> Tous les paiements sont sécurisés et traités en temps réel. 
+                            Vous recevrez une confirmation par SMS après chaque transaction réussie.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.payment-method-card {
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.payment-method-card:hover {
+    transform: translateY(-5px);
+}
+
+.payment-method-card .card {
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.payment-method-card:hover .card {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+}
+
+.payment-icon img {
+    filter: grayscale(0);
+    transition: filter 0.2s ease-in-out;
+}
+
+.payment-method-card:hover .payment-icon img {
+    filter: grayscale(0);
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const paymentCards = document.querySelectorAll('.payment-method-card');
+    
+    paymentCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const provider = this.dataset.provider;
+            // Rediriger vers la page d'initiation de paiement
+            // window.location.href = `/payment/initiate/${orderId}/?provider=${provider}`;
+        });
+    });
+});
+</script>
+{% endblock %}

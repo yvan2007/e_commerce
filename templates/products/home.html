@@ -1,0 +1,305 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Accueil - E-Commerce CI{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h1 class="display-4 fw-bold mb-4">
+                    Bienvenue sur E-Commerce CI
+                </h1>
+                <p class="lead mb-4">
+                    Découvrez des milliers de produits de qualité et faites vos achats en toute sécurité. 
+                    Livraison rapide dans toute la Côte d'Ivoire.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="{% url 'products:product_list' %}" class="btn btn-light btn-lg">
+                        <i class="fas fa-shopping-bag me-2"></i>
+                        Commencer mes achats
+                    </a>
+                    <a href="{% url 'accounts:register' %}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-user-plus me-2"></i>
+                        Devenir vendeur
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <img src="{% static 'images/hero-image.png' %}" alt="E-Commerce" class="img-fluid rounded">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-card p-4 h-100">
+                    <div class="feature-icon bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                        <i class="fas fa-shield-alt fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold">Paiements sécurisés</h5>
+                    <p class="text-muted">
+                        Moov Money, Orange Money, MTN Money, Wave et cartes bancaires. 
+                        Vos paiements sont 100% sécurisés.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-card p-4 h-100">
+                    <div class="feature-icon bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                        <i class="fas fa-truck fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold">Livraison rapide</h5>
+                    <p class="text-muted">
+                        Livraison dans toute la Côte d'Ivoire en 24-48h. 
+                        Suivez votre commande en temps réel.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-card p-4 h-100">
+                    <div class="feature-icon bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
+                        <i class="fas fa-headset fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold">Support 24/7</h5>
+                    <p class="text-muted">
+                        Notre équipe est disponible 24h/24 pour vous accompagner 
+                        dans vos achats et répondre à vos questions.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Categories Section -->
+{% if categories %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold" data-aos="fade-up">Nos catégories</h2>
+            <p class="text-muted" data-aos="fade-up" data-aos-delay="100">
+                Explorez nos différentes catégories de produits
+            </p>
+        </div>
+        
+        <div class="row">
+            {% for category in categories %}
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                <div class="category-card card h-100 border-0 shadow-sm">
+                    <a href="{{ category.get_absolute_url }}" class="text-decoration-none">
+                        {% if category.image %}
+                            <img src="{{ category.image.url }}" alt="{{ category.name }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <i class="fas fa-folder fa-3x text-muted"></i>
+                            </div>
+                        {% endif %}
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-dark">{{ category.name }}</h5>
+                            {% if category.description %}
+                                <p class="card-text text-muted">{{ category.description|truncatewords:15 }}</p>
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'products:category_list' %}" class="btn btn-outline-primary">
+                Voir toutes les catégories
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Featured Products Section -->
+{% if featured_products %}
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold" data-aos="fade-up">Produits vedettes</h2>
+            <p class="text-muted" data-aos="fade-up" data-aos-delay="100">
+                Découvrez nos produits les plus populaires
+            </p>
+        </div>
+        
+        <div class="row">
+            {% for product in featured_products %}
+            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                <div class="product-card card h-100 border-0 shadow-sm">
+                    <a href="{{ product.get_absolute_url }}" class="text-decoration-none">
+                        <div class="position-relative">
+                            {% if product.main_image %}
+                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}" 
+                                     class="card-img-top" style="height: 200px; object-fit: cover;">
+                            {% elif product.images.first %}
+                                <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" 
+                                     class="card-img-top" style="height: 200px; object-fit: cover;">
+                            {% else %}
+                                <img src="{% static 'images/no-image.svg' %}" alt="{{ product.name }}" 
+                                     class="card-img-top" style="height: 200px; object-fit: cover;">
+                            {% endif %}
+                            {% if product.compare_price and product.compare_price > product.price %}
+                                <span class="badge bg-danger position-absolute top-0 start-0 m-2">
+                                    -{{ product.get_discount_percentage }}%
+                                </span>
+                            {% endif %}
+                            {% if product.is_featured %}
+                                <span class="badge bg-warning position-absolute top-0 end-0 m-2">
+                                    <i class="fas fa-star me-1"></i>Vedette
+                                </span>
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title text-dark">{{ product.name|truncatewords:8 }}</h6>
+                            <p class="text-muted small">{{ product.vendor.get_display_name }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="fw-bold text-primary">{{ product.price }} FCFA</span>
+                                    {% if product.compare_price %}
+                                        <small class="text-muted text-decoration-line-through ms-2">
+                                            {{ product.compare_price }} FCFA
+                                        </small>
+                                    {% endif %}
+                                </div>
+                                <div class="text-warning">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= product.rating %}
+                                            <i class="fas fa-star"></i>
+                                        {% else %}
+                                            <i class="far fa-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <small class="text-muted ms-1">({{ product.review_count }})</small>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'products:product_list' %}" class="btn btn-primary">
+                Voir tous les produits
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Latest Products Section -->
+{% if latest_products %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold" data-aos="fade-up">Nouveautés</h2>
+            <p class="text-muted" data-aos="fade-up" data-aos-delay="100">
+                Découvrez nos derniers produits ajoutés
+            </p>
+        </div>
+        
+        <div class="row">
+            {% for product in latest_products %}
+            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                <div class="product-card card h-100 border-0 shadow-sm">
+                    <a href="{{ product.get_absolute_url }}" class="text-decoration-none">
+                        <div class="position-relative">
+                            {% if product.main_image %}
+                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}" 
+                                     class="card-img-top" style="height: 200px; object-fit: cover;">
+                            {% elif product.images.first %}
+                                <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" 
+                                     class="card-img-top" style="height: 200px; object-fit: cover;">
+                            {% else %}
+                                <img src="{% static 'images/no-image.svg' %}" alt="{{ product.name }}" 
+                                     class="card-img-top" style="height: 200px; object-fit: cover;">
+                            {% endif %}
+                            <span class="badge bg-success position-absolute top-0 start-0 m-2">
+                                Nouveau
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title text-dark">{{ product.name|truncatewords:8 }}</h6>
+                            <p class="text-muted small">{{ product.vendor.get_display_name }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fw-bold text-primary">{{ product.price }} FCFA</span>
+                                <div class="text-warning">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= product.rating %}
+                                            <i class="fas fa-star"></i>
+                                        {% else %}
+                                            <i class="far fa-star"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Newsletter Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h3 class="fw-bold mb-3">Restez informé</h3>
+                <p class="mb-0">
+                    Recevez nos dernières offres et nouveautés directement dans votre boîte email.
+                </p>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <form class="d-flex">
+                    <input type="email" class="form-control me-2" placeholder="Votre adresse email">
+                    <button type="submit" class="btn btn-light">
+                        <i class="fas fa-paper-plane me-2"></i>S'abonner
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize AOS
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true
+    });
+    
+    // Newsletter form
+    const newsletterForm = document.querySelector('form');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            if (email) {
+                alert('Merci pour votre abonnement !');
+                this.reset();
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

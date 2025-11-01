@@ -1,0 +1,418 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gestion des Cookies{% endblock %}
+
+{% block extra_css %}
+<style>
+.cookie-consent {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 1.5rem;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.cookie-consent.show {
+    transform: translateY(0);
+}
+
+.cookie-consent-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.cookie-consent-text {
+    flex: 1;
+    min-width: 300px;
+}
+
+.cookie-consent-text h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+}
+
+.cookie-consent-text p {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.cookie-consent-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.cookie-consent-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.cookie-consent-btn.accept {
+    background-color: #28a745;
+    color: white;
+}
+
+.cookie-consent-btn.accept:hover {
+    background-color: #218838;
+}
+
+.cookie-consent-btn.decline {
+    background-color: #6c757d;
+    color: white;
+}
+
+.cookie-consent-btn.decline:hover {
+    background-color: #5a6268;
+}
+
+.cookie-consent-btn.settings {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+}
+
+.cookie-consent-btn.settings:hover {
+    background-color: white;
+    color: #667eea;
+}
+
+.cookie-settings {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.cookie-settings.show {
+    display: flex;
+}
+
+.cookie-settings-content {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    max-width: 600px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.cookie-settings h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+.cookie-category {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: 1px solid #e9ecef;
+    border-radius: 5px;
+}
+
+.cookie-category h3 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+}
+
+.cookie-category p {
+    margin: 0 0 1rem 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.cookie-category .form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cookie-category .form-check-input {
+    margin: 0;
+}
+
+.cookie-category .form-check-label {
+    margin: 0;
+    font-weight: 500;
+}
+
+.cookie-category.required .form-check-input {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cookie-settings-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+}
+
+.cookie-settings-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.cookie-settings-btn.save {
+    background-color: #007bff;
+    color: white;
+}
+
+.cookie-settings-btn.save:hover {
+    background-color: #0056b3;
+}
+
+.cookie-settings-btn.cancel {
+    background-color: #6c757d;
+    color: white;
+}
+
+.cookie-settings-btn.cancel:hover {
+    background-color: #5a6268;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Bannière de consentement aux cookies -->
+<div id="cookieConsent" class="cookie-consent">
+    <div class="cookie-consent-content">
+        <div class="cookie-consent-text">
+            <h3>🍪 Gestion des Cookies</h3>
+            <p>Nous utilisons des cookies pour améliorer votre expérience sur notre site. En continuant à naviguer, vous acceptez notre utilisation des cookies.</p>
+        </div>
+        <div class="cookie-consent-buttons">
+            <button class="cookie-consent-btn accept" onclick="acceptAllCookies()">
+                Accepter tout
+            </button>
+            <button class="cookie-consent-btn decline" onclick="declineAllCookies()">
+                Refuser tout
+            </button>
+            <button class="cookie-consent-btn settings" onclick="showCookieSettings()">
+                Paramètres
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal des paramètres de cookies -->
+<div id="cookieSettings" class="cookie-settings">
+    <div class="cookie-settings-content">
+        <h2>Paramètres des Cookies</h2>
+        <p>Choisissez quels cookies vous souhaitez autoriser :</p>
+        
+        <form id="cookieSettingsForm">
+            <div class="cookie-category required">
+                <h3>Cookies Nécessaires</h3>
+                <p>Ces cookies sont essentiels au fonctionnement du site et ne peuvent pas être désactivés.</p>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="necessary" checked disabled>
+                    <label class="form-check-label" for="necessary">
+                        Cookies nécessaires
+                    </label>
+                </div>
+            </div>
+            
+            <div class="cookie-category">
+                <h3>Cookies Analytiques</h3>
+                <p>Ces cookies nous aident à comprendre comment les visiteurs interagissent avec notre site.</p>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="analytics">
+                    <label class="form-check-label" for="analytics">
+                        Cookies analytiques
+                    </label>
+                </div>
+            </div>
+            
+            <div class="cookie-category">
+                <h3>Cookies Marketing</h3>
+                <p>Ces cookies sont utilisés pour afficher des publicités pertinentes.</p>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="marketing">
+                    <label class="form-check-label" for="marketing">
+                        Cookies marketing
+                    </label>
+                </div>
+            </div>
+            
+            <div class="cookie-category">
+                <h3>Cookies de Préférences</h3>
+                <p>Ces cookies mémorisent vos préférences et paramètres.</p>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="preferences">
+                    <label class="form-check-label" for="preferences">
+                        Cookies de préférences
+                    </label>
+                </div>
+            </div>
+            
+            <div class="cookie-category">
+                <h3>Cookies Réseaux Sociaux</h3>
+                <p>Ces cookies permettent l'intégration des réseaux sociaux.</p>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="social">
+                    <label class="form-check-label" for="social">
+                        Cookies réseaux sociaux
+                    </label>
+                </div>
+            </div>
+            
+            <div class="cookie-settings-buttons">
+                <button type="button" class="cookie-settings-btn cancel" onclick="hideCookieSettings()">
+                    Annuler
+                </button>
+                <button type="button" class="cookie-settings-btn save" onclick="saveCookieSettings()">
+                    Sauvegarder
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Vérifier si le consentement existe déjà
+    checkExistingConsent();
+    
+    // Afficher la bannière après un délai
+    setTimeout(function() {
+        showCookieConsent();
+    }, 2000);
+});
+
+function checkExistingConsent() {
+    fetch('{% url "popups:get_cookie_consent" %}')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success' && data.consent) {
+                // Le consentement existe déjà, ne pas afficher la bannière
+                return;
+            }
+            // Aucun consentement, afficher la bannière
+            showCookieConsent();
+        })
+        .catch(error => {
+            console.error('Erreur lors de la vérification du consentement:', error);
+            showCookieConsent();
+        });
+}
+
+function showCookieConsent() {
+    const consentBanner = document.getElementById('cookieConsent');
+    consentBanner.classList.add('show');
+}
+
+function hideCookieConsent() {
+    const consentBanner = document.getElementById('cookieConsent');
+    consentBanner.classList.remove('show');
+}
+
+function showCookieSettings() {
+    const settingsModal = document.getElementById('cookieSettings');
+    settingsModal.classList.add('show');
+}
+
+function hideCookieSettings() {
+    const settingsModal = document.getElementById('cookieSettings');
+    settingsModal.classList.remove('show');
+}
+
+function acceptAllCookies() {
+    saveConsent({
+        necessary: true,
+        analytics: true,
+        marketing: true,
+        preferences: true,
+        social: true
+    });
+    hideCookieConsent();
+}
+
+function declineAllCookies() {
+    saveConsent({
+        necessary: true,
+        analytics: false,
+        marketing: false,
+        preferences: false,
+        social: false
+    });
+    hideCookieConsent();
+}
+
+function saveCookieSettings() {
+    const form = document.getElementById('cookieSettingsForm');
+    const formData = new FormData(form);
+    
+    const consent = {
+        necessary: true, // Toujours true
+        analytics: formData.get('analytics') === 'on',
+        marketing: formData.get('marketing') === 'on',
+        preferences: formData.get('preferences') === 'on',
+        social: formData.get('social') === 'on'
+    };
+    
+    saveConsent(consent);
+    hideCookieSettings();
+    hideCookieConsent();
+}
+
+function saveConsent(consent) {
+    fetch('{% url "popups:save_cookie_consent" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify(consent)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            console.log('Consentement sauvegardé avec succès');
+            // Ici vous pouvez ajouter d'autres actions après la sauvegarde
+        } else {
+            console.error('Erreur lors de la sauvegarde du consentement:', data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Erreur lors de la sauvegarde du consentement:', error);
+    });
+}
+
+// Fermer les paramètres en cliquant à l'extérieur
+document.getElementById('cookieSettings').addEventListener('click', function(e) {
+    if (e.target === this) {
+        hideCookieSettings();
+    }
+});
+</script>
+{% endblock %}

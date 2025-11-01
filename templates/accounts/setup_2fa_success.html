@@ -1,0 +1,201 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% translate "Configuration 2FA réussie" %} - KefyStore{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-success text-white text-center py-4 rounded-top-3">
+                    <h3 class="mb-0">
+                        <i class="fas fa-check-circle me-2"></i>
+                        {% translate "Configuration réussie!" %}
+                    </h3>
+                    <p class="mb-0 mt-2">{% translate "Votre authentificateur est maintenant configuré" %}</p>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row">
+                        <!-- QR Code -->
+                        <div class="col-md-6 text-center">
+                            <h4 class="mb-3">{% translate "Scanner le QR Code" %}</h4>
+                            <div class="qr-code-container mb-3">
+                                <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code" class="img-fluid border rounded">
+                            </div>
+                            <p class="small text-muted">
+                                {% translate "Scannez ce code avec votre application d'authentification" %}
+                            </p>
+                        </div>
+
+                        <!-- Instructions -->
+                        <div class="col-md-6">
+                            <h4 class="mb-3">{% translate "Instructions" %}</h4>
+                            <ol class="list-group list-group-numbered">
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">{% translate "Téléchargez une app" %}</div>
+                                        {% translate "Google Authenticator, Authy, ou Microsoft Authenticator" %}
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">{% translate "Scannez le QR Code" %}</div>
+                                        {% translate "Ou entrez manuellement la clé secrète" %}
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">{% translate "Testez la configuration" %}</div>
+                                        {% translate "Entrez le code généré par l'app" %}
+                                    </div>
+                                </li>
+                            </ol>
+
+                            <!-- Clé secrète -->
+                            <div class="mt-4">
+                                <h5>{% translate "Clé secrète (manuel)" %}</h5>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" value="{{ secret }}" readonly id="secret-key">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="copySecret()">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <small class="text-muted">{% translate "Utilisez cette clé si vous ne pouvez pas scanner le QR Code" %}</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Codes de secours -->
+                    <div class="mt-5">
+                        <div class="alert alert-warning">
+                            <h5 class="alert-heading">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                {% translate "Codes de secours" %}
+                            </h5>
+                            <p class="mb-3">{% translate "Conservez ces codes en lieu sûr. Ils vous permettront de vous connecter si vous perdez votre téléphone." %}</p>
+                            
+                            <div class="row">
+                                {% for code in backup_codes %}
+                                <div class="col-md-3 col-sm-4 col-6 mb-2">
+                                    <div class="card bg-light">
+                                        <div class="card-body text-center py-2">
+                                            <code class="text-primary">{{ code }}</code>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="mt-3">
+                                <button class="btn btn-outline-primary btn-sm" onclick="downloadBackupCodes()">
+                                    <i class="fas fa-download me-1"></i>
+                                    {% translate "Télécharger les codes" %}
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm" onclick="printBackupCodes()">
+                                    <i class="fas fa-print me-1"></i>
+                                    {% translate "Imprimer" %}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="d-grid gap-2 mt-4">
+                        <a href="{% url 'accounts:verify_2fa_setup' method='totp' %}" class="btn btn-success btn-lg">
+                            <i class="fas fa-check me-2"></i>
+                            {% translate "Tester la configuration" %}
+                        </a>
+                        <a href="{% url 'accounts:account_dashboard' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            {% translate "Retour au tableau de bord" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function copySecret() {
+    const secretInput = document.getElementById('secret-key');
+    secretInput.select();
+    secretInput.setSelectionRange(0, 99999); // Pour mobile
+    
+    try {
+        document.execCommand('copy');
+        // Afficher une notification de succès
+        showNotification('Clé secrète copiée!', 'success');
+    } catch (err) {
+        console.error('Erreur lors de la copie:', err);
+    }
+}
+
+function downloadBackupCodes() {
+    const codes = {{ backup_codes|safe }};
+    const content = `Codes de secours KefyStore\n\n` + codes.join('\n');
+    
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'kefystore-backup-codes.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+}
+
+function printBackupCodes() {
+    const codes = {{ backup_codes|safe }};
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+        <html>
+        <head>
+            <title>Codes de secours KefyStore</title>
+            <style>
+                body { font-family: Arial, sans-serif; padding: 20px; }
+                h1 { color: #007bff; }
+                .codes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 20px 0; }
+                .code { border: 1px solid #ccc; padding: 10px; text-align: center; font-family: monospace; }
+            </style>
+        </head>
+        <body>
+            <h1>Codes de secours KefyStore</h1>
+            <p>Conservez ces codes en lieu sûr. Ils vous permettront de vous connecter si vous perdez votre téléphone.</p>
+            <div class="codes">
+                ${codes.map(code => `<div class="code">${code}</div>`).join('')}
+            </div>
+            <p><small>Généré le ${new Date().toLocaleDateString()}</small></p>
+        </body>
+        </html>
+    `);
+    printWindow.document.close();
+    printWindow.print();
+}
+
+function showNotification(message, type = 'info') {
+    // Créer une notification toast
+    const toast = document.createElement('div');
+    toast.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    toast.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // Supprimer automatiquement après 3 secondes
+    setTimeout(() => {
+        if (toast.parentNode) {
+            toast.parentNode.removeChild(toast);
+        }
+    }, 3000);
+}
+</script>
+{% endblock %}
