@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     # Third party apps
     'crispy_forms',
     'crispy_bootstrap5',
-    'django_ckeditor_5',
+    'ckeditor',  # django-ckeditor (pas django_ckeditor_5)
     'rest_framework',
     'corsheaders',
     'django_filters',
@@ -437,7 +437,10 @@ CELERY_TIMEZONE = TIME_ZONE
 # Redis Configuration
 REDIS_URL = 'redis://localhost:6379/0'
 
-# CKEditor 5 Configuration
+# CKEditor Configuration (django-ckeditor, pas CKEditor 5)
+# Note: Les configurations CKEDITOR_5_CONFIGS ne sont pas utilisées avec django-ckeditor
+# Elles sont commentées car django-ckeditor utilise CKEDITOR_CONFIGS
+
 customColorPalette = [
     {
         'color': 'hsl(4, 90%, 58%)',
@@ -465,6 +468,9 @@ customColorPalette = [
     },
 ]
 
+# CKEDITOR_5_CONFIGS n'est pas utilisé avec django-ckeditor
+# Commenté pour éviter les erreurs
+"""
 CKEDITOR_5_CONFIGS = {
     'default': {
         'toolbar': ['heading', '|', 'bold', 'italic', 'link',
