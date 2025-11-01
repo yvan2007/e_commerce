@@ -5,7 +5,12 @@ Configuration Django pour le projet e-commerce KefyStore
 import os
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
-import dj_database_url
+
+# Import dj_database_url seulement si disponible (pour Render)
+try:
+    import dj_database_url
+except ImportError:
+    dj_database_url = None
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -113,7 +118,7 @@ WSGI_APPLICATION = 'ecommerce_site.wsgi.application'
 # Database
 # Utilise PostgreSQL sur Render, SQLite en développement local
 DATABASE_URL = os.environ.get('DATABASE_URL')
-if DATABASE_URL:
+if DATABASE_URL and dj_database_url:
     # Production: utilise PostgreSQL depuis Render
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
