@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     "ckeditor",  # django-ckeditor (pas django_ckeditor_5)
+    "django_ckeditor_5",
     "rest_framework",
     "corsheaders",
     "django_filters",
