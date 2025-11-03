@@ -1,6 +1,6 @@
 // Fonction pour obtenir le token CSRF
 function getCSRFToken() {
-    return document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
+    return document.querySelector('[name=csrfmiddlewaretoken]')?.value ||
            document.querySelector('meta[name=csrf-token]')?.getAttribute('content');
 }
 
@@ -9,10 +9,10 @@ async function loadRegions() {
     try {
         const response = await fetch('/orders/api/regions/');
         const data = await response.json();
-        
+
         const regionSelect = document.getElementById('shipping_region');
         regionSelect.innerHTML = '<option value="">Sélectionnez une région</option>';
-        
+
         data.regions.forEach(region => {
             const option = document.createElement('option');
             option.value = region.id;
@@ -29,10 +29,10 @@ async function loadCities(regionId) {
     try {
         const response = await fetch(`/orders/api/regions/${regionId}/cities/`);
         const data = await response.json();
-        
+
         const citySelect = document.getElementById('shipping_city');
         citySelect.innerHTML = '<option value="">Sélectionnez une ville</option>';
-        
+
         data.cities.forEach(city => {
             const option = document.createElement('option');
             option.value = city.id;
@@ -47,7 +47,7 @@ async function loadCities(regionId) {
 // Fonction pour calculer les frais de livraison automatiquement pour un pays
 async function calculateDeliveryFeeForCountry(country) {
     if (!country) return;
-    
+
     try {
         const response = await fetch('/orders/api/calculate-delivery-fee/', {
             method: 'POST',
@@ -61,14 +61,14 @@ async function calculateDeliveryFeeForCountry(country) {
                 country: country
             })
         });
-        
+
         const data = await response.json();
-        
+
         if (data.success) {
             document.getElementById('delivery-fee-amount').textContent = data.fee + ' FCFA';
             document.getElementById('delivery-city-name').textContent = country;
             document.getElementById('delivery-fee-display').style.display = 'flex';
-            
+
             // Fonction pour parser les montants correctement
             function parseCurrencyValue(str) {
                 let cleaned = str.replace(/[^\d,.\s]/g, '');
@@ -81,24 +81,24 @@ async function calculateDeliveryFeeForCountry(country) {
                 }
                 return parseFloat(parts[0]);
             }
-            
+
             // Extraire correctement le sous-total
             const subtotalText = document.getElementById('summary-subtotal').textContent;
             const subtotal = parseCurrencyValue(subtotalText);
-            
+
             // Extraire les frais de livraison
             const deliveryFee = parseCurrencyValue(data.fee);
-            
+
             // Calculer le total
             const total = subtotal + deliveryFee;
-            
+
             // Mettre à jour les frais de livraison dans le récapitulatif
             document.getElementById('summary-delivery-fee').textContent = data.fee + ' FCFA';
             document.getElementById('delivery-fee-summary').style.display = 'flex';
-            
+
             // Mettre à jour le champ caché avec les frais de livraison
             document.getElementById('calculated_delivery_fee').value = data.fee;
-            
+
             // Mettre à jour le total avec formatage français
             document.getElementById('summary-total').textContent = total.toLocaleString('fr-FR', {minimumFractionDigits: 0, maximumFractionDigits: 0}) + ' FCFA';
         }
@@ -112,18 +112,18 @@ async function calculateDeliveryFee() {
     const country = document.getElementById('shipping_country').value;
     const citySelect = document.getElementById('shipping_city');
     const cityIntInput = document.getElementById('shipping_city_int');
-    
+
     let city = '';
-    
+
     if (country === 'Côte d\'Ivoire') {
         const selectedCity = citySelect.options[citySelect.selectedIndex];
         city = selectedCity ? selectedCity.textContent : '';
     } else {
         city = cityIntInput.value;
     }
-    
+
     if (!city) return;
-    
+
     try {
         const response = await fetch('/orders/api/calculate-delivery-fee/', {
             method: 'POST',
@@ -137,14 +137,14 @@ async function calculateDeliveryFee() {
                 country: country
             })
         });
-        
+
         const data = await response.json();
-        
+
         if (data.success) {
             document.getElementById('delivery-fee-amount').textContent = data.fee + ' FCFA';
             document.getElementById('delivery-city-name').textContent = city;
             document.getElementById('delivery-fee-display').style.display = 'flex';
-            
+
             // Fonction pour parser les montants correctement
             function parseCurrencyValue(str) {
                 // Supprimer tout sauf chiffres, virgules, points et espaces
@@ -163,24 +163,24 @@ async function calculateDeliveryFee() {
                 }
                 return parseFloat(parts[0]);
             }
-            
+
             // Extraire correctement le sous-total
             const subtotalText = document.getElementById('summary-subtotal').textContent;
             const subtotal = parseCurrencyValue(subtotalText);
-            
+
             // Extraire les frais de livraison
             const deliveryFee = parseCurrencyValue(data.fee);
-            
+
             // Calculer le total
             const total = subtotal + deliveryFee;
-            
+
             // Mettre à jour les frais de livraison dans le récapitulatif
             document.getElementById('summary-delivery-fee').textContent = data.fee + ' FCFA';
             document.getElementById('delivery-fee-summary').style.display = 'flex';
-            
+
             // Mettre à jour le champ caché avec les frais de livraison
             document.getElementById('calculated_delivery_fee').value = data.fee;
-            
+
             // Mettre à jour le total avec formatage français
             document.getElementById('summary-total').textContent = total.toLocaleString('fr-FR', {minimumFractionDigits: 0, maximumFractionDigits: 0}) + ' FCFA';
         }
@@ -192,14 +192,14 @@ async function calculateDeliveryFee() {
 // Fonction pour charger les méthodes de paiement selon le pays
 async function loadPaymentMethods() {
     const country = document.getElementById('shipping_country').value;
-    
+
     try {
         const response = await fetch(`/orders/api/delivery-methods/?country=${country}`);
         const data = await response.json();
-        
+
         const paymentGrid = document.getElementById('payment-methods-grid');
         paymentGrid.innerHTML = '';
-        
+
         const logos = {
             'cash': '/static/images/payment/livraison.png',
             'moovmoney': '/static/images/payment/moov-money.png',
@@ -210,7 +210,7 @@ async function loadPaymentMethods() {
             'paypal': '/static/images/payment/paypal.png',
             'bank_transfer': '/static/images/payment/bank.png',
         };
-        
+
         data.methods.forEach(method => {
             const div = document.createElement('div');
             div.className = 'payment-option';
@@ -223,15 +223,15 @@ async function loadPaymentMethods() {
                     <div>${method.label}</div>
                 </label>
             `;
-            
+
             div.addEventListener('click', () => {
                 document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('active'));
                 div.classList.add('active');
-                
+
                 // Afficher le formulaire de paiement correspondant
                 showPaymentForm(method.value);
             });
-            
+
             paymentGrid.appendChild(div);
         });
     } catch (error) {
@@ -243,9 +243,9 @@ async function loadPaymentMethods() {
 function showPaymentForm(method) {
     const container = document.getElementById('payment-forms-container');
     container.innerHTML = '';
-    
+
     let formHTML = '';
-    
+
     switch(method) {
         case 'carte':
             formHTML = `
@@ -315,20 +315,20 @@ function showPaymentForm(method) {
         default:
             formHTML = '';
     }
-    
+
     container.innerHTML = formHTML;
 }
 
 // Gestion du changement de pays
 document.getElementById('shipping_country').addEventListener('change', function() {
     const selectedCountry = this.value;
-    
+
     // Afficher/masquer les champs selon le pays
     if (selectedCountry === 'Côte d\'Ivoire') {
         // Champs spécifiques pour la Côte d'Ivoire
         document.getElementById('civ-address-fields').style.display = 'flex';
         document.getElementById('international-address-fields').style.display = 'none';
-        
+
         // Activer les champs région/ville
         const regionField = document.getElementById('shipping_region');
         const cityField = document.getElementById('shipping_city');
@@ -338,19 +338,19 @@ document.getElementById('shipping_country').addEventListener('change', function(
         // Champs pour les autres pays
         document.getElementById('civ-address-fields').style.display = 'none';
         document.getElementById('international-address-fields').style.display = 'flex';
-        
+
         // Désactiver les champs région/ville
         const regionField = document.getElementById('shipping_region');
         const cityField = document.getElementById('shipping_city');
         if (regionField) regionField.required = false;
         if (cityField) cityField.required = false;
     }
-    
+
     // Mettre à jour l'indicatif téléphonique
     updatePhonePrefix(selectedCountry);
-    
+
     loadPaymentMethods();
-    
+
     // Calculer automatiquement les frais de livraison pour les pays hors CIV
     if (selectedCountry !== 'Côte d\'Ivoire') {
         setTimeout(() => calculateDeliveryFeeForCountry(selectedCountry), 500); // Attendre que la ville soit mise à jour
@@ -381,7 +381,7 @@ function updatePhonePrefix(country) {
         'France': '+33',
         'Belgique': '+32',
     };
-    
+
     const countryCities = {
         'Côte d\'Ivoire': ['Abidjan', 'Yamoussoukro', 'Bouaké', 'Korhogo', 'San-Pédro', 'Daloa', 'Man', 'Gagnoa'],
         'Mali': ['Bamako', 'Sikasso', 'Kayes', 'Ségou', 'Mopti', 'Koulikoro', 'Gao', 'Tombouctou'],
@@ -404,12 +404,12 @@ function updatePhonePrefix(country) {
         'France': ['Paris', 'Lyon', 'Marseille', 'Toulouse', 'Nice', 'Nantes', 'Strasbourg', 'Montpellier'],
         'Belgique': ['Bruxelles', 'Anvers', 'Gand', 'Charleroi', 'Liège', 'Bruges', 'Namur', 'Louvain'],
     };
-    
+
     const prefixElement = document.getElementById('phone-prefix');
     const code = countryCodes[country] || '+XXX';
     if (prefixElement) {
         prefixElement.textContent = code;
-        
+
         // Mettre à jour le placeholder et rendre l'input éditable pour "Autre"
         const phoneInput = document.getElementById('shipping_phone');
         if (phoneInput) {
@@ -422,7 +422,7 @@ function updatePhonePrefix(country) {
             }
         }
     }
-    
+
     // Mettre à jour la ville pour les pays internationaux
     if (country !== 'Côte d\'Ivoire' && country !== 'Autre') {
         const cityInput = document.getElementById('shipping_city_int');
@@ -435,17 +435,17 @@ function updatePhonePrefix(country) {
                 citySelect.name = 'shipping_city_int';
                 citySelect.className = 'form-control';
                 citySelect.innerHTML = '<option value="">Sélectionnez une ville</option>';
-                
+
                 cities.forEach(city => {
                     const option = document.createElement('option');
                     option.value = city;
                     option.textContent = city;
                     citySelect.appendChild(option);
                 });
-                
+
                 // Remplacer l'input par le select
                 cityInput.replaceWith(citySelect);
-                
+
                 // Définir la première ville comme valeur par défaut
                 if (cities.length > 0) {
                     citySelect.value = cities[0];
@@ -488,7 +488,7 @@ document.getElementById('shipping_city').addEventListener('change', function() {
     const selectedOption = this.options[this.selectedIndex];
     const cityName = selectedOption ? selectedOption.text : '';
     document.getElementById('shipping_city_name').value = cityName;
-    
+
     calculateDeliveryFee();
 });
 
@@ -506,19 +506,19 @@ document.addEventListener('change', function(e) {
 // Fonction pour soumettre la commande en AJAX
 async function submitOrder(event) {
     event.preventDefault();
-    
+
     // Afficher le loading personnalisé
     showOrderLoading();
-    
+
     const form = document.getElementById('checkout-form');
     const formData = new FormData(form);
-    
+
     // Convertir FormData en objet
     const data = {};
     for (let [key, value] of formData.entries()) {
         data[key] = value;
     }
-    
+
     try {
         const response = await fetch('/orders/api/create-order/', {
             method: 'POST',
@@ -529,20 +529,20 @@ async function submitOrder(event) {
             },
             body: JSON.stringify(data)
         });
-        
+
         const result = await response.json();
-        
+
         if (result.success) {
             // Afficher un message de succès
             showLoading('Commande créée avec succès!', 'Redirection...');
-            
+
             // Rediriger vers la page de détails de la commande
             setTimeout(() => {
                 window.location.href = `/orders/commande/${result.order_number}/`;
             }, 1000);
         } else {
             hideLoading();
-            
+
             // Afficher les erreurs
             if (result.errors) {
                 let errorMessage = 'Erreurs:\n';
@@ -565,7 +565,7 @@ async function submitOrder(event) {
 document.addEventListener('DOMContentLoaded', function() {
     loadRegions();
     loadPaymentMethods();
-    
+
     // Soumission du formulaire en AJAX
     const form = document.getElementById('checkout-form');
     if (form) {

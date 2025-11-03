@@ -19,4 +19,3 @@ echo "🗄️  Création des migrations..."
 python manage.py makemigrations --noinput || true
 
 echo "✅ Build terminé avec succès!"
-

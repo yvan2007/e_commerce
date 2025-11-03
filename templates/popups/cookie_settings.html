@@ -143,11 +143,11 @@
     .cookie-settings {
         padding: 1rem;
     }
-    
+
     .cookie-settings-buttons {
         flex-direction: column;
     }
-    
+
     .cookie-settings-btn {
         width: 100%;
     }
@@ -158,17 +158,17 @@
 {% block content %}
 <div class="cookie-settings">
     <a href="{% url 'products:home_page' %}" class="back-btn">← Retour à l'accueil</a>
-    
+
     <h1>🍪 Paramètres des Cookies</h1>
     <p class="text-center text-muted mb-4">
         Gérez vos préférences de cookies pour personnaliser votre expérience sur notre site.
     </p>
-    
+
     <form id="cookieSettingsForm">
         <div class="cookie-category required">
             <h3>Cookies Nécessaires</h3>
             <p>
-                Ces cookies sont essentiels au fonctionnement du site et ne peuvent pas être désactivés. 
+                Ces cookies sont essentiels au fonctionnement du site et ne peuvent pas être désactivés.
                 Ils incluent les cookies de session, de sécurité et de préférences de base.
             </p>
             <div class="form-check">
@@ -178,11 +178,11 @@
                 </label>
             </div>
         </div>
-        
+
         <div class="cookie-category">
             <h3>Cookies Analytiques</h3>
             <p>
-                Ces cookies nous aident à comprendre comment les visiteurs interagissent avec notre site 
+                Ces cookies nous aident à comprendre comment les visiteurs interagissent avec notre site
                 en collectant et rapportant des informations de manière anonyme.
             </p>
             <div class="form-check">
@@ -192,11 +192,11 @@
                 </label>
             </div>
         </div>
-        
+
         <div class="cookie-category">
             <h3>Cookies Marketing</h3>
             <p>
-                Ces cookies sont utilisés pour afficher des publicités pertinentes et mesurer 
+                Ces cookies sont utilisés pour afficher des publicités pertinentes et mesurer
                 l'efficacité de nos campagnes publicitaires.
             </p>
             <div class="form-check">
@@ -206,11 +206,11 @@
                 </label>
             </div>
         </div>
-        
+
         <div class="cookie-category">
             <h3>Cookies de Préférences</h3>
             <p>
-                Ces cookies mémorisent vos préférences et paramètres pour améliorer votre expérience 
+                Ces cookies mémorisent vos préférences et paramètres pour améliorer votre expérience
                 de navigation (langue, région, etc.).
             </p>
             <div class="form-check">
@@ -220,11 +220,11 @@
                 </label>
             </div>
         </div>
-        
+
         <div class="cookie-category">
             <h3>Cookies Réseaux Sociaux</h3>
             <p>
-                Ces cookies permettent l'intégration des réseaux sociaux et le partage de contenu 
+                Ces cookies permettent l'intégration des réseaux sociaux et le partage de contenu
                 sur les plateformes sociales.
             </p>
             <div class="form-check">
@@ -234,7 +234,7 @@
                 </label>
             </div>
         </div>
-        
+
         <div class="cookie-settings-buttons">
             <button type="button" class="cookie-settings-btn accept-all" onclick="acceptAllCookies()">
                 Accepter tout
@@ -283,7 +283,7 @@ function acceptAllCookies() {
     document.getElementById('marketing').checked = true;
     document.getElementById('preferences').checked = true;
     document.getElementById('social').checked = true;
-    
+
     // Sauvegarder
     saveCookieSettings();
 }
@@ -294,7 +294,7 @@ function declineAllCookies() {
     document.getElementById('marketing').checked = false;
     document.getElementById('preferences').checked = false;
     document.getElementById('social').checked = false;
-    
+
     // Sauvegarder
     saveCookieSettings();
 }
@@ -302,7 +302,7 @@ function declineAllCookies() {
 function saveCookieSettings() {
     const form = document.getElementById('cookieSettingsForm');
     const formData = new FormData(form);
-    
+
     const consent = {
         necessary: true, // Toujours true
         analytics: formData.get('analytics') === 'on',
@@ -310,7 +310,7 @@ function saveCookieSettings() {
         preferences: formData.get('preferences') === 'on',
         social: formData.get('social') === 'on'
     };
-    
+
     fetch('{% url "popups:save_cookie_consent" %}', {
         method: 'POST',
         headers: {

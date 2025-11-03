@@ -27,11 +27,11 @@
                     <div class="row">
                         <div class="col-md-3">
                             {% if review.product.main_image %}
-                                <img src="{{ review.product.main_image.url }}" 
-                                     alt="{{ review.product.name }}" 
+                                <img src="{{ review.product.main_image.url }}"
+                                     alt="{{ review.product.name }}"
                                      class="img-fluid rounded">
                             {% else %}
-                                <div class="img-fluid rounded d-flex align-items-center justify-content-center bg-light" 
+                                <div class="img-fluid rounded d-flex align-items-center justify-content-center bg-light"
                                      style="height: 120px; width: 120px;">
                                     <i class="fas fa-image text-muted fa-3x"></i>
                                 </div>
@@ -44,13 +44,13 @@
                                     <h5 class="card-title mb-1">{{ review.product.name }}</h5>
                                     <div class="rating-stars mb-2">{{ review.rating_stars }}</div>
                                     <small class="text-muted">
-                                        {% translate "Commande" %} #{{ review.order.order_number }} - 
+                                        {% translate "Commande" %} #{{ review.order.order_number }} -
                                         {{ review.created_at|date:"d/m/Y" }}
                                     </small>
                                 </div>
                                 <div class="dropdown">
-                                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" 
-                                            type="button" 
+                                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle"
+                                            type="button"
                                             data-bs-toggle="dropdown">
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
@@ -62,7 +62,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item text-danger" 
+                                            <a class="dropdown-item text-danger"
                                                href="{% url 'reviews:delete_review' review.id %}"
                                                onclick="return confirm('{% translate 'Êtes-vous sûr de vouloir supprimer cet avis ?' %}')">
                                                 <i class="fas fa-trash me-2"></i>

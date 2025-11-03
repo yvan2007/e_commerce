@@ -23,62 +23,62 @@
                         <!-- Search -->
                         <div class="mb-3">
                             <label for="query" class="form-label">Recherche</label>
-                            <input type="text" class="form-control" name="query" id="query" 
+                            <input type="text" class="form-control" name="query" id="query"
                                    value="{{ request.GET.query }}" placeholder="Nom du produit...">
                         </div>
-                        
+
                         <!-- Category -->
                         <div class="mb-3">
                             <label for="category" class="form-label">Catégorie</label>
                             <select class="form-select" name="category" id="category">
                                 <option value="">Toutes les catégories</option>
                                 {% for category in categories %}
-                                    <option value="{{ category.id }}" 
+                                    <option value="{{ category.id }}"
                                             {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>
                                         {{ category.name }}
                                     </option>
                                 {% endfor %}
                             </select>
                         </div>
-                        
+
                         <!-- Price range -->
                         <div class="mb-3">
                             <label class="form-label">Prix</label>
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="number" class="form-control" name="min_price" 
+                                    <input type="number" class="form-control" name="min_price"
                                            placeholder="Min" value="{{ request.GET.min_price }}">
                                 </div>
                                 <div class="col-6">
-                                    <input type="number" class="form-control" name="max_price" 
+                                    <input type="number" class="form-control" name="max_price"
                                            placeholder="Max" value="{{ request.GET.max_price }}">
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Tags -->
                         <div class="mb-3">
                             <label class="form-label">Étiquettes</label>
-                            <button type="button" 
-                                    class="btn btn-outline-secondary btn-sm w-100 dropdown-toggle" 
-                                    data-bs-toggle="dropdown" 
+                            <button type="button"
+                                    class="btn btn-outline-secondary btn-sm w-100 dropdown-toggle"
+                                    data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                 <i class="fas fa-tags me-2"></i>Sélectionner des étiquettes
                             </button>
                             <div class="dropdown-menu dropdown-menu-end p-2" style="width: 280px; max-height: 400px; overflow-y: auto;">
                                 <!-- Recherche -->
-                                <input type="text" 
-                                       class="form-control form-control-sm mb-2" 
-                                       id="tagSearch" 
+                                <input type="text"
+                                       class="form-control form-control-sm mb-2"
+                                       id="tagSearch"
                                        placeholder="Rechercher une étiquette...">
-                                
+
                                 <div id="tagList" style="max-height: 300px; overflow-y: auto;">
                                     {% for tag in tags %}
                                     <div class="form-check tag-item">
-                                        <input class="form-check-input" 
-                                               type="checkbox" 
-                                               name="tags" 
-                                               value="{{ tag.id }}" 
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               name="tags"
+                                               value="{{ tag.id }}"
                                                id="tag{{ tag.id }}"
                                                data-tag-name="{{ tag.name }}">
                                         <label class="form-check-label w-100" for="tag{{ tag.id }}">
@@ -89,17 +89,17 @@
                                     </div>
                                     {% endfor %}
                                 </div>
-                                
+
                                 <div class="mt-2 pt-2 border-top">
-                                    <button type="button" 
-                                            class="btn btn-sm btn-primary w-100" 
+                                    <button type="button"
+                                            class="btn btn-sm btn-primary w-100"
                                             onclick="applyTagFilters()">
                                         <i class="fas fa-check me-2"></i>Appliquer
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Sort -->
                         <div class="mb-3">
                             <label for="sort_by" class="form-label">Trier par</label>
@@ -127,7 +127,7 @@
                                 </option>
                             </select>
                         </div>
-                        
+
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-search me-2"></i>Filtrer
@@ -140,7 +140,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Products -->
         <div class="col-lg-9">
             <!-- Header -->
@@ -163,7 +163,7 @@
                 </div>
                 <div>
                     {% if page_obj.has_next %}
-                        <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}" 
+                        <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}"
                            class="btn btn-primary btn-sm">
                             <i class="fas fa-arrow-right me-1"></i>
                             Page suivante
@@ -176,7 +176,7 @@
                     {% endif %}
                 </div>
             </div>
-            
+
             <!-- Products Grid -->
             <div class="row g-3" id="productsContainer">
                 {% for product in products %}
@@ -185,10 +185,10 @@
                         <a href="{{ product.get_absolute_url }}" class="text-decoration-none d-flex flex-column flex-grow-1" style="flex: 1 1 auto; min-height: 0;">
                             <div class="position-relative">
                                 {% if product.has_main_image %}
-                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}" 
+                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}"
                                      class="card-img-top" style="height: 200px; object-fit: cover;">
                                 {% elif product.images.first %}
-                                <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" 
+                                <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}"
                                      class="card-img-top" style="height: 200px; object-fit: cover;">
                                 {% else %}
                                 <div class="card-img-top d-flex align-items-center justify-content-center bg-light" style="height: 200px;">
@@ -206,11 +206,11 @@
                                     </span>
                                 {% endif %}
                                 <div class="product-actions position-absolute top-0 end-0 m-2" style="opacity: 0;">
-                                    <button class="btn btn-sm btn-light rounded-circle me-1" 
+                                    <button class="btn btn-sm btn-light rounded-circle me-1"
                                             onclick="addToWishlist({{ product.id }})" title="Ajouter aux favoris">
                                         <i class="fas fa-heart"></i>
                                     </button>
-                                    <button class="btn btn-sm btn-light rounded-circle" 
+                                    <button class="btn btn-sm btn-light rounded-circle"
                                             onclick="quickView({{ product.id }})" title="Aperçu rapide">
                                         <i class="fas fa-eye"></i>
                                     </button>
@@ -219,7 +219,7 @@
                             <div class="card-body d-flex flex-column flex-grow-1" style="flex: 1 1 auto;">
                                 <h6 class="card-title text-dark mb-2" style="min-height: 48px;">{{ product.name|truncatewords:10 }}</h6>
                                 <p class="text-muted small mb-2">{{ product.vendor.get_display_name }}</p>
-                                
+
                                 <!-- Tags -->
                                 {% if product.tags.all %}
                                     <div class="mb-3 d-flex flex-wrap gap-1">
@@ -230,7 +230,7 @@
                                         {% endfor %}
                                     </div>
                                 {% endif %}
-                                
+
                                 <!-- Price and Rating -->
                                 <div class="mb-3">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
@@ -270,7 +270,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <!-- Stats -->
                                 <div class="d-flex justify-content-between align-items-center mb-2 text-muted" style="font-size: 0.875rem;">
                                     <span><i class="fas fa-eye me-1"></i>{{ product.views }} vues</span>
@@ -278,16 +278,16 @@
                                 </div>
                             </div>
                         </a>
-                        
+
                         <!-- Add to cart button - Toujours aligné en bas - Structure uniforme -->
                         <div class="card-footer bg-transparent border-0 p-3 mt-auto" style="min-height: 75px;">
                             {% if user.is_authenticated %}
                                 <form method="post" action="{% url 'products:add_to_cart' product.id %}" class="add-to-cart-form" data-ajax-cart="add-to-cart">
                                     {% csrf_token %}
                                     <div class="d-flex gap-2 align-items-stretch">
-                                        <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" 
+                                        <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}"
                                                class="form-control" style="width: 80px; min-height: 42px; max-height: 42px;">
-                                        <button type="submit" class="btn btn-primary flex-grow-1 d-flex align-items-center justify-content-center" 
+                                        <button type="submit" class="btn btn-primary flex-grow-1 d-flex align-items-center justify-content-center"
                                                 style="min-height: 42px; max-height: 42px;"
                                                 {% if not product.is_in_stock %}disabled{% endif %}>
                                             <i class="fas fa-cart-plus me-2"></i>
@@ -308,7 +308,7 @@
                                 <!-- Boutons pour utilisateurs non connectés - Même structure avec input invisible pour garder l'espace -->
                                 <div class="d-flex gap-2 align-items-stretch">
                                     <div style="width: 80px; min-width: 80px; min-height: 42px; visibility: hidden;"></div>
-                                    <a href="{% url 'accounts:login' %}?next={{ request.get_full_path }}" class="btn btn-primary flex-grow-1 d-flex align-items-center justify-content-center" 
+                                    <a href="{% url 'accounts:login' %}?next={{ request.get_full_path }}" class="btn btn-primary flex-grow-1 d-flex align-items-center justify-content-center"
                                        style="min-height: 42px; max-height: 42px;"
                                        {% if not product.is_in_stock %}style="opacity: 0.5; pointer-events: none; min-height: 42px; max-height: 42px;"{% endif %}>
                                         <i class="fas fa-cart-plus me-2"></i>
@@ -335,12 +335,12 @@
                 </div>
                 {% endfor %}
             </div>
-            
+
             <!-- Bouton Voir Plus (si pas sur la dernière page) -->
             {% if page_obj.has_next %}
             <div class="row mt-4">
                 <div class="col-12 text-center">
-                    <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}" 
+                    <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}"
                        class="btn btn-primary btn-lg px-5">
                         <i class="fas fa-arrow-down me-2"></i>
                         Voir plus de produits
@@ -348,7 +348,7 @@
                 </div>
             </div>
             {% endif %}
-            
+
             <!-- Pagination -->
             {% if page_obj.has_other_pages %}
             <div class="row mt-5">
@@ -368,7 +368,7 @@
                                         </a>
                                     </li>
                                 {% endif %}
-                                
+
                                 {% for num in page_obj.paginator.page_range %}
                                     {% if page_obj.number == num %}
                                         <li class="page-item active">
@@ -382,7 +382,7 @@
                                         </li>
                                     {% endif %}
                                 {% endfor %}
-                                
+
                                 {% if page_obj.has_next %}
                                     <li class="page-item">
                                         <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}">
@@ -451,12 +451,12 @@ function getCSRFToken() {
 // Fonction pour rechercher dans les étiquettes
 document.addEventListener('DOMContentLoaded', function() {
     const tagSearch = document.getElementById('tagSearch');
-    
+
     if (tagSearch) {
         tagSearch.addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
             const tagItems = document.querySelectorAll('.tag-item');
-            
+
             tagItems.forEach(item => {
                 const label = item.querySelector('label');
                 if (label) {
@@ -479,13 +479,13 @@ function applyTagFilters() {
         console.warn('filterForm not found');
         return;
     }
-    
+
     const checkedTags = Array.from(document.querySelectorAll('input[name="tags"]:checked'));
-    
+
     // Réinitialiser les tags existants dans le formulaire
     const existingTagInputs = form.querySelectorAll('input[type="hidden"][name="tags"]');
     existingTagInputs.forEach(input => input.remove());
-    
+
     // Ajouter les tags sélectionnés
     checkedTags.forEach(checkbox => {
         const hiddenInput = document.createElement('input');
@@ -494,7 +494,7 @@ function applyTagFilters() {
         hiddenInput.value = checkbox.value;
         form.appendChild(hiddenInput);
     });
-    
+
     form.submit();
 }
 
@@ -503,10 +503,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function alignProductCards() {
         const container = document.getElementById('productsContainer');
         if (!container) return;
-        
+
         // Forcer un reflow
         container.offsetHeight;
-        
+
         // Réinitialiser toutes les hauteurs
         const allCards = container.querySelectorAll('.product-card');
         allCards.forEach(card => {
@@ -514,38 +514,38 @@ document.addEventListener('DOMContentLoaded', function() {
             card.style.minHeight = '';
             card.style.maxHeight = '';
         });
-        
+
         // Forcer un nouveau reflow après réinitialisation
         container.offsetHeight;
-        
+
         // Utiliser requestAnimationFrame pour s'assurer que le reflow est complet
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
                 // Grouper les cartes par rangée (en fonction de la position Y)
                 const items = Array.from(container.querySelectorAll('.product-item'));
-                
+
                 if (items.length === 0) return;
-                
+
                 // Grouper par position Y avec tolérance plus large
                 const rowMap = new Map();
-                
+
                 items.forEach((item) => {
                     const rect = item.getBoundingClientRect();
                     // Arrondir à 10px près pour une meilleure détection de rangée
                     const top = Math.round(rect.top / 10) * 10;
-                    
+
                     if (!rowMap.has(top)) {
                         rowMap.set(top, []);
                     }
                     rowMap.get(top).push(item);
                 });
-                
+
                 // Pour chaque rangée, trouver la hauteur maximale et l'appliquer
                 rowMap.forEach((rowItems, rowTop) => {
                     if (rowItems.length <= 1) return; // Pas besoin d'aligner si une seule carte
-                    
+
                     let maxHeight = 0;
-                    
+
                     // Première passe: mesurer toutes les cartes sans hauteur fixe
                     rowItems.forEach(item => {
                         const card = item.querySelector('.product-card');
@@ -555,17 +555,17 @@ document.addEventListener('DOMContentLoaded', function() {
                             card.style.height = 'auto';
                             // Forcer un reflow
                             card.offsetHeight;
-                            
+
                             const height = card.offsetHeight || card.scrollHeight;
                             if (height > maxHeight) {
                                 maxHeight = height;
                             }
-                            
+
                             // Restaurer la hauteur temporairement
                             card.style.height = oldHeight;
                         }
                     });
-                    
+
                     // Deuxième passe: appliquer la hauteur maximale à toutes les cartes de la rangée
                     if (maxHeight > 0) {
                         rowItems.forEach(item => {
@@ -579,7 +579,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-    
+
     // Fonction pour forcer le réalignement après les images
     function waitForImagesAndAlign() {
         const containerForImages = document.getElementById('productsContainer');
@@ -587,16 +587,16 @@ document.addEventListener('DOMContentLoaded', function() {
             alignProductCards();
             return;
         }
-        
+
         const images = containerForImages.querySelectorAll('img');
         if (images.length === 0) {
             alignProductCards();
             return;
         }
-        
+
         let loadedCount = 0;
         let hasStarted = false;
-        
+
         images.forEach(img => {
             if (img.complete && img.naturalHeight !== 0) {
                 loadedCount++;
@@ -617,13 +617,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         });
-        
+
         if (loadedCount === images.length && !hasStarted) {
             hasStarted = true;
             setTimeout(alignProductCards, 100);
         }
     }
-    
+
     // Observer pour détecter les changements dans le DOM et réaligner automatiquement
     const observer = new MutationObserver(function(mutations) {
         let shouldRealign = false;
@@ -636,7 +636,7 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(alignProductCards, 100);
         }
     });
-    
+
     // Observer le conteneur des produits
     const container = document.getElementById('productsContainer');
     if (container) {
@@ -647,10 +647,10 @@ document.addEventListener('DOMContentLoaded', function() {
             attributeFilter: ['style', 'class']
         });
     }
-    
+
     // Aligner au chargement
     alignProductCards();
-    
+
     // Réaligner plusieurs fois pour s'assurer que ça fonctionne
     setTimeout(() => alignProductCards(), 50);
     setTimeout(() => alignProductCards(), 150);
@@ -658,10 +658,10 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => alignProductCards(), 600);
     setTimeout(() => alignProductCards(), 1000);
     setTimeout(() => alignProductCards(), 1500);
-    
+
     // Attendre les images
     waitForImagesAndAlign();
-    
+
     // Réaligner lors du redimensionnement
     let resizeTimeout;
     window.addEventListener('resize', function() {
@@ -670,7 +670,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alignProductCards();
         }, 250);
     });
-    
+
     // Initialize AOS
     if (typeof AOS !== 'undefined') {
         AOS.init({
@@ -678,21 +678,21 @@ document.addEventListener('DOMContentLoaded', function() {
             easing: 'ease-in-out',
             once: true
         });
-        
+
         // Réaligner après AOS
         setTimeout(() => alignProductCards(), 900);
     }
-    
+
     // Forcer l'alignement après le chargement complet
     window.addEventListener('load', function() {
         setTimeout(() => alignProductCards(), 500);
     });
-    
+
     // View toggle
     const gridView = document.getElementById('gridView');
     const listView = document.getElementById('listView');
     const productsContainer = document.getElementById('productsContainer');
-    
+
     if (gridView && listView && productsContainer) {
         gridView.addEventListener('click', function() {
             this.classList.add('active');
@@ -700,7 +700,7 @@ document.addEventListener('DOMContentLoaded', function() {
             productsContainer.className = 'row';
             setTimeout(alignProductCards, 100);
         });
-        
+
         listView.addEventListener('click', function() {
             this.classList.add('active');
             gridView.classList.remove('active');
@@ -708,7 +708,7 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(alignProductCards, 100);
         });
     }
-    
+
     // Product hover effects
     const productCards = document.querySelectorAll('.product-card');
     productCards.forEach(card => {
@@ -717,31 +717,31 @@ document.addEventListener('DOMContentLoaded', function() {
             card.addEventListener('mouseenter', function() {
                 productActions.style.opacity = '1';
             });
-            
+
             card.addEventListener('mouseleave', function() {
                 productActions.style.opacity = '0';
             });
         }
     });
-    
+
     // Add to cart form
     const addToCartForms = document.querySelectorAll('.add-to-cart-form');
     addToCartForms.forEach(form => {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             const formData = new FormData(this);
             const submitButton = this.querySelector('button[type="submit"]');
             // Débogage: afficher l'URL de l'action
             console.log('Action URL:', this.action);
             const originalText = submitButton ? submitButton.innerHTML : '';
-            
+
             // Désactiver le bouton pendant la requête
             if (submitButton) {
                 submitButton.disabled = true;
                 submitButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Ajout...';
             }
-            
+
             // Récupérer le token CSRF depuis le formulaire ou les cookies
             const csrfToken = formData.get('csrfmiddlewaretoken') || getCSRFToken();
             if (!csrfToken) {
@@ -753,15 +753,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 return;
             }
-            
+
             // S'assurer que le token CSRF est dans le FormData
             if (!formData.get('csrfmiddlewaretoken')) {
                 formData.append('csrfmiddlewaretoken', csrfToken);
             }
-            
+
             // Utiliser l'URL absolue pour éviter les problèmes avec les URLs relatives
             let actionUrl = this.action;
-            
+
             // Si l'URL commence par /, c'est déjà une URL absolue (relative à l'origine)
             // Si l'URL ne commence pas par / et ne commence pas par http, c'est une URL relative
             if (!actionUrl.startsWith('http') && !actionUrl.startsWith('/')) {
@@ -771,9 +771,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 // URL absolue relative à l'origine
                 actionUrl = window.location.origin + actionUrl;
             }
-            
+
             console.log('Final URL:', actionUrl);
-            
+
             fetch(actionUrl, {
                 method: 'POST',
                 headers: {
@@ -832,7 +832,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (cartCount) {
                         cartCount.textContent = data.cart_count;
                     }
-                    
+
                     // Show success message
                     showNotification(data.message || 'Produit ajouté au panier avec succès.', 'success');
                 } else {
@@ -854,12 +854,12 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
-    
+
     // Auto-submit filter form on change
     const filterForm = document.getElementById('filterForm');
     if (filterForm) {
         const filterInputs = filterForm.querySelectorAll('select, input[type="number"]');
-        
+
         filterInputs.forEach(input => {
             input.addEventListener('change', function() {
                 filterForm.submit();
@@ -887,9 +887,9 @@ function showNotification(message, type) {
         ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     `;
-    
+
     document.body.appendChild(notification);
-    
+
     // Auto remove after 3 seconds
     setTimeout(() => {
         if (notification.parentNode) {

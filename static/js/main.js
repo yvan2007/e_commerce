@@ -28,16 +28,16 @@ const DropdownManager = {
         // Laisser Bootstrap gérer nativement les dropdowns
         // Ne pas interférer avec les dropdowns standards
         return;
-        
+
         // Améliorer les dropdowns Bootstrap
         document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
             toggle.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                
+
                 const dropdown = e.target.closest('.dropdown');
                 const menu = dropdown.querySelector('.dropdown-menu');
-                
+
                 // Fermer les autres dropdowns
                 document.querySelectorAll('.dropdown-menu.show').forEach(openMenu => {
                     if (openMenu !== menu) {
@@ -45,7 +45,7 @@ const DropdownManager = {
                         openMenu.closest('.dropdown').classList.remove('show');
                     }
                 });
-                
+
                 // Toggle le dropdown actuel
                 const isOpen = menu.classList.contains('show');
                 if (isOpen) {
@@ -55,7 +55,7 @@ const DropdownManager = {
                     menu.classList.add('show');
                     dropdown.classList.add('show');
                 }
-                
+
                 console.log('Dropdown toggled:', menu.classList.contains('show'));
             });
         });
@@ -76,12 +76,12 @@ const DropdownManager = {
         document.querySelectorAll('.top-bar .dropdown-menu').forEach(menu => {
             const dropdown = menu.closest('.dropdown');
             const toggle = dropdown.querySelector('.dropdown-toggle');
-            
+
             toggle.addEventListener('click', () => {
                 // Calculer la position pour éviter le débordement
                 const rect = toggle.getBoundingClientRect();
                 const menuRect = menu.getBoundingClientRect();
-                
+
                 // Si le menu déborde à droite, l'aligner à droite
                 if (rect.right + menuRect.width > window.innerWidth) {
                     menu.style.left = 'auto';
@@ -90,7 +90,7 @@ const DropdownManager = {
                     menu.style.left = '0';
                     menu.style.right = 'auto';
                 }
-                
+
                 // Si le menu déborde en haut, l'afficher vers le bas
                 if (rect.top - menuRect.height < 0) {
                     menu.style.top = '100%';
@@ -143,9 +143,9 @@ const Utils = {
             ${message}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         `;
-        
+
         document.body.appendChild(notification);
-        
+
         // Auto-remove after 5 seconds
         setTimeout(() => {
             if (notification.parentNode) {
@@ -194,12 +194,12 @@ class CartManager {
                 e.preventDefault();
                 this.addToCart(e.target);
             }
-            
+
             if (e.target.matches('[data-action="remove-from-cart"]')) {
                 e.preventDefault();
                 this.removeFromCart(e.target);
             }
-            
+
             if (e.target.matches('[data-action="update-cart"]')) {
                 e.preventDefault();
                 this.updateCartItem(e.target);
@@ -470,7 +470,7 @@ class SearchManager {
         try {
             const response = await fetch(`${CONFIG.apiEndpoints.searchSuggestions}?q=${encodeURIComponent(query)}`);
             const data = await response.json();
-            
+
             if (data.suggestions && data.suggestions.length > 0) {
                 this.showSuggestions(data.suggestions);
             } else {
@@ -483,7 +483,7 @@ class SearchManager {
 
     showSuggestions(suggestions = []) {
         let suggestionsContainer = document.getElementById('search-suggestions');
-        
+
         if (!suggestionsContainer) {
             suggestionsContainer = document.createElement('div');
             suggestionsContainer.id = 'search-suggestions';
@@ -496,21 +496,21 @@ class SearchManager {
                 max-height: 300px;
                 overflow-y: auto;
             `;
-            
+
             const searchContainer = document.querySelector('.input-group');
             if (searchContainer) {
                 searchContainer.style.position = 'relative';
                 searchContainer.appendChild(suggestionsContainer);
             }
     }
-    
+
     if (suggestions.length > 0) {
             suggestionsContainer.innerHTML = suggestions.map(suggestion => `
-                <div class="suggestion-item p-3 border-bottom cursor-pointer" 
+                <div class="suggestion-item p-3 border-bottom cursor-pointer"
                      onclick="window.location.href='${suggestion.url}'">
                 <div class="d-flex align-items-center">
-                        ${suggestion.image ? 
-                            `<img src="${suggestion.image}" alt="${suggestion.name}" class="me-3" width="40" height="40" style="object-fit: cover;">` : 
+                        ${suggestion.image ?
+                            `<img src="${suggestion.image}" alt="${suggestion.name}" class="me-3" width="40" height="40" style="object-fit: cover;">` :
                             '<div class="me-3 bg-light rounded" style="width: 40px; height: 40px;"></div>'
                         }
                     <div>
@@ -660,9 +660,9 @@ class FormManager {
     }
 
     setFieldValidity(field, isValid, message) {
-        const feedback = field.parentNode.querySelector('.invalid-feedback') || 
+        const feedback = field.parentNode.querySelector('.invalid-feedback') ||
                         field.parentNode.querySelector('.valid-feedback');
-        
+
         if (feedback) {
             feedback.remove();
         }
@@ -670,7 +670,7 @@ class FormManager {
         const feedbackDiv = document.createElement('div');
         feedbackDiv.className = isValid ? 'valid-feedback' : 'invalid-feedback';
         feedbackDiv.textContent = message;
-        
+
         field.parentNode.appendChild(feedbackDiv);
         field.classList.toggle('is-valid', isValid);
         field.classList.toggle('is-invalid', !isValid);
@@ -826,7 +826,7 @@ class ModalManager {
 
         // Fermeture de modales
         document.addEventListener('click', (e) => {
-            if (e.target.matches('[data-modal-close]') || 
+            if (e.target.matches('[data-modal-close]') ||
                 e.target.matches('.modal-backdrop')) {
                 this.closeModal();
             }
@@ -846,7 +846,7 @@ class ModalManager {
             modal.style.display = 'block';
             modal.classList.add('show');
             document.body.classList.add('modal-open');
-            
+
             // Animation d'entrée
             setTimeout(() => {
                 modal.querySelector('.modal-dialog').style.transform = 'scale(1)';
@@ -861,7 +861,7 @@ class ModalManager {
             const dialog = openModal.querySelector('.modal-dialog');
             dialog.style.transform = 'scale(0.8)';
             dialog.style.opacity = '0';
-            
+
             setTimeout(() => {
                 openModal.classList.remove('show');
                 openModal.style.display = 'none';

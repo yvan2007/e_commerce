@@ -124,12 +124,12 @@
             <h1>✅ Commande Confirmée !</h1>
             <div class="order-number">Commande #{{ order.order_number }}</div>
         </div>
-        
+
         <div class="content">
             <p>Bonjour {{ user.first_name|default:user.username }},</p>
-            
+
             <p>Nous avons bien reçu votre commande et elle a été confirmée avec succès !</p>
-            
+
             <div class="order-summary">
                 <h3>📋 Résumé de votre commande</h3>
                 <p>📅 <strong>Date de commande :</strong> {{ order.created_at|date:"d/m/Y à H:i" }}</p>
@@ -138,7 +138,7 @@
                 <p>🔍 <strong>Numéro de suivi :</strong> {{ order.tracking_number }}</p>
                 {% endif %}
             </div>
-            
+
             <div class="order-items">
                 <h3>🛍️ Articles commandés</h3>
                 {% for item in order_items %}
@@ -159,7 +159,7 @@
                 </div>
                 {% endfor %}
             </div>
-            
+
             <div class="total-section">
                 <div class="total-line">
                     <span>Sous-total :</span>
@@ -174,7 +174,7 @@
                     <span>{{ order.total_amount|floatformat:0 }} FCFA</span>
                 </div>
             </div>
-            
+
             <div class="delivery-info">
                 <h3>🚚 Adresse de livraison</h3>
                 <p>👤 <strong>{{ order.shipping_first_name }} {{ order.shipping_last_name }}</strong></p>
@@ -186,7 +186,7 @@
                 <p>📞 <strong>Téléphone :</strong> {{ order.shipping_phone }}</p>
                 <p>💳 <strong>Méthode de paiement :</strong> {{ order.get_payment_method_display }}</p>
             </div>
-            
+
             <p><strong>🚀 Prochaines étapes :</strong></p>
             <ul>
                 <li>📦 Votre commande est en cours de préparation</li>
@@ -194,16 +194,16 @@
                 <li>🔍 Un numéro de suivi vous sera fourni</li>
                 <li>⏱️ Livraison estimée : 2-5 jours ouvrés</li>
             </ul>
-            
+
             <div style="text-align: center;">
                 <a href="{{ site_url }}/orders/{{ order.order_number }}/" class="cta-button">
                     📦 Suivre ma commande
                 </a>
             </div>
-            
+
             <p>🙏 Merci pour votre confiance ! Si vous avez des questions, n'hésitez pas à nous contacter.</p>
         </div>
-        
+
         <div class="footer">
             <p><strong>KefyStore</strong> - Votre boutique en ligne de confiance</p>
             <p>Cet email confirme votre commande #{{ order.order_number }} du {{ order.created_at|date:"d/m/Y" }}.</p>

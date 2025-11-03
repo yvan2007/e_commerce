@@ -1,6 +1,6 @@
 // Fonction pour obtenir le token CSRF
 function getCSRFToken() {
-    return document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
+    return document.querySelector('[name=csrfmiddlewaretoken]')?.value ||
            document.querySelector('meta[name=csrf-token]')?.getAttribute('content');
 }
 
@@ -12,7 +12,7 @@ window.addToCartAjax = function(productId, quantity = 1, variantId = null) {
     if (variantId) {
         formData.append('variant_id', variantId);
     }
-    
+
     return fetch(`/products/add-to-cart/${productId}/`, {
         method: 'POST',
         body: formData,
@@ -31,10 +31,10 @@ window.addToCartAjax = function(productId, quantity = 1, variantId = null) {
                     badge.textContent = data.cart_count;
                 }
             });
-            
+
             // Afficher une notification de succès
             showCartNotification('✅ ' + (data.message || 'Produit ajouté au panier'), 'success');
-            
+
             // Retourner les données pour utilisation éventuelle
             return data;
         } else {
@@ -59,10 +59,10 @@ function showCartNotification(message, type = 'success') {
         ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     `;
-    
+
     // Ajouter au DOM
     document.body.appendChild(notification);
-    
+
     // Supprimer automatiquement après 3 secondes
     setTimeout(() => {
         notification.style.animation = 'slideOutRight 0.3s ease';
@@ -85,7 +85,7 @@ if (!document.querySelector('#cart-animations-style')) {
                 opacity: 1;
             }
         }
-        
+
         @keyframes slideOutRight {
             from {
                 transform: translateX(0);
@@ -96,7 +96,7 @@ if (!document.querySelector('#cart-animations-style')) {
                 opacity: 0;
             }
         }
-        
+
         @keyframes slideOutLeft {
             from {
                 transform: translateX(0);
@@ -110,4 +110,3 @@ if (!document.querySelector('#cart-animations-style')) {
     `;
     document.head.appendChild(style);
 }
-

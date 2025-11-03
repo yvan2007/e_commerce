@@ -43,4 +43,3 @@ Write-Host ""
 
 Write-Host "[4/4] Démarrage du serveur..." -ForegroundColor Yellow
 python manage.py runserver 0.0.0.0:8000
-

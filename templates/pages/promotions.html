@@ -89,7 +89,7 @@
             <h2>Offres à Ne Pas Manquer</h2>
             <p class="text-muted">Profitez de nos meilleures offres - Stock limité !</p>
         </div>
-        
+
         <div class="row g-4 mb-5">
             {% for product in products_on_sale %}
             <div class="col-lg-4 col-md-6">
@@ -113,7 +113,7 @@
                         {% if product.category %}
                         <p class="card-text text-muted">{{ product.category.name }}</p>
                         {% endif %}
-                        
+
                         <div class="d-flex justify-content-between align-items-center mt-3">
                             {% if product.get_original_price %}
                             <div>
@@ -124,7 +124,7 @@
                             <div class="promo-price">{{ product.price|floatformat:0 }} FCFA</div>
                             {% endif %}
                         </div>
-                        
+
                         {% if product.stock > 0 %}
                             <div class="mt-3">
                                 <div class="progress" style="height: 8px;">
@@ -138,7 +138,7 @@
                                 <small>Rupture de stock</small>
                             </div>
                         {% endif %}
-                        
+
                         {% if product.stock > 0 %}
                             {% if user.is_authenticated %}
                                 <form method="post" action="{% url 'products:add_to_cart' product.id %}" class="mt-3" data-ajax-cart="add-to-cart">
@@ -153,7 +153,7 @@
                                 </a>
                             {% endif %}
                         {% endif %}
-                        
+
                         <div class="mt-2">
                             <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary w-100">
                                 Voir les détails
@@ -175,12 +175,12 @@
             </a>
         </div>
     {% endif %}
-    
+
     <!-- How to Use Promotions -->
     <div class="section-header mt-5">
         <h2>Comment Utiliser les Promotions</h2>
     </div>
-    
+
     <div class="row g-4 mb-5">
         <div class="col-md-4">
             <div class="text-center p-4">
@@ -191,7 +191,7 @@
                 <p class="text-muted">Découvrez toutes nos offres spéciales disponibles sur le site</p>
             </div>
         </div>
-        
+
         <div class="col-md-4">
             <div class="text-center p-4">
                 <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
@@ -201,7 +201,7 @@
                 <p class="text-muted">Ajoutez les produits en promotion dans votre panier d'achat</p>
             </div>
         </div>
-        
+
         <div class="col-md-4">
             <div class="text-center p-4">
                 <div class="bg-danger text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
@@ -212,7 +212,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Terms & Conditions -->
     <div class="alert alert-info mt-5" role="alert">
         <h5 class="alert-heading"><i class="fas fa-info-circle me-2"></i>Conditions Générales des Promotions</h5>

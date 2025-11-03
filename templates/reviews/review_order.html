@@ -30,7 +30,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <p><strong>{% translate "Date de commande" %}:</strong> {{ order.created_at|date:"d/m/Y" }}</p>
-                        <p><strong>{% translate "Statut" %}:</strong> 
+                        <p><strong>{% translate "Statut" %}:</strong>
                             <span class="badge bg-success">{{ order.get_status_display }}</span>
                         </p>
                     </div>
@@ -60,11 +60,11 @@
                                 <div class="row align-items-center">
                                     <div class="col-3">
                                         {% if item.product.main_image %}
-                                            <img src="{{ item.product.main_image.url }}" 
-                                                 alt="{{ item.product.name }}" 
+                                            <img src="{{ item.product.main_image.url }}"
+                                                 alt="{{ item.product.name }}"
                                                  class="img-fluid rounded">
                                         {% else %}
-                                            <div class="img-fluid rounded d-flex align-items-center justify-content-center bg-light" 
+                                            <div class="img-fluid rounded d-flex align-items-center justify-content-center bg-light"
                                                  style="height: 80px; width: 80px;">
                                                 <i class="fas fa-image text-muted fa-2x"></i>
                                             </div>
@@ -76,7 +76,7 @@
                                             {% translate "Quantité" %}: {{ item.quantity }}<br>
                                             {% translate "Prix" %}: {{ item.get_total_price }} FCFA
                                         </p>
-                                        <button onclick="toggleReviewForm({{ item.id }})" 
+                                        <button onclick="toggleReviewForm({{ item.id }})"
                                                 class="btn btn-primary btn-sm"
                                                 id="review-btn-{{ item.id }}">
                                             <i class="fas fa-star me-1"></i>
@@ -84,13 +84,13 @@
                                         </button>
                                     </div>
                                 </div>
-                                
+
                                 <!-- Formulaire d'évaluation (caché par défaut) -->
                                 <div id="review-form-{{ item.id }}" style="display: none;" class="mt-3 pt-3 border-top">
                                     <form method="POST" action="{% url 'reviews:create_product_review' item.id %}" enctype="multipart/form-data">
                                         {% csrf_token %}
                                         <h6>{% translate "Votre avis" %}</h6>
-                                        
+
                                         <!-- Évaluation par étoiles -->
                                         <div class="mb-3">
                                             <label class="form-label">{% translate "Note" %}:</label>
@@ -107,21 +107,21 @@
                                                 <label for="star1_{{ item.id }}" class="star">★</label>
                                             </div>
                                         </div>
-                                        
+
                                         <!-- Titre -->
                                         <div class="mb-3">
                                             <label for="title_{{ item.id }}" class="form-label">{% translate "Titre de votre avis" %}</label>
-                                            <input type="text" class="form-control" name="title" id="title_{{ item.id }}" 
+                                            <input type="text" class="form-control" name="title" id="title_{{ item.id }}"
                                                    placeholder='{% translate "Ex: Excellent produit" %}' required>
                                         </div>
-                                        
+
                                         <!-- Commentaire -->
                                         <div class="mb-3">
                                             <label for="comment_{{ item.id }}" class="form-label">{% translate "Votre commentaire" %}</label>
-                                            <textarea class="form-control" name="comment" id="comment_{{ item.id }}" 
+                                            <textarea class="form-control" name="comment" id="comment_{{ item.id }}"
                                                       rows="3" placeholder='{% translate "Partagez votre expérience..." %}' required></textarea>
                                         </div>
-                                        
+
                                         <!-- Boutons -->
                                         <div class="d-flex gap-2">
                                             <button type="submit" class="btn btn-success">
@@ -162,7 +162,7 @@
                 <p class="text-muted mb-3">
                     {% translate "Comment s'est passée votre livraison ? Partagez votre expérience pour nous aider à améliorer notre service." %}
                 </p>
-                <a href="{% url 'reviews:create_delivery_review' order.id %}" 
+                <a href="{% url 'reviews:create_delivery_review' order.id %}"
                    class="btn btn-success">
                     <i class="fas fa-truck me-2"></i>
                     {% translate "Évaluer la livraison" %}
@@ -179,12 +179,12 @@
 
         <!-- Actions -->
         <div class="text-center mt-4">
-            <a href="{% url 'orders:order_detail' order.order_number %}" 
+            <a href="{% url 'orders:order_detail' order.order_number %}"
                class="btn btn-outline-primary me-3">
                 <i class="fas fa-arrow-left me-2"></i>
                 {% translate "Retour à la commande" %}
             </a>
-            <a href="{% url 'orders:order_list' %}" 
+            <a href="{% url 'orders:order_list' %}"
                class="btn btn-outline-secondary">
                 <i class="fas fa-list me-2"></i>
                 {% translate "Mes commandes" %}
@@ -200,24 +200,24 @@
         justify-content: flex-end;
         font-size: 2rem;
     }
-    
+
     .star-rating input[type="radio"] {
         display: none;
     }
-    
+
     .star-rating label {
         color: #ddd;
         cursor: pointer;
         transition: color 0.2s;
         margin-right: 5px;
     }
-    
+
     .star-rating label:hover,
     .star-rating label:hover ~ label,
     .star-rating input[type="radio"]:checked ~ label {
         color: #ffc107;
     }
-    
+
     .card {
         border: 1px solid #dee2e6;
         border-radius: 0.375rem;
@@ -228,7 +228,7 @@
 function toggleReviewForm(itemId) {
     const form = document.getElementById('review-form-' + itemId);
     const button = document.getElementById('review-btn-' + itemId);
-    
+
     if (form.style.display === 'none' || form.style.display === '') {
         form.style.display = 'block';
         button.style.display = 'none';

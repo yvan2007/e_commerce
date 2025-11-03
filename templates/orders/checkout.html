@@ -12,7 +12,7 @@
     input:invalid {
         box-shadow: none !important;
     }
-    
+
     input:invalid:not(:focus):not(:placeholder-shown) {
         border-color: var(--border-color) !important;
     }
@@ -33,20 +33,20 @@
                         </h2>
                         <p class="mb-0">Sécurisé et rapide avec KefyStore</p>
                     </div>
-                    
+
                     <form method="post" id="checkout-form" novalidate>
                         {% csrf_token %}
                         <input type="hidden" name="calculated_delivery_fee" id="calculated_delivery_fee" value="0">
                         <input type="hidden" name="shipping_city_int" id="form_shipping_city_int">
                         <input type="hidden" name="shipping_region" id="form_shipping_region">
-                        
+
                         <!-- Informations de livraison -->
                         <div class="checkout-form-section">
                             <h5>
                                 <i class="fas fa-truck"></i>
                                 Adresse de livraison
                             </h5>
-                            
+
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label fw-bold">Prénom</label>
@@ -89,7 +89,7 @@
                                     </select>
                                 </div>
                             </div>
-                            
+
                             <div class="row" id="civ-address-fields">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label fw-bold">Région</label>
@@ -105,7 +105,7 @@
                                     <input type="hidden" name="shipping_city_name" id="shipping_city_name">
                                 </div>
                             </div>
-                            
+
                             <div class="row" id="international-address-fields" style="display: none;">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label fw-bold">Ville</label>
@@ -116,12 +116,12 @@
                                     <input type="text" id="shipping_postal_code" name="shipping_postal_code" class="form-control">
                                 </div>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Adresse complète</label>
                                 <textarea name="shipping_address" class="form-control" rows="3" required></textarea>
                             </div>
-                            
+
                             <!-- Affichage des frais de livraison -->
                             <div class="delivery-fee-display" id="delivery-fee-display" style="display: none;">
                                 <div>
@@ -131,24 +131,24 @@
                                 <strong id="delivery-fee-amount">0 FCFA</strong>
                             </div>
                         </div>
-                        
+
                         <!-- Méthode de paiement -->
                         <div class="checkout-form-section">
                             <h5>
                                 <i class="fas fa-credit-card"></i>
                                 Méthode de paiement
                             </h5>
-                            
+
                             <div class="payment-method-grid" id="payment-methods-grid">
                                 <!-- Les options de paiement seront injectées ici via JavaScript -->
                             </div>
-                            
+
                             <!-- Formulaires de paiement -->
                             <div id="payment-forms-container">
                                 <!-- Les formulaires de paiement seront injectés ici via JavaScript -->
                             </div>
                         </div>
-                        
+
                         <div class="checkout-form-section">
                             <h5>
                                 <i class="fas fa-comments"></i>
@@ -156,7 +156,7 @@
                             </h5>
                             <textarea name="notes" class="form-control" rows="3" placeholder="Instructions spéciales pour la livraison..."></textarea>
                         </div>
-                        
+
                         <div class="text-center mb-4">
                             <button type="submit" class="btn-place-order">
                                 <i class="fas fa-lock me-2"></i>
@@ -166,7 +166,7 @@
                     </form>
                 </div>
             </div>
-            
+
             <!-- Résumé de la commande -->
             <div class="col-lg-4">
                 <div class="order-summary-sidebar">
@@ -174,7 +174,7 @@
                         <i class="fas fa-receipt me-2"></i>
                         Récapitulatif
                     </h5>
-                    
+
                     <div class="order-summary-item">
                         <span>Sous-total ({{ cart_count }} article{{ cart_count|pluralize }})</span>
                         <span id="summary-subtotal">{{ cart_total|intcomma }} FCFA</span>
@@ -187,7 +187,7 @@
                         <span>Total</span>
                         <span id="summary-total">{{ cart_total|intcomma }} FCFA</span>
                     </div>
-                    
+
                     <div class="mt-3 d-flex align-items-center gap-2">
                         <img src="{% static 'images/payment/secure.png' %}" alt="Paiement sécurisé" style="max-width: 25px; height: auto; display: inline-block;">
                         <small class="text-muted">
@@ -209,7 +209,7 @@
 document.getElementById('shipping_phone').addEventListener('input', function() {
     const phone = this.value;
     const digitsOnly = phone.replace(/[^\d]/g, '');
-    
+
     // Masquer l'erreur si le numéro est valide
     if (digitsOnly.length >= 8) {
         this.setCustomValidity('');
@@ -231,7 +231,7 @@ document.getElementById('checkout-form').addEventListener('submit', function(e) 
     const phoneInput = document.getElementById('shipping_phone');
     const phone = phoneInput.value;
     const digitsOnly = phone.replace(/[^\d]/g, '');
-    
+
     if (digitsOnly.length < 8) {
         e.preventDefault();
         document.getElementById('phone-error').textContent = 'Le numéro de téléphone doit contenir au moins 8 chiffres';
@@ -240,7 +240,7 @@ document.getElementById('checkout-form').addEventListener('submit', function(e) 
         phoneInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return false;
     }
-    
+
     // Réinitialiser l'erreur
     document.getElementById('phone-error').style.display = 'none';
     phoneInput.classList.remove('is-invalid');

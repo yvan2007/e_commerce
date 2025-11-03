@@ -16,8 +16,8 @@ class PopupManager {
             console.log('Popups désactivés sur cette page');
             return;
         }
-        
-        
+
+
         this.loadPopups();
         this.setupEventListeners();
         this.showCookieConsent();
@@ -27,7 +27,7 @@ class PopupManager {
         try {
             const response = await fetch('/popups/api/popups/');
             const data = await response.json();
-            
+
             if (data.status === 'success') {
                 this.popups = data.popups;
                 this.schedulePopups();
@@ -49,22 +49,22 @@ class PopupManager {
         // Vérifier si le popup doit être affiché selon les conditions
         const userType = this.getUserType();
         const currentPage = window.location.pathname;
-        
+
         // Vérifier le type d'utilisateur
         if (userType === 'authenticated' && !popup.show_to_authenticated) return false;
         if (userType === 'anonymous' && !popup.show_to_anonymous) return false;
-        
+
         // Vérifier les pages
         if (popup.pages && popup.pages.length > 0) {
             if (!popup.pages.includes(currentPage)) return false;
         }
-        
+
         return true;
     }
 
     schedulePopup(popup) {
         let delay = 0;
-        
+
         switch (popup.trigger_type) {
             case 'immediate':
                 delay = 0;
@@ -82,7 +82,7 @@ class PopupManager {
                 delay = popup.trigger_time * 1000;
                 break;
         }
-        
+
         if (delay > 0) {
             setTimeout(() => this.showPopup(popup), delay);
         } else {
@@ -92,12 +92,12 @@ class PopupManager {
 
     setupScrollTrigger(popup) {
         let hasTriggered = false;
-        
+
         window.addEventListener('scroll', () => {
             if (hasTriggered) return;
-            
+
             const scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-            
+
             if (scrollPercent >= popup.trigger_scroll) {
                 hasTriggered = true;
                 this.showPopup(popup);
@@ -107,10 +107,10 @@ class PopupManager {
 
     setupExitIntentTrigger(popup) {
         let hasTriggered = false;
-        
+
         document.addEventListener('mouseleave', (e) => {
             if (hasTriggered || e.clientY > 0) return;
-            
+
             hasTriggered = true;
             this.showPopup(popup);
         });
@@ -118,19 +118,19 @@ class PopupManager {
 
     showPopup(popup) {
         if (this.isPopupVisible) return;
-        
+
         this.currentPopup = popup;
         this.isPopupVisible = true;
-        
+
         // Créer le popup
         const popupElement = this.createPopupElement(popup);
         document.body.appendChild(popupElement);
-        
+
         // Animer l'apparition
         setTimeout(() => {
             popupElement.classList.add('show');
         }, 10);
-        
+
         // Tracker l'affichage
         this.trackPopupInteraction(popup.id, 'shown');
     }
@@ -152,7 +152,7 @@ class PopupManager {
             opacity: 0;
             transition: opacity 0.3s ease;
         `;
-        
+
         const container = document.createElement('div');
         container.className = 'popup-container';
         container.style.cssText = `
@@ -167,7 +167,7 @@ class PopupManager {
             transform: translateY(-50px) scale(0.9);
             transition: transform 0.3s ease;
         `;
-        
+
         container.innerHTML = `
             <button class="popup-close" style="position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: ${popup.text_color};">&times;</button>
             <h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem;">${popup.title}</h2>
@@ -176,13 +176,13 @@ class PopupManager {
                 ${popup.button_text}
             </button>
         `;
-        
+
         overlay.appendChild(container);
-        
+
         // Événements
         const closeBtn = container.querySelector('.popup-close');
         const actionBtn = container.querySelector('.popup-button');
-        
+
         closeBtn.addEventListener('click', () => this.closePopup('closed'));
         actionBtn.addEventListener('click', () => {
             if (popup.button_url) {
@@ -191,21 +191,21 @@ class PopupManager {
                 this.closePopup('clicked');
             }
         });
-        
+
         overlay.addEventListener('click', (e) => {
             if (e.target === overlay) {
                 this.closePopup('closed');
             }
         });
-        
+
         return overlay;
     }
 
     closePopup(action) {
         if (!this.currentPopup) return;
-        
+
         this.trackPopupInteraction(this.currentPopup.id, action);
-        
+
         const popupElement = document.querySelector('.popup-overlay');
         if (popupElement) {
             popupElement.classList.remove('show');
@@ -213,7 +213,7 @@ class PopupManager {
                 popupElement.remove();
             }, 300);
         }
-        
+
         this.currentPopup = null;
         this.isPopupVisible = false;
     }
@@ -241,7 +241,7 @@ class PopupManager {
         try {
             const response = await fetch('/popups/api/cookie-consent/get/');
             const data = await response.json();
-            
+
             if (data.status === 'success' && !data.consent) {
                 this.displayCookieConsent();
             }
@@ -267,7 +267,7 @@ class PopupManager {
             transform: translateY(100%);
             transition: transform 0.3s ease;
         `;
-        
+
         banner.innerHTML = `
             <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
                 <div style="flex: 1; min-width: 300px;">
@@ -281,9 +281,9 @@ class PopupManager {
                 </div>
             </div>
         `;
-        
+
         document.body.appendChild(banner);
-        
+
         // Afficher la bannière
         setTimeout(() => {
             banner.style.transform = 'translateY(0)';
@@ -383,9 +383,9 @@ class CaptchaManager {
                     'X-CSRFToken': this.getCSRFToken()
                 }
             });
-            
+
             const data = await response.json();
-            
+
             if (data.status === 'success') {
                 this.currentSession = data.data.session_id;
                 return data.data;
@@ -411,7 +411,7 @@ class CaptchaManager {
                     answer: answer
                 })
             });
-            
+
             const data = await response.json();
             return data;
         } catch (error) {

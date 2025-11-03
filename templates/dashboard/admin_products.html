@@ -11,33 +11,33 @@
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         transition: all 0.3s ease;
     }
-    
+
     .dashboard-card:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
     }
-    
+
     .card-header {
         background: var(--secondary-color) !important;
         border-bottom: 2px solid var(--accent-color);
         border-radius: 15px 15px 0 0 !important;
     }
-    
+
     .btn-outline-primary {
         border-color: var(--primary-color);
         color: var(--primary-color);
     }
-    
+
     .btn-outline-primary:hover {
         background-color: var(--primary-color);
         border-color: var(--primary-color);
     }
-    
+
     .badge {
         border-radius: 20px;
         padding: 0.5em 1em;
     }
-    
+
     .product-image {
         width: 80px;
         height: 80px;
@@ -45,7 +45,7 @@
         border-radius: 8px;
         border: 2px solid var(--accent-color);
     }
-    
+
     .filter-card {
         background: white;
         border-radius: 15px;
@@ -54,7 +54,7 @@
         position: sticky;
         top: 20px;
     }
-    
+
     .filter-card .card-header {
         background: linear-gradient(135deg, #667eea, #764ba2);
         color: white;
@@ -62,36 +62,36 @@
         margin: -1.5rem -1.5rem 1rem -1.5rem;
         padding: 1rem 1.5rem;
     }
-    
+
     .table-hover tbody tr:hover {
         background-color: var(--accent-color);
     }
-    
+
     .status-badge {
         padding: 0.5rem 1rem;
         border-radius: 20px;
         font-size: 0.85rem;
         font-weight: 600;
     }
-    
+
     .empty-state {
         text-align: center;
         padding: 4rem 2rem;
         color: var(--text-muted);
     }
-    
+
     .empty-state i {
         font-size: 4rem;
         margin-bottom: 1.5rem;
         opacity: 0.3;
     }
-    
+
     .search-bar {
         border-radius: 50px;
         padding: 0.75rem 1.5rem;
         border: 2px solid var(--accent-color);
     }
-    
+
     .action-buttons .btn {
         margin: 0 0.25rem;
         border-radius: 10px;
@@ -134,10 +134,10 @@
                         <!-- Recherche -->
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Recherche</label>
-                            <input type="text" class="form-control search-bar" name="search" 
+                            <input type="text" class="form-control search-bar" name="search"
                                    value="{{ search_query }}" placeholder="Nom du produit, vendeur...">
                         </div>
-                        
+
                         <!-- Statut -->
                         <div class="col-md-2 mb-3">
                             <label class="form-label">Statut</label>
@@ -150,7 +150,7 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        
+
                         <!-- Vendeur -->
                         <div class="col-md-2 mb-3">
                             <label class="form-label">Vendeur</label>
@@ -163,7 +163,7 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        
+
                         <!-- Catégorie -->
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Catégorie</label>
@@ -176,7 +176,7 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        
+
                         <!-- Boutons -->
                         <div class="col-md-2 mb-3 d-flex align-items-end">
                             <div class="w-100">
@@ -227,8 +227,8 @@
                                         <!-- Image -->
                                         <td>
                                             {% if product.main_image %}
-                                                <img src="{{ product.main_image.url }}" 
-                                                     alt="{{ product.name }}" 
+                                                <img src="{{ product.main_image.url }}"
+                                                     alt="{{ product.name }}"
                                                      class="product-image">
                                             {% else %}
                                                 <div class="product-image d-flex align-items-center justify-content-center bg-light">
@@ -236,7 +236,7 @@
                                                 </div>
                                             {% endif %}
                                         </td>
-                                        
+
                                         <!-- Nom du produit -->
                                         <td>
                                             <strong>{{ product.name }}</strong>
@@ -248,7 +248,7 @@
                                             <br>
                                             <small class="text-muted">SKU: {{ product.sku }}</small>
                                         </td>
-                                        
+
                                         <!-- Vendeur -->
                                         <td>
                                             <span class="badge bg-info">
@@ -256,14 +256,14 @@
                                                 {{ product.vendor.username }}
                                             </span>
                                         </td>
-                                        
+
                                         <!-- Catégorie -->
                                         <td>
                                             <span class="badge bg-secondary">
                                                 {{ product.category.name }}
                                             </span>
                                         </td>
-                                        
+
                                         <!-- Prix -->
                                         <td>
                                             <strong class="text-success">{{ product.price }} FCFA</strong>
@@ -274,7 +274,7 @@
                                                 </small>
                                             {% endif %}
                                         </td>
-                                        
+
                                         <!-- Stock -->
                                         <td>
                                             {% if product.stock > product.min_stock %}
@@ -287,19 +287,19 @@
                                             <br>
                                             <small class="text-muted">Min: {{ product.min_stock }}</small>
                                         </td>
-                                        
+
                                         <!-- Vues -->
                                         <td>
                                             <i class="fas fa-eye text-muted me-1"></i>
                                             <span>{{ product.views }}</span>
                                         </td>
-                                        
+
                                         <!-- Ventes -->
                                         <td>
                                             <i class="fas fa-shopping-cart text-success me-1"></i>
                                             <span>{{ product.sales_count }}</span>
                                         </td>
-                                        
+
                                         <!-- Statut -->
                                         <td>
                                             {% if product.status == 'published' %}
@@ -319,26 +319,26 @@
                                                 </span>
                                             {% endif %}
                                         </td>
-                                        
+
                                         <!-- Date -->
                                         <td>
                                             <small>{{ product.created_at|date:"d/m/Y" }}</small>
                                         </td>
-                                        
+
                                         <!-- Actions -->
                                         <td>
                                             <div class="action-buttons">
-                                                <a href="{% url 'products:product_detail' product.slug %}" 
-                                                   class="btn btn-sm btn-outline-primary" 
+                                                <a href="{% url 'products:product_detail' product.slug %}"
+                                                   class="btn btn-sm btn-outline-primary"
                                                    title="Voir">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <a href="{% url 'products:product_update' product.slug %}" 
-                                                   class="btn btn-sm btn-outline-success" 
+                                                <a href="{% url 'products:product_update' product.slug %}"
+                                                   class="btn btn-sm btn-outline-success"
                                                    title="Modifier">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <button class="btn btn-sm btn-outline-danger" 
+                                                <button class="btn btn-sm btn-outline-danger"
                                                         title="Supprimer"
                                                         onclick="deleteProduct({{ product.id }}, '{{ product.name }}', '{{ product.slug }}')">
                                                     <i class="fas fa-trash"></i>
@@ -350,7 +350,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        
+
                         <!-- Pagination -->
                         {% if products.has_other_pages %}
                         <div class="card-footer bg-light">
@@ -368,7 +368,7 @@
                                             </a>
                                         </li>
                                     {% endif %}
-                                    
+
                                     {% for num in products.paginator.page_range %}
                                         {% if products.number == num %}
                                             <li class="page-item active">
@@ -382,7 +382,7 @@
                                             </li>
                                         {% endif %}
                                     {% endfor %}
-                                    
+
                                     {% if products.has_next %}
                                         <li class="page-item">
                                             <a class="page-link" href="?page={{ products.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if current_status %}&status={{ current_status }}{% endif %}{% if current_vendor %}&vendor={{ current_vendor }}{% endif %}{% if current_category %}&category={{ current_category }}{% endif %}">
@@ -450,12 +450,12 @@
 function deleteProduct(productId, productName, productSlug) {
     // Mettre à jour le nom du produit dans le modal
     document.getElementById('productNameModal').textContent = productName;
-    
+
     // Mettre à jour l'action du formulaire
     const form = document.getElementById('deleteForm');
     const deleteUrl = '/' + productSlug + '/delete/';
     form.action = deleteUrl;
-    
+
     // Afficher le modal
     const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
     modal.show();
@@ -477,4 +477,3 @@ function deleteProduct(productId, productName, productSlug) {
 {% endif %}
 </script>
 {% endblock %}
-

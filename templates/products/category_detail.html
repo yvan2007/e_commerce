@@ -12,25 +12,25 @@
         padding: 3rem 0;
         margin-bottom: 2rem;
     }
-    
+
     .product-card {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         border: none;
         border-radius: 15px;
         overflow: hidden;
     }
-    
+
     .product-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     }
-    
+
     .product-image {
         height: 200px;
         object-fit: cover;
         width: 100%;
     }
-    
+
     .product-image-placeholder {
         height: 200px;
         background: #f8f9fa;
@@ -39,13 +39,13 @@
         justify-content: center;
         color: #6c757d;
     }
-    
+
     .price {
         font-size: 1.2rem;
         font-weight: bold;
         color: #28a745;
     }
-    
+
     .category-breadcrumb {
         background: rgba(255,255,255,0.1);
         padding: 0.5rem 1rem;
@@ -98,21 +98,21 @@
                                 <i class="fas fa-image fa-3x"></i>
                             </div>
                         {% endif %}
-                        
+
                         {% if product.is_on_sale and product.get_discount_percentage %}
                             <span class="badge bg-danger position-absolute top-0 end-0 m-2">
                                 -{{ product.get_discount_percentage }}%
                             </span>
                         {% endif %}
                     </div>
-                    
+
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">{{ product.name|truncatewords:6 }}</h5>
-                        
+
                         {% if product.short_description %}
                             <p class="card-text text-muted small">{{ product.short_description|truncatewords:10 }}</p>
                         {% endif %}
-                        
+
                         <div class="mt-auto">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 {% if product.is_on_sale %}
@@ -122,7 +122,7 @@
                                     <span class="price">{{ product.price }} FCFA</span>
                                 {% endif %}
                             </div>
-                            
+
                             <div class="d-flex gap-2">
                                 <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary btn-sm flex-fill">
                                     <i class="fas fa-eye me-1"></i>Voir
@@ -137,7 +137,7 @@
             </div>
             {% endfor %}
         </div>
-        
+
         <!-- Pagination -->
         {% if page_obj.has_other_pages %}
         <nav aria-label="Pagination des produits">
@@ -150,7 +150,7 @@
                         <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Précédente</a>
                     </li>
                 {% endif %}
-                
+
                 {% for num in page_obj.paginator.page_range %}
                     {% if page_obj.number == num %}
                         <li class="page-item active">
@@ -162,7 +162,7 @@
                         </li>
                     {% endif %}
                 {% endfor %}
-                
+
                 {% if page_obj.has_next %}
                     <li class="page-item">
                         <a class="page-link" href="?page={{ page_obj.next_page_number }}">Suivante</a>
@@ -174,7 +174,7 @@
             </ul>
         </nav>
         {% endif %}
-        
+
     {% else %}
         <!-- Aucun produit -->
         <div class="text-center py-5">
@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.add-to-cart').forEach(button => {
         button.addEventListener('click', function() {
             const productId = this.dataset.productId;
-            
+
             fetch(`/products/add-to-cart/${productId}/`, {
                 method: 'POST',
                 headers: {
@@ -211,13 +211,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     this.innerHTML = '<i class="fas fa-check"></i>';
                     this.classList.remove('btn-primary');
                     this.classList.add('btn-success');
-                    
+
                     setTimeout(() => {
                         this.innerHTML = '<i class="fas fa-cart-plus"></i>';
                         this.classList.remove('btn-success');
                         this.classList.add('btn-primary');
                     }, 2000);
-                    
+
                     // Mettre à jour le compteur du panier
                     const cartCount = document.getElementById('cart-count');
                     if (cartCount) {

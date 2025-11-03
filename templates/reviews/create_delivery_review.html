@@ -55,7 +55,7 @@
             <div class="card-body">
                 <form method="post" class="review-form">
                     {% csrf_token %}
-                    
+
                     <!-- Note générale -->
                     <div class="mb-4">
                         <label class="form-label fw-bold">
@@ -100,7 +100,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-4">
                             <div class="card h-100">
                                 <div class="card-body text-center">
@@ -122,7 +122,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-4">
                             <div class="card h-100">
                                 <div class="card-body text-center">
@@ -169,7 +169,7 @@
 
                     <!-- Boutons -->
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a href="{% url 'reviews:review_order' order.id %}" 
+                        <a href="{% url 'reviews:review_order' order.id %}"
                            class="btn btn-outline-secondary me-md-2">
                             <i class="fas fa-arrow-left me-2"></i>
                             {% translate "Annuler" %}

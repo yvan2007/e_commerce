@@ -359,11 +359,11 @@ a:hover {
         overflow-y: auto;
         padding: var(--spacing-lg) 0;
     }
-    
+
     .auth-side {
         display: none !important;
     }
-    
+
     .auth-container {
         max-width: 500px;
         margin: var(--spacing-xl) auto;
@@ -378,11 +378,11 @@ a:hover {
         padding: var(--spacing-lg);
         max-width: 100%;
     }
-    
+
     .auth-container .form-label {
         font-size: var(--font-size-sm);
     }
-    
+
     .auth-container .form-control {
         font-size: var(--font-size-sm);
         padding: 0.75rem var(--spacing-sm);
@@ -395,30 +395,30 @@ a:hover {
         padding: var(--spacing-md);
         border-radius: var(--border-radius-lg);
     }
-    
+
     .auth-form-container h4 {
         font-size: var(--font-size-xl);
     }
-    
+
     .auth-form-container p {
         font-size: var(--font-size-sm);
     }
-    
+
     .auth-container .btn-primary,
     .auth-container .btn-outline-primary {
         padding: var(--spacing-sm) var(--spacing-lg);
         font-size: var(--font-size-sm);
     }
-    
+
     .auth-container .form-control {
         font-size: var(--font-size-xs);
         padding: var(--spacing-sm);
     }
-    
+
     .auth-container .form-label {
         font-size: var(--font-size-xs);
     }
-    
+
     .auth-container .form-text {
         font-size: var(--font-size-xs);
     }
@@ -600,7 +600,7 @@ a:hover {
     .auth-side {
         display: none !important;
     }
-    
+
     .auth-container {
         box-shadow: none;
         border: 1px solid #ddd;

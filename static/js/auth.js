@@ -15,11 +15,11 @@ function selectGoogleAccount(email, name) {
     document.querySelectorAll('.google-account-item').forEach(item => {
         item.classList.remove('selected');
     });
-    
+
     // Sélectionner le compte cliqué
     event.currentTarget.classList.add('selected');
     selectedGoogleAccount = { email: email, name: name };
-    
+
     // Mettre à jour le bouton de confirmation
     const confirmBtn = document.querySelector('#googleAccountModal .btn-primary');
     confirmBtn.disabled = false;
@@ -33,7 +33,7 @@ function confirmGoogleLogin() {
         formData.append('email', selectedGoogleAccount.email);
         formData.append('name', selectedGoogleAccount.name);
         formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
-        
+
         fetch('/accounts/api/google-auth/', {
             method: 'POST',
             body: formData
@@ -43,11 +43,11 @@ function confirmGoogleLogin() {
             if (data.success) {
                 // Afficher le message de succès
                 alert(data.message);
-                
+
                 // Fermer le modal
                 const modal = bootstrap.Modal.getInstance(document.getElementById('googleAccountModal'));
                 modal.hide();
-                
+
                 // Rediriger vers la page d'accueil
                 window.location.href = data.redirect_url;
             } else {
@@ -65,7 +65,7 @@ function confirmGoogleLogin() {
 function togglePassword() {
     const passwordInput = document.querySelector('input[name="password"]');
     const toggleIcon = document.getElementById('toggleIcon');
-    
+
     if (passwordInput && toggleIcon) {
         if (passwordInput.getAttribute('type') === 'password') {
             passwordInput.setAttribute('type', 'text');
@@ -83,7 +83,7 @@ function togglePassword() {
 function togglePasswordConfirm() {
     const passwordInput = document.querySelector('input[name="password2"]');
     const toggleIcon = document.getElementById('toggleIconConfirm');
-    
+
     if (passwordInput && toggleIcon) {
         if (passwordInput.getAttribute('type') === 'password') {
             passwordInput.setAttribute('type', 'text');
@@ -112,11 +112,11 @@ function validateUsername(username) {
 // Fonction pour vérifier la disponibilité de l'email
 function checkEmailAvailability(email) {
     if (!email || !validateEmail(email)) return;
-    
+
     const formData = new FormData();
     formData.append('email', email);
     formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
-    
+
     fetch('/accounts/api/check-email/', {
         method: 'POST',
         body: formData
@@ -150,11 +150,11 @@ function checkEmailAvailability(email) {
 // Fonction pour vérifier la disponibilité du nom d'utilisateur
 function checkUsernameAvailability(username) {
     if (!username || !validateUsername(username)) return;
-    
+
     const formData = new FormData();
     formData.append('username', username);
     formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
-    
+
     fetch('/accounts/api/check-username/', {
         method: 'POST',
         body: formData
@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (firstInput) {
         firstInput.focus();
     }
-    
+
     // Validation en temps réel pour l'email
     const emailInput = document.querySelector('input[name="email"]');
     if (emailInput) {
@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function() {
             checkEmailAvailability(this.value);
         });
     }
-    
+
     // Validation en temps réel pour le nom d'utilisateur
     const usernameInput = document.querySelector('input[name="username"]');
     if (usernameInput) {
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
             checkUsernameAvailability(this.value);
         });
     }
-    
+
     // Formatage du numéro de téléphone
     const phoneInput = document.querySelector('input[name="phone_number"]');
     if (phoneInput) {

@@ -4,21 +4,31 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('popups', '0001_initial'),
+        ("popups", "0001_initial"),
     ]
 
     operations = [
         migrations.DeleteModel(
-            name='AgeVerification',
+            name="AgeVerification",
         ),
         migrations.DeleteModel(
-            name='AgeVerificationSession',
+            name="AgeVerificationSession",
         ),
         migrations.AlterField(
-            model_name='popup',
-            name='popup_type',
-            field=models.CharField(choices=[('welcome', 'Bienvenue'), ('newsletter', 'Newsletter'), ('promotion', 'Promotion'), ('cookie_consent', 'Consentement cookies'), ('exit_intent', 'Intention de sortie'), ('social_proof', 'Preuve sociale'), ('custom', 'Personnalisé')], max_length=20),
+            model_name="popup",
+            name="popup_type",
+            field=models.CharField(
+                choices=[
+                    ("welcome", "Bienvenue"),
+                    ("newsletter", "Newsletter"),
+                    ("promotion", "Promotion"),
+                    ("cookie_consent", "Consentement cookies"),
+                    ("exit_intent", "Intention de sortie"),
+                    ("social_proof", "Preuve sociale"),
+                    ("custom", "Personnalisé"),
+                ],
+                max_length=20,
+            ),
         ),
     ]

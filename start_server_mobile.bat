@@ -54,4 +54,3 @@ echo.
 
 echo [4/4] Démarrage du serveur...
 python manage.py runserver 0.0.0.0:8000
-

@@ -13,25 +13,25 @@
         border: none;
         overflow: hidden;
     }
-    
+
     .disable-2fa-header {
         background: linear-gradient(135deg, #dc3545, #c82333);
         color: white;
         padding: 2rem;
         text-align: center;
     }
-    
+
     .disable-2fa-header h1 {
         font-weight: 700;
         margin: 0;
         font-size: 2rem;
     }
-    
+
     .disable-2fa-header p {
         margin: 0.5rem 0 0 0;
         opacity: 0.9;
     }
-    
+
     .warning-section {
         background: #fff3cd;
         border: 1px solid #ffeaa7;
@@ -39,51 +39,51 @@
         padding: 1.5rem;
         margin-bottom: 2rem;
     }
-    
+
     .warning-section .warning-icon {
         color: #856404;
         font-size: 1.5rem;
         margin-right: 0.5rem;
     }
-    
+
     .warning-section h5 {
         color: #856404;
         font-weight: 600;
         margin-bottom: 1rem;
     }
-    
+
     .warning-section ul {
         margin: 0;
         padding-left: 1.5rem;
     }
-    
+
     .warning-section li {
         color: #856404;
         margin-bottom: 0.5rem;
     }
-    
+
     .form-section {
         padding: 2rem;
     }
-    
+
     .form-label {
         font-weight: 600;
         color: var(--text-dark);
         margin-bottom: 0.5rem;
     }
-    
+
     .form-control {
         border: 2px solid #E9ECEF;
         border-radius: 10px;
         padding: 0.75rem 1rem;
         transition: all 0.3s ease;
     }
-    
+
     .form-control:focus {
         border-color: #dc3545;
         box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
     }
-    
+
     .btn-danger {
         background: linear-gradient(135deg, #dc3545, #c82333);
         border: none;
@@ -92,13 +92,13 @@
         font-weight: 600;
         transition: all 0.3s ease;
     }
-    
+
     .btn-danger:hover {
         background: linear-gradient(135deg, #c82333, #dc3545);
         transform: translateY(-2px);
         box-shadow: 0 8px 25px rgba(220, 53, 69, 0.3);
     }
-    
+
     .btn-outline-secondary {
         border: 2px solid #6c757d;
         color: #6c757d;
@@ -107,14 +107,14 @@
         font-weight: 500;
         transition: all 0.3s ease;
     }
-    
+
     .btn-outline-secondary:hover {
         background: #6c757d;
         border-color: #6c757d;
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
     }
-    
+
     .security-info {
         background: #d1ecf1;
         border: 1px solid #bee5eb;
@@ -122,24 +122,24 @@
         padding: 1.5rem;
         margin-top: 2rem;
     }
-    
+
     .security-info h6 {
         color: #0c5460;
         font-weight: 600;
         margin-bottom: 1rem;
     }
-    
+
     .security-info p {
         color: #0c5460;
         margin: 0;
     }
-    
+
     .invalid-feedback {
         color: #dc3545;
         font-size: 0.875rem;
         margin-top: 0.25rem;
     }
-    
+
     .is-invalid {
         border-color: #dc3545 !important;
     }
@@ -158,7 +158,7 @@
                     </h1>
                     <p>{% translate "Désactivez l'authentification à 2 facteurs pour votre compte" %}</p>
                 </div>
-                
+
                 <div class="form-section">
                     <!-- Avertissement -->
                     <div class="warning-section">
@@ -174,38 +174,38 @@
                             <li>{% translate "Surveiller régulièrement l'activité de votre compte" %}</li>
                         </ul>
                     </div>
-                    
+
                     <!-- Formulaire de désactivation -->
                     <form method="post" id="disable-2fa-form">
                         {% csrf_token %}
-                        
+
                         <div class="mb-4">
                             <label for="password" class="form-label">
                                 <i class="fas fa-lock me-2"></i>
                                 {% translate "Confirmez votre mot de passe" %}
                             </label>
-                            <input type="password" 
-                                   class="form-control" 
-                                   id="password" 
-                                   name="password" 
+                            <input type="password"
+                                   class="form-control"
+                                   id="password"
+                                   name="password"
                                    required
                                    placeholder="{% translate 'Entrez votre mot de passe actuel' %}">
                             <div class="invalid-feedback" id="password-error"></div>
                         </div>
-                        
+
                         <div class="mb-4">
                             <div class="form-check">
-                                <input class="form-check-input" 
-                                       type="checkbox" 
-                                       id="confirm-disable" 
-                                       name="confirm_disable" 
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       id="confirm-disable"
+                                       name="confirm_disable"
                                        required>
                                 <label class="form-check-label" for="confirm-disable">
                                     {% translate "Je comprends les risques et souhaite désactiver l'authentification à 2 facteurs" %}
                                 </label>
                             </div>
                         </div>
-                        
+
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                             <a href="{% url 'accounts:account_dashboard' %}" class="btn btn-outline-secondary me-md-2">
                                 <i class="fas fa-arrow-left me-2"></i>
@@ -217,7 +217,7 @@
                             </button>
                         </div>
                     </form>
-                    
+
                     <!-- Informations de sécurité -->
                     <div class="security-info">
                         <h6>
@@ -242,13 +242,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const passwordField = document.getElementById('password');
     const confirmCheckbox = document.getElementById('confirm-disable');
     const disableBtn = document.getElementById('disable-btn');
-    
+
     form.addEventListener('submit', function(e) {
         e.preventDefault();
-        
+
         // Validation
         let isValid = true;
-        
+
         // Vérifier le mot de passe
         if (!passwordField.value.trim()) {
             passwordField.classList.add('is-invalid');
@@ -258,18 +258,18 @@ document.addEventListener('DOMContentLoaded', function() {
             passwordField.classList.remove('is-invalid');
             document.getElementById('password-error').textContent = '';
         }
-        
+
         // Vérifier la confirmation
         if (!confirmCheckbox.checked) {
             isValid = false;
         }
-        
+
         if (isValid) {
             // Confirmation finale
             if (confirm('{% translate "Êtes-vous sûr de vouloir désactiver l\'authentification à 2 facteurs ? Cette action réduira la sécurité de votre compte." %}')) {
                 disableBtn.disabled = true;
                 disableBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>{% translate "Désactivation..." %}';
-                
+
                 // Soumettre le formulaire
                 form.submit();
             }
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
             Utils.showNotification('{% translate "Veuillez corriger les erreurs ci-dessus" %}', 'warning');
         }
     });
-    
+
     // Validation en temps réel
     passwordField.addEventListener('input', function() {
         if (this.value.trim()) {
@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('password-error').textContent = '';
         }
     });
-    
+
     confirmCheckbox.addEventListener('change', function() {
         if (this.checked) {
             disableBtn.classList.remove('disabled');

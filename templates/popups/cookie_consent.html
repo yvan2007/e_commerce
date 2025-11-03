@@ -227,7 +227,7 @@
     <div class="cookie-settings-content">
         <h2>Paramètres des Cookies</h2>
         <p>Choisissez quels cookies vous souhaitez autoriser :</p>
-        
+
         <form id="cookieSettingsForm">
             <div class="cookie-category required">
                 <h3>Cookies Nécessaires</h3>
@@ -239,7 +239,7 @@
                     </label>
                 </div>
             </div>
-            
+
             <div class="cookie-category">
                 <h3>Cookies Analytiques</h3>
                 <p>Ces cookies nous aident à comprendre comment les visiteurs interagissent avec notre site.</p>
@@ -250,7 +250,7 @@
                     </label>
                 </div>
             </div>
-            
+
             <div class="cookie-category">
                 <h3>Cookies Marketing</h3>
                 <p>Ces cookies sont utilisés pour afficher des publicités pertinentes.</p>
@@ -261,7 +261,7 @@
                     </label>
                 </div>
             </div>
-            
+
             <div class="cookie-category">
                 <h3>Cookies de Préférences</h3>
                 <p>Ces cookies mémorisent vos préférences et paramètres.</p>
@@ -272,7 +272,7 @@
                     </label>
                 </div>
             </div>
-            
+
             <div class="cookie-category">
                 <h3>Cookies Réseaux Sociaux</h3>
                 <p>Ces cookies permettent l'intégration des réseaux sociaux.</p>
@@ -283,7 +283,7 @@
                     </label>
                 </div>
             </div>
-            
+
             <div class="cookie-settings-buttons">
                 <button type="button" class="cookie-settings-btn cancel" onclick="hideCookieSettings()">
                     Annuler
@@ -302,7 +302,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Vérifier si le consentement existe déjà
     checkExistingConsent();
-    
+
     // Afficher la bannière après un délai
     setTimeout(function() {
         showCookieConsent();
@@ -371,7 +371,7 @@ function declineAllCookies() {
 function saveCookieSettings() {
     const form = document.getElementById('cookieSettingsForm');
     const formData = new FormData(form);
-    
+
     const consent = {
         necessary: true, // Toujours true
         analytics: formData.get('analytics') === 'on',
@@ -379,7 +379,7 @@ function saveCookieSettings() {
         preferences: formData.get('preferences') === 'on',
         social: formData.get('social') === 'on'
     };
-    
+
     saveConsent(consent);
     hideCookieSettings();
     hideCookieConsent();

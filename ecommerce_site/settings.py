@@ -4,6 +4,7 @@ Configuration Django pour le projet e-commerce KefyStore
 
 import os
 from pathlib import Path
+
 from django.utils.translation import gettext_lazy as _
 
 # Import dj_database_url seulement si disponible (pour Render)
@@ -16,177 +17,172 @@ except ImportError:
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-your-secret-key-here')
+SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-your-secret-key-here")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+DEBUG = os.environ.get("DEBUG", "True") == "True"
 
 # Permettre l'accès depuis le réseau local pour tester sur mobile
 # En développement uniquement - À changer en production
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 if DEBUG:
-    ALLOWED_HOSTS.extend(['localhost', '127.0.0.1', '0.0.0.0', '*'])
+    ALLOWED_HOSTS.extend(["localhost", "127.0.0.1", "0.0.0.0", "*"])
 
 # Application definition
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.sites',
-    'django.contrib.humanize',
-    
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.sites",
+    "django.contrib.humanize",
     # Third party apps
-    'crispy_forms',
-    'crispy_bootstrap5',
-    'ckeditor',  # django-ckeditor (pas django_ckeditor_5)
-    'rest_framework',
-    'corsheaders',
-    'django_filters',
+    "crispy_forms",
+    "crispy_bootstrap5",
+    "ckeditor",  # django-ckeditor (pas django_ckeditor_5)
+    "rest_framework",
+    "corsheaders",
+    "django_filters",
     # 'import_export',  # Commenté car le module n'est pas installé
-    
     # Django Allauth for Google OAuth
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
     # Local apps
-    'accounts',
-    'products',
-    'orders',
-    'payment_system',
-    'notifications',
-    'dashboard',
-    'search',
-    'wishlist',
-    'pages',
-    'analytics',
-    'api',
-    'home',
-    'popups',
-    'two_factor_auth',
-    'inventory',
-    'delivery_system',
-    'reviews',
-    'loyalty',
-    'chat',
-    'i18n',
-    'returns',
-    'promotions',
+    "accounts",
+    "products",
+    "orders",
+    "payment_system",
+    "notifications",
+    "dashboard",
+    "search",
+    "wishlist",
+    "pages",
+    "analytics",
+    "api",
+    "home",
+    "popups",
+    "two_factor_auth",
+    "inventory",
+    "delivery_system",
+    "reviews",
+    "loyalty",
+    "chat",
+    "i18n",
+    "returns",
+    "promotions",
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Pour servir les fichiers statiques sur Render
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # Pour servir les fichiers statiques sur Render
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",  # Doit être après SessionMiddleware et avant CommonMiddleware
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
-ROOT_URLCONF = 'ecommerce_site.urls'
+ROOT_URLCONF = "ecommerce_site.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.i18n',
-                'products.context_processors.categories',
-                'products.context_processors.cart_context',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [BASE_DIR / "templates"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+                "django.template.context_processors.i18n",
+                "products.context_processors.categories",
+                "products.context_processors.cart_context",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'ecommerce_site.wsgi.application'
+WSGI_APPLICATION = "ecommerce_site.wsgi.application"
 
 # Database
 # Utilise PostgreSQL sur Render, SQLite en développement local
-DATABASE_URL = os.environ.get('DATABASE_URL')
+DATABASE_URL = os.environ.get("DATABASE_URL")
 if DATABASE_URL and dj_database_url:
     # Production: utilise PostgreSQL depuis Render
-    DATABASES = {
-        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
-    }
+    DATABASES = {"default": dj_database_url.parse(DATABASE_URL, conn_max_age=600)}
 else:
     # Développement: utilise SQLite
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
         }
     }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
 # Internationalization
-LANGUAGE_CODE = 'fr'
-TIME_ZONE = 'Africa/Abidjan'
+LANGUAGE_CODE = "fr"
+TIME_ZONE = "Africa/Abidjan"
 USE_I18N = True
 USE_TZ = True
 
 LANGUAGES = [
-    ('fr', _('Français')),
-    ('en', _('English')),
+    ("fr", _("Français")),
+    ("en", _("English")),
 ]
 
 LOCALE_PATHS = [
-    BASE_DIR / 'locale',
+    BASE_DIR / "locale",
 ]
 
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    BASE_DIR / "static",
 ]
 
 # WhiteNoise configuration pour servir les fichiers statiques sur Render
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Media files
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 # Default primary key field type
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Custom User Model
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = "accounts.User"
 
 # Login/Logout URLs
-LOGIN_URL = 'accounts:login'
-LOGIN_REDIRECT_URL = 'products:home_page'
-LOGOUT_REDIRECT_URL = 'products:home_page'
+LOGIN_URL = "accounts:login"
+LOGIN_REDIRECT_URL = "products:home_page"
+LOGOUT_REDIRECT_URL = "products:home_page"
 
 # Email Configuration - Configuration SMTP réelle
 # Pour utiliser Gmail, vous devez :
@@ -195,20 +191,22 @@ LOGOUT_REDIRECT_URL = 'products:home_page'
 # 3. Remplacer le mot de passe ci-dessous par le mot de passe d'application
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Mode test - affiche dans la console
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Mode production
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"  # Mode production
 
-EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
-EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True') == 'True'
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'KefyStore <noreply@kefystore.com>')
+EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.gmail.com")
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT", 587))
+EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "True") == "True"
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+DEFAULT_FROM_EMAIL = os.environ.get(
+    "DEFAULT_FROM_EMAIL", "KefyStore <noreply@kefystore.com>"
+)
 EMAIL_USE_SSL = False
 EMAIL_TIMEOUT = 30
 
 # Site Configuration
 SITE_ID = 1
-SITE_URL = os.environ.get('SITE_URL', 'http://localhost:8000')
+SITE_URL = os.environ.get("SITE_URL", "http://localhost:8000")
 
 # Crispy Forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -223,84 +221,112 @@ CKEDITOR_BROWSE_SHOW_DIRS = True
 CKEDITOR_RESTRICT_BY_USER = True
 
 CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': 'full',
-        'height': 300,
-        'width': '100%',
-        'toolbar_Custom': [
-            ['Bold', 'Italic', 'Underline'],
-            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['Link', 'Unlink'],
-            ['RemoveFormat', 'Source'],
-            ['Image', 'Table', 'HorizontalRule'],
-            ['TextColor', 'BGColor'],
-            ['Smiley', 'SpecialChar'],
-            ['Font', 'FontSize'],
-            ['Blockquote', 'CodeSnippet'],
+    "default": {
+        "toolbar": "full",
+        "height": 300,
+        "width": "100%",
+        "toolbar_Custom": [
+            ["Bold", "Italic", "Underline"],
+            [
+                "NumberedList",
+                "BulletedList",
+                "-",
+                "Outdent",
+                "Indent",
+                "-",
+                "JustifyLeft",
+                "JustifyCenter",
+                "JustifyRight",
+                "JustifyBlock",
+            ],
+            ["Link", "Unlink"],
+            ["RemoveFormat", "Source"],
+            ["Image", "Table", "HorizontalRule"],
+            ["TextColor", "BGColor"],
+            ["Smiley", "SpecialChar"],
+            ["Font", "FontSize"],
+            ["Blockquote", "CodeSnippet"],
         ],
-        'toolbar': 'Custom',
-        'extraPlugins': ','.join([
-            'codesnippet',
-            'widget',
-            'dialog',
-        ]),
-        'codeSnippet_theme': 'monokai',
+        "toolbar": "Custom",
+        "extraPlugins": ",".join(
+            [
+                "codesnippet",
+                "widget",
+                "dialog",
+            ]
+        ),
+        "codeSnippet_theme": "monokai",
     },
-    'product_description': {
-        'toolbar': 'full',
-        'height': 400,
-        'width': '100%',
-        'toolbar_Custom': [
-            ['Bold', 'Italic', 'Underline', 'Strike'],
-            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['Link', 'Unlink', 'Anchor'],
-            ['RemoveFormat', 'Source'],
-            ['Image', 'Flash', 'Table', 'HorizontalRule', 'SpecialChar'],
-            ['TextColor', 'BGColor'],
-            ['Smiley', 'SpecialChar'],
-            ['Font', 'FontSize'],
-            ['Blockquote', 'CodeSnippet'],
-            ['Maximize', 'ShowBlocks'],
+    "product_description": {
+        "toolbar": "full",
+        "height": 400,
+        "width": "100%",
+        "toolbar_Custom": [
+            ["Bold", "Italic", "Underline", "Strike"],
+            [
+                "NumberedList",
+                "BulletedList",
+                "-",
+                "Outdent",
+                "Indent",
+                "-",
+                "JustifyLeft",
+                "JustifyCenter",
+                "JustifyRight",
+                "JustifyBlock",
+            ],
+            ["Link", "Unlink", "Anchor"],
+            ["RemoveFormat", "Source"],
+            ["Image", "Flash", "Table", "HorizontalRule", "SpecialChar"],
+            ["TextColor", "BGColor"],
+            ["Smiley", "SpecialChar"],
+            ["Font", "FontSize"],
+            ["Blockquote", "CodeSnippet"],
+            ["Maximize", "ShowBlocks"],
         ],
-        'toolbar': 'Custom',
-        'extraPlugins': ','.join([
-            'codesnippet',
-            'widget',
-            'dialog',
-            'image2',
-            'uploadimage',
-        ]),
-        'codeSnippet_theme': 'monokai',
-        'filebrowserWindowHeight': 725,
-        'filebrowserWindowWidth': 940,
-        'toolbarCanCollapse': True,
-        'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
-        'tabSpaces': 4,
-        'extraPlugins': ','.join([
-            'codesnippet',
-            'widget',
-            'dialog',
-            'image2',
-            'uploadimage',
-        ]),
-    }
+        "toolbar": "Custom",
+        "extraPlugins": ",".join(
+            [
+                "codesnippet",
+                "widget",
+                "dialog",
+                "image2",
+                "uploadimage",
+            ]
+        ),
+        "codeSnippet_theme": "monokai",
+        "filebrowserWindowHeight": 725,
+        "filebrowserWindowWidth": 940,
+        "toolbarCanCollapse": True,
+        "mathJaxLib": "//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML",
+        "tabSpaces": 4,
+        "extraPlugins": ",".join(
+            [
+                "codesnippet",
+                "widget",
+                "dialog",
+                "image2",
+                "uploadimage",
+            ]
+        ),
+    },
 }
 
 # REST Framework Configuration
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
     ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
     ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20,
-    'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend',
-        'rest_framework.filters.SearchFilter',
-        'rest_framework.filters.OrderingFilter',
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 20,
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.SearchFilter",
+        "rest_framework.filters.OrderingFilter",
     ],
 }
 
@@ -312,23 +338,23 @@ CORS_ALLOWED_ORIGINS = [
 
 # Cache Configuration
 CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'unique-snowflake',
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-snowflake",
     }
 }
 
 # Session Configuration
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
 SESSION_COOKIE_AGE = 86400  # 24 hours
 SESSION_COOKIE_SECURE = not DEBUG  # True en production avec HTTPS
 SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SAMESITE = "Lax"
 
 # Security Settings
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
-X_FRAME_OPTIONS = 'DENY'
+X_FRAME_OPTIONS = "DENY"
 
 # HTTPS Settings (activés seulement en production)
 if not DEBUG:
@@ -340,90 +366,90 @@ if not DEBUG:
 # Logging Configuration
 # En production sur Render, on utilise seulement la console (pas de fichier)
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
-            'style': '{',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
         },
-        'simple': {
-            'format': '{levelname} {message}',
-            'style': '{',
-        },
-    },
-    'handlers': {
-        'console': {
-            'level': 'DEBUG' if DEBUG else 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple',
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
         },
     },
-    'root': {
-        'handlers': ['console'],
-        'level': 'INFO',
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
+    "handlers": {
+        "console": {
+            "level": "DEBUG" if DEBUG else "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
         },
-        'ecommerce': {
-            'handlers': ['console'],
-            'level': 'DEBUG' if DEBUG else 'INFO',
-            'propagate': False,
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "ecommerce": {
+            "handlers": ["console"],
+            "level": "DEBUG" if DEBUG else "INFO",
+            "propagate": False,
         },
     },
 }
 
 # Ajouter le handler fichier seulement en développement local
-if DEBUG and not os.environ.get('RENDER'):
+if DEBUG and not os.environ.get("RENDER"):
     # Créer le dossier logs s'il n'existe pas
-    logs_dir = BASE_DIR / 'logs'
+    logs_dir = BASE_DIR / "logs"
     logs_dir.mkdir(exist_ok=True)
-    
-    LOGGING['handlers']['file'] = {
-        'level': 'INFO',
-        'class': 'logging.FileHandler',
-        'filename': str(logs_dir / 'django.log'),
-        'formatter': 'verbose',
+
+    LOGGING["handlers"]["file"] = {
+        "level": "INFO",
+        "class": "logging.FileHandler",
+        "filename": str(logs_dir / "django.log"),
+        "formatter": "verbose",
     }
-    LOGGING['root']['handlers'].append('file')
-    LOGGING['loggers']['django']['handlers'].append('file')
-    LOGGING['loggers']['ecommerce']['handlers'].append('file')
+    LOGGING["root"]["handlers"].append("file")
+    LOGGING["loggers"]["django"]["handlers"].append("file")
+    LOGGING["loggers"]["ecommerce"]["handlers"].append("file")
 
 # Payment Configuration
 PAYMENT_SETTINGS = {
-    'MOOV_MONEY': {
-        'api_url': 'https://api.moov.ci/v1/',
-        'api_key': 'your-moov-api-key',
-        'merchant_id': 'your-merchant-id',
+    "MOOV_MONEY": {
+        "api_url": "https://api.moov.ci/v1/",
+        "api_key": "your-moov-api-key",
+        "merchant_id": "your-merchant-id",
     },
-    'ORANGE_MONEY': {
-        'api_url': 'https://api.orange.ci/v1/',
-        'api_key': 'your-orange-api-key',
-        'merchant_id': 'your-merchant-id',
+    "ORANGE_MONEY": {
+        "api_url": "https://api.orange.ci/v1/",
+        "api_key": "your-orange-api-key",
+        "merchant_id": "your-merchant-id",
     },
-    'MTN_MONEY': {
-        'api_url': 'https://api.mtn.ci/v1/',
-        'api_key': 'your-mtn-api-key',
-        'merchant_id': 'your-merchant-id',
+    "MTN_MONEY": {
+        "api_url": "https://api.mtn.ci/v1/",
+        "api_key": "your-mtn-api-key",
+        "merchant_id": "your-merchant-id",
     },
-    'WAVE': {
-        'api_url': 'https://api.wave.com/v1/',
-        'api_key': 'your-wave-api-key',
-        'merchant_id': 'your-merchant-id',
+    "WAVE": {
+        "api_url": "https://api.wave.com/v1/",
+        "api_key": "your-wave-api-key",
+        "merchant_id": "your-merchant-id",
     },
 }
 
 # Notification Settings
 NOTIFICATION_SETTINGS = {
-    'EMAIL_BATCH_SIZE': 100,
-    'SMS_BATCH_SIZE': 50,
-    'PUSH_BATCH_SIZE': 200,
-    'RETRY_ATTEMPTS': 3,
-    'RETRY_DELAY': 300,  # 5 minutes
+    "EMAIL_BATCH_SIZE": 100,
+    "SMS_BATCH_SIZE": 50,
+    "PUSH_BATCH_SIZE": 200,
+    "RETRY_ATTEMPTS": 3,
+    "RETRY_DELAY": 300,  # 5 minutes
 }
 
 # File Upload Settings
@@ -432,45 +458,27 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
 FILE_UPLOAD_PERMISSIONS = 0o644
 
 # Celery Configuration (for background tasks)
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
+CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
 CELERY_TIMEZONE = TIME_ZONE
 
 # Redis Configuration
-REDIS_URL = 'redis://localhost:6379/0'
+REDIS_URL = "redis://localhost:6379/0"
 
 # CKEditor Configuration (django-ckeditor, pas CKEditor 5)
 # Note: Les configurations CKEDITOR_5_CONFIGS ne sont pas utilisées avec django-ckeditor
 # Elles sont commentées car django-ckeditor utilise CKEDITOR_CONFIGS
 
 customColorPalette = [
-    {
-        'color': 'hsl(4, 90%, 58%)',
-        'label': 'Red'
-    },
-    {
-        'color': 'hsl(340, 82%, 52%)',
-        'label': 'Pink'
-    },
-    {
-        'color': 'hsl(291, 64%, 42%)',
-        'label': 'Purple'
-    },
-    {
-        'color': 'hsl(262, 52%, 47%)',
-        'label': 'Deep Purple'
-    },
-    {
-        'color': 'hsl(231, 48%, 48%)',
-        'label': 'Indigo'
-    },
-    {
-        'color': 'hsl(207, 90%, 54%)',
-        'label': 'Blue'
-    },
+    {"color": "hsl(4, 90%, 58%)", "label": "Red"},
+    {"color": "hsl(340, 82%, 52%)", "label": "Pink"},
+    {"color": "hsl(291, 64%, 42%)", "label": "Purple"},
+    {"color": "hsl(262, 52%, 47%)", "label": "Deep Purple"},
+    {"color": "hsl(231, 48%, 48%)", "label": "Indigo"},
+    {"color": "hsl(207, 90%, 54%)", "label": "Blue"},
 ]
 
 # CKEDITOR_5_CONFIGS n'est pas utilisé avec django-ckeditor
@@ -540,12 +548,12 @@ CKEDITOR_5_CONFIGS = {
 
 # Django Allauth Configuration
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
 # Configuration Allauth
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = False
@@ -553,41 +561,40 @@ ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_UNIQUE_EMAIL = True
 
 # Google OAuth Configuration
+# Note: Les credentials sont configurés via SocialApp dans l'admin Django
+# Ne pas définir 'APP' ici pour éviter les conflits avec la base de données
 SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
+    "google": {
+        "SCOPE": [
+            "profile",
+            "email",
         ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
+        "AUTH_PARAMS": {
+            "access_type": "online",
         },
-        'APP': {
-            'client_id': os.environ.get('GOOGLE_OAUTH_CLIENT_ID', ''),
-            'secret': os.environ.get('GOOGLE_OAUTH_CLIENT_SECRET', ''),
-            'key': ''
-        }
+        # APP est défini dans la base de données via SocialApp dans l'admin
+        # Ne pas définir 'APP' ici pour éviter MultipleObjectsReturned
     }
 }
 
 # Social Account Configuration
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_EMAIL_AUTOCONFIRM = True
-ACCOUNT_EMAIL_VERIFICATION = 'none'  # Change to 'mandatory' for production
+ACCOUNT_EMAIL_VERIFICATION = "none"  # Change to 'mandatory' for production
 SOCIALACCOUNT_STORE_TOKENS = True
 
 # Redirect URLs
-LOGIN_REDIRECT_URL = '/'
-ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = "/"
+ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 
 # Development Settings
 if DEBUG:
     # INSTALLED_APPS += ['debug_toolbar']  # Temporairement désactivé
     # MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']  # Temporairement désactivé
     pass
-    INTERNAL_IPS = ['127.0.0.1', 'localhost']
-    
+    INTERNAL_IPS = ["127.0.0.1", "localhost"]
+
     # Debug Toolbar Configuration
     DEBUG_TOOLBAR_CONFIG = {
-        'SHOW_TEMPLATE_CONTEXT': True,
+        "SHOW_TEMPLATE_CONTEXT": True,
     }

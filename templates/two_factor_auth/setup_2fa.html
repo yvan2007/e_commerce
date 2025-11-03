@@ -76,7 +76,7 @@
                                 Installez une application d'authentification
                             </h5>
                             <p class="text-muted">
-                                Téléchargez une application d'authentification sur votre téléphone comme Google Authenticator, 
+                                Téléchargez une application d'authentification sur votre téléphone comme Google Authenticator,
                                 Authy, ou Microsoft Authenticator.
                             </p>
                         </div>
@@ -90,12 +90,12 @@
                             <p class="text-muted">
                                 Utilisez votre application d'authentification pour scanner ce QR Code :
                             </p>
-                            
+
                             <div class="qr-container">
                                 {% if qr_code %}
                                     <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code 2FA" class="img-fluid">
                                 {% endif %}
-                                
+
                                 <p class="mt-3 text-muted">
                                     <small>Ou entrez manuellement cette clé secrète :</small>
                                 </p>
@@ -110,20 +110,20 @@
                                 Codes de sauvegarde
                             </h5>
                             <p class="text-muted">
-                                <strong>Important :</strong> Sauvegardez ces codes dans un endroit sûr. 
+                                <strong>Important :</strong> Sauvegardez ces codes dans un endroit sûr.
                                 Ils vous permettront de récupérer l'accès à votre compte si vous perdez votre téléphone.
                             </p>
-                            
+
                             <div class="backup-codes">
                                 <h6><i class="fas fa-key"></i> Vos codes de sauvegarde :</h6>
                                 {% for code in backup_codes %}
                                     <code>{{ code }}</code>
                                 {% endfor %}
                             </div>
-                            
+
                             <div class="alert alert-warning">
                                 <i class="fas fa-exclamation-triangle"></i>
-                                <strong>Attention :</strong> Chaque code ne peut être utilisé qu'une seule fois. 
+                                <strong>Attention :</strong> Chaque code ne peut être utilisé qu'une seule fois.
                                 Ne partagez jamais ces codes avec personne.
                             </div>
                         </div>
@@ -137,16 +137,16 @@
                             <p class="text-muted">
                                 Entrez le code à 6 chiffres affiché dans votre application d'authentification :
                             </p>
-                            
+
                             <form method="post" action="{% url 'two_factor_auth:verify_setup' %}">
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="code">Code de vérification</label>
-                                            <input type="text" class="form-control form-control-lg text-center" 
-                                                   id="code" name="code" 
-                                                   placeholder="123456" maxlength="6" 
+                                            <input type="text" class="form-control form-control-lg text-center"
+                                                   id="code" name="code"
+                                                   placeholder="123456" maxlength="6"
                                                    pattern="[0-9]{6}" required>
                                         </div>
                                     </div>
@@ -165,24 +165,24 @@
                             <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
                             <h4>Activer l'Authentification à Deux Facteurs</h4>
                             <p class="text-muted">
-                                L'authentification à deux facteurs ajoute une couche de sécurité supplémentaire 
+                                L'authentification à deux facteurs ajoute une couche de sécurité supplémentaire
                                 à votre compte en demandant un code de vérification en plus de votre mot de passe.
                             </p>
-                            
+
                             <div class="alert alert-info">
                                 <i class="fas fa-info-circle"></i>
                                 <strong>Comment ça marche ?</strong><br>
-                                Après avoir activé 2FA, vous devrez entrer un code de vérification 
+                                Après avoir activé 2FA, vous devrez entrer un code de vérification
                                 généré par votre téléphone à chaque connexion.
                             </div>
-                            
+
                             <form method="post">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-primary btn-lg">
                                     <i class="fas fa-cog"></i> Commencer la Configuration
                                 </button>
                             </form>
-                            
+
                             <div class="mt-3">
                                 <a href="{% url 'accounts:profile' %}" class="btn btn-outline-secondary">
                                     <i class="fas fa-arrow-left"></i> Retour au Profil
@@ -204,7 +204,7 @@
         const codeInput = document.getElementById('code');
         if (codeInput) {
             codeInput.focus();
-            
+
             // Formatage automatique du code
             codeInput.addEventListener('input', function(e) {
                 let value = e.target.value.replace(/\D/g, ''); // Supprimer les non-chiffres

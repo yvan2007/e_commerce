@@ -36,7 +36,7 @@
                 <div class="card-body">
                     <form method="GET" class="row g-3">
                         <div class="col-md-4">
-                            <input type="text" class="form-control" name="search" 
+                            <input type="text" class="form-control" name="search"
                                    value="{{ search_query }}" placeholder="Rechercher une catégorie...">
                         </div>
                         <div class="col-md-3">
@@ -110,16 +110,16 @@
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <a href="{% url 'products:category_detail' category.slug %}" 
+                                                <a href="{% url 'products:category_detail' category.slug %}"
                                                    class="btn btn-sm btn-outline-primary" title="Voir">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <a href="{% url 'dashboard:admin_category_update' category.id %}" 
+                                                <a href="{% url 'dashboard:admin_category_update' category.id %}"
                                                    class="btn btn-sm btn-outline-success" title="Modifier">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <button type="button" 
-                                                        class="btn btn-sm btn-outline-danger" 
+                                                <button type="button"
+                                                        class="btn btn-sm btn-outline-danger"
                                                         title="Supprimer"
                                                         onclick="deleteCategory({{ category.id }}, '{{ category.name }}', {{ category.products.count }}, {{ category.children.count }})">
                                                     <i class="fas fa-trash"></i>
@@ -131,7 +131,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        
+
                         <!-- Pagination -->
                         {% if categories.has_other_pages %}
                         <div class="card-footer bg-light">
@@ -149,7 +149,7 @@
                                             </a>
                                         </li>
                                     {% endif %}
-                                    
+
                                     {% for num in categories.paginator.page_range %}
                                         {% if categories.number == num %}
                                             <li class="page-item active">
@@ -163,7 +163,7 @@
                                             </li>
                                         {% endif %}
                                     {% endfor %}
-                                    
+
                                     {% if categories.has_next %}
                                         <li class="page-item">
                                             <a class="page-link" href="?page={{ categories.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if current_active %}&active={{ current_active }}{% endif %}">
@@ -233,17 +233,17 @@
 <script>
 function deleteCategory(categoryId, categoryName, productsCount, subcategoriesCount) {
     document.getElementById('categoryNameModal').textContent = categoryName;
-    
+
     const form = document.getElementById('deleteForm');
     form.action = "{% url 'dashboard:admin_category_delete' 0 %}".replace('0', categoryId);
-    
+
     const warningDiv = document.getElementById('categoryWarnings');
     const warningMessage = document.getElementById('warningMessage');
     const confirmBtn = document.getElementById('confirmDeleteBtn');
-    
+
     if (productsCount > 0 || subcategoriesCount > 0) {
         warningDiv.style.display = 'block';
-        warningMessage.textContent = 
+        warningMessage.textContent =
             `Cette catégorie contient ${productsCount} produit${productsCount > 1 ? 's' : ''} ` +
             `et ${subcategoriesCount} sous-catégorie${subcategoriesCount > 1 ? 's' : ''}. ` +
             `La suppression sera impossible.`;
@@ -254,10 +254,9 @@ function deleteCategory(categoryId, categoryName, productsCount, subcategoriesCo
         confirmBtn.disabled = false;
         confirmBtn.classList.remove('disabled');
     }
-    
+
     const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
     modal.show();
 }
 </script>
 {% endblock %}
-

@@ -9,7 +9,7 @@
         <h4 class="fw-bold">Connexion</h4>
         <p class="text-muted">Accédez à votre compte</p>
     </div>
-    
+
     <!-- Affichage des erreurs -->
     {% if form.errors %}
     <div class="alert alert-danger" role="alert">
@@ -23,10 +23,10 @@
         </ul>
     </div>
     {% endif %}
-    
+
     <form method="post">
         {% csrf_token %}
-        
+
         <div class="mb-3">
             <label for="{{ form.username.id_for_label }}" class="form-label">Nom d'utilisateur ou email *</label>
             {{ form.username }}
@@ -38,7 +38,7 @@
                 </div>
             {% endif %}
         </div>
-        
+
         <div class="mb-3">
             <label for="{{ form.password.id_for_label }}" class="form-label">Mot de passe *</label>
             <div class="position-relative">
@@ -55,7 +55,7 @@
                 </div>
             {% endif %}
         </div>
-        
+
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="form-check">
                 {{ form.remember_me }}
@@ -67,7 +67,7 @@
                 Mot de passe oublié ?
             </a>
         </div>
-        
+
         <div class="d-grid">
             <button type="submit" class="btn btn-primary btn-lg">
                 <i class="fas fa-sign-in-alt me-2"></i>
@@ -75,22 +75,22 @@
             </button>
         </div>
     </form>
-    
+
     <div class="text-center mt-4">
         <p class="text-muted">
-            Pas encore de compte ? 
+            Pas encore de compte ?
             <a href="{% url 'accounts:register' %}" class="text-primary fw-bold text-decoration-none">
                 S'inscrire
             </a>
         </p>
     </div>
-    
+
     <!-- Social login (optional) -->
     <div class="text-center mt-4">
         <div class="divider">
             <span class="divider-text">ou</span>
         </div>
-        
+
         <div class="social-login mt-3">
             <a href="/accounts/google/login/?process=login" class="btn btn-outline-danger w-100 mb-2">
                 <i class="fab fa-google me-2"></i>
@@ -112,7 +112,7 @@
 function togglePassword() {
     const passwordInput = document.querySelector('input[name="password"]');
     const toggleIcon = document.getElementById('toggleIcon');
-    
+
     if (passwordInput.getAttribute('type') === 'password') {
         passwordInput.setAttribute('type', 'text');
         toggleIcon.classList.remove('fa-eye');

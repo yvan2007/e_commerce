@@ -30,13 +30,13 @@
                 <div class="card-body">
                     <form method="post">
                         {% csrf_token %}
-                        
+
                         <div class="form-group">
                             <label for="title" class="form-label">Titre du produit</label>
-                            <input type="text" class="form-control" id="title" name="title" 
+                            <input type="text" class="form-control" id="title" name="title"
                                    placeholder="Entrez le titre du produit">
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="description" class="form-label">Description détaillée</label>
                             <textarea id="description" name="description" class="form-control">
@@ -50,14 +50,14 @@
                                 <p>Vous pouvez également ajouter des <a href="#">liens</a> et des images.</p>
                             </textarea>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="short_description" class="form-label">Description courte</label>
                             <textarea id="short_description" name="short_description" class="form-control" rows="3">
                                 Description courte du produit en quelques mots.
                             </textarea>
                         </div>
-                        
+
                         <div class="btn-group">
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save me-2"></i>Enregistrer
@@ -72,7 +72,7 @@
                     </form>
                 </div>
             </div>
-            
+
             <!-- Aperçu du contenu -->
             <div class="card mt-4" id="preview-card" style="display: none;">
                 <div class="card-header">
@@ -95,14 +95,14 @@
             tinymce.get('description').setContent('');
         }
     }
-    
+
     // Fonction pour prévisualiser le contenu
     function previewContent() {
         const content = tinymce.get('description').getContent();
         document.getElementById('preview-content').innerHTML = content;
         document.getElementById('preview-card').style.display = 'block';
     }
-    
+
     // Configuration personnalisée de TinyMCE
     tinymce.init({
         selector: '#description',
@@ -124,7 +124,7 @@
             });
         }
     });
-    
+
     // Configuration pour la description courte (sans éditeur riche)
     tinymce.init({
         selector: '#short_description',

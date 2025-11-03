@@ -225,11 +225,11 @@
         padding: 2rem;
         margin: 1rem;
     }
-    
+
     .captcha-buttons {
         flex-direction: column;
     }
-    
+
     .captcha-btn {
         width: 100%;
     }
@@ -243,35 +243,35 @@
         <div class="captcha-icon verify">🔒</div>
         <h1 class="captcha-title">Vérification de Sécurité</h1>
         <p>Veuillez résoudre ce défi pour continuer :</p>
-        
+
         <div class="captcha-error" id="captchaError">
             <strong>Erreur :</strong> <span id="captchaErrorMessage"></span>
         </div>
-        
+
         <div class="captcha-success" id="captchaSuccess">
             <strong>Succès :</strong> Vérification réussie !
         </div>
-        
+
         <div class="captcha-attempts" id="captchaAttempts" style="display: none;">
             Tentatives restantes : <span id="attemptsCount">3</span>
         </div>
-        
+
         <div class="captcha-question" id="captchaQuestion">
             <h3>Question :</h3>
             <p id="questionText">Chargement...</p>
         </div>
-        
+
         <div class="captcha-options" id="captchaOptions" style="display: none;">
             <!-- Les options seront générées dynamiquement -->
         </div>
-        
+
         <form class="captcha-form" id="captchaForm" style="display: none;">
             <div class="form-group">
                 <label for="captchaAnswer">Votre réponse :</label>
                 <input type="text" id="captchaAnswer" name="answer" placeholder="Entrez votre réponse" required>
             </div>
         </form>
-        
+
         <div class="captcha-buttons">
             <button type="button" class="captcha-btn verify" id="verifyCaptchaBtn" onclick="verifyCaptcha()" disabled>
                 Vérifier
@@ -301,13 +301,13 @@ function generateCaptcha() {
     const optionsDiv = document.getElementById('captchaOptions');
     const formDiv = document.getElementById('captchaForm');
     const attemptsDiv = document.getElementById('captchaAttempts');
-    
+
     // Réinitialiser l'interface
     verifyBtn.disabled = true;
     verifyBtn.textContent = 'Vérifier';
     hideMessages();
     attemptsDiv.style.display = 'none';
-    
+
     fetch('{% url "popups:generate_captcha" %}', {
         method: 'POST',
         headers: {
@@ -320,10 +320,10 @@ function generateCaptcha() {
         if (data.status === 'success') {
             currentSessionId = data.data.session_id;
             currentChallengeType = data.data.challenge_type;
-            
+
             // Afficher la question
             document.getElementById('questionText').textContent = data.data.question;
-            
+
             // Afficher l'interface selon le type de défi
             if (data.data.challenge_type === 'image' || data.data.challenge_type === 'checkbox') {
                 // Défi à choix multiples
@@ -336,7 +336,7 @@ function generateCaptcha() {
                 formDiv.style.display = 'block';
                 document.getElementById('captchaAnswer').value = '';
             }
-            
+
             verifyBtn.disabled = false;
         } else {
             showError(data.message || 'Erreur lors de la génération du captcha.');
@@ -351,7 +351,7 @@ function generateCaptcha() {
 function showOptions(options) {
     const optionsDiv = document.getElementById('captchaOptions');
     optionsDiv.innerHTML = '';
-    
+
     options.forEach((option, index) => {
         const optionDiv = document.createElement('div');
         optionDiv.className = 'captcha-option';
@@ -359,7 +359,7 @@ function showOptions(options) {
             <input type="radio" name="captchaOption" value="${option}" id="option${index}">
             <label for="option${index}">${option}</label>
         `;
-        
+
         optionDiv.addEventListener('click', function() {
             // Désélectionner toutes les autres options
             document.querySelectorAll('.captcha-option').forEach(opt => {
@@ -369,7 +369,7 @@ function showOptions(options) {
             this.classList.add('selected');
             this.querySelector('input').checked = true;
         });
-        
+
         optionsDiv.appendChild(optionDiv);
     });
 }
@@ -377,15 +377,15 @@ function showOptions(options) {
 function verifyCaptcha() {
     const verifyBtn = document.getElementById('verifyCaptchaBtn');
     const answer = getAnswer();
-    
+
     if (!answer) {
         showError('Veuillez entrer une réponse.');
         return;
     }
-    
+
     verifyBtn.disabled = true;
     verifyBtn.textContent = 'Vérification...';
-    
+
     fetch('{% url "popups:verify_captcha" %}', {
         method: 'POST',
         headers: {
@@ -408,13 +408,13 @@ function verifyCaptcha() {
         } else {
             attempts++;
             showError(data.message || 'Réponse incorrecte.');
-            
+
             if (attempts >= maxAttempts) {
                 showError('Trop de tentatives. Veuillez réessayer plus tard.');
                 verifyBtn.disabled = true;
                 return;
             }
-            
+
             // Afficher le nombre de tentatives restantes
             const attemptsDiv = document.getElementById('captchaAttempts');
             const attemptsCount = document.getElementById('attemptsCount');
@@ -449,10 +449,10 @@ function refreshCaptcha() {
 function showError(message) {
     const errorDiv = document.getElementById('captchaError');
     const errorMessage = document.getElementById('captchaErrorMessage');
-    
+
     errorMessage.textContent = message;
     errorDiv.style.display = 'block';
-    
+
     // Masquer le message après 5 secondes
     setTimeout(function() {
         errorDiv.style.display = 'none';

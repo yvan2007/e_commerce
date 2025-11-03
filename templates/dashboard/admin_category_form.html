@@ -12,19 +12,19 @@
         margin-bottom: 2rem;
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    
+
     .form-section-header {
         border-bottom: 2px solid #f0f0f0;
         padding-bottom: 1rem;
         margin-bottom: 1.5rem;
     }
-    
+
     .form-section-header h5 {
         color: #333;
         font-weight: 600;
         margin: 0;
     }
-    
+
     .preview-image {
         max-width: 200px;
         max-height: 200px;
@@ -33,7 +33,7 @@
         padding: 0.5rem;
         margin-top: 1rem;
     }
-    
+
     .required-field {
         color: #dc3545;
     }
@@ -59,13 +59,13 @@
             <!-- Formulaire -->
             <form method="post" enctype="multipart/form-data" id="categoryForm">
                 {% csrf_token %}
-                
+
                 <!-- Informations de base -->
                 <div class="form-section">
                     <div class="form-section-header">
                         <h5><i class="fas fa-info-circle"></i>Informations de Base</h5>
                     </div>
-                    
+
                     <div class="row">
                         <!-- Nom -->
                         <div class="col-md-8">
@@ -80,7 +80,7 @@
                                 <small class="text-muted">Le nom de la catégorie (ex: Électronique, Mode & Vêtements)</small>
                             </div>
                         </div>
-                        
+
                         <!-- Catégorie parente -->
                         <div class="col-md-4">
                             <div class="mb-3">
@@ -95,7 +95,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Description -->
                     <div class="mb-3">
                         <label for="id_description" class="form-label">
@@ -107,7 +107,7 @@
                         {% endif %}
                         <small class="text-muted">Description de la catégorie (optionnel)</small>
                     </div>
-                    
+
                     <!-- Image -->
                     <div class="mb-3">
                         <label for="id_image" class="form-label">
@@ -118,7 +118,7 @@
                             <div class="text-danger">{{ form.image.errors }}</div>
                         {% endif %}
                         <small class="text-muted">Image représentative de la catégorie (optionnel)</small>
-                        
+
                         {% if category and category.image %}
                             <div class="mt-3">
                                 <p class="text-muted mb-2">Image actuelle:</p>
@@ -126,13 +126,13 @@
                                 <p class="text-muted mt-2 small">Sélectionnez une nouvelle image pour la remplacer</p>
                             </div>
                         {% endif %}
-                        
+
                         <div id="imagePreviewContainer" style="display: none;">
                             <p class="text-success mt-2">Nouvelle image sélectionnée:</p>
                             <img id="previewNewImage" src="" class="preview-image" style="display: none;">
                         </div>
                     </div>
-                    
+
                     <!-- Statut actif -->
                     <div class="mb-3">
                         <div class="form-check form-switch">
@@ -151,7 +151,7 @@
                         <i class="fas fa-times me-2"></i>
                         Annuler
                     </a>
-                    
+
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save me-2"></i>
                         {% if category %}
@@ -182,12 +182,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     this.value = '';
                     return;
                 }
-                
+
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const previewContainer = document.getElementById('imagePreviewContainer');
                     const previewImg = document.getElementById('previewNewImage');
-                    
+
                     if (previewContainer && previewImg) {
                         previewImg.src = e.target.result;
                         previewImg.style.display = 'block';
@@ -198,23 +198,22 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
+
     // Validation du formulaire
     const categoryForm = document.getElementById('categoryForm');
     if (categoryForm) {
         categoryForm.addEventListener('submit', function(e) {
             const name = document.getElementById('id_name').value;
-            
+
             if (!name) {
                 e.preventDefault();
                 alert('Veuillez remplir le nom de la catégorie');
                 return false;
             }
-            
+
             return true;
         });
     }
 });
 </script>
 {% endblock %}
-

@@ -5,35 +5,49 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('products', '0001_initial'),
+        ("products", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='product',
-            name='discount_percentage',
-            field=models.PositiveIntegerField(default=0, validators=[django.core.validators.MaxValueValidator(100)], verbose_name='Pourcentage de remise'),
+            model_name="product",
+            name="discount_percentage",
+            field=models.PositiveIntegerField(
+                default=0,
+                validators=[django.core.validators.MaxValueValidator(100)],
+                verbose_name="Pourcentage de remise",
+            ),
         ),
         migrations.AddField(
-            model_name='product',
-            name='is_on_sale',
-            field=models.BooleanField(default=False, verbose_name='En promotion'),
+            model_name="product",
+            name="is_on_sale",
+            field=models.BooleanField(default=False, verbose_name="En promotion"),
         ),
         migrations.AddField(
-            model_name='product',
-            name='original_price',
-            field=models.DecimalField(blank=True, decimal_places=2, max_digits=10, null=True, validators=[django.core.validators.MinValueValidator(0)], verbose_name='Prix original'),
+            model_name="product",
+            name="original_price",
+            field=models.DecimalField(
+                blank=True,
+                decimal_places=2,
+                max_digits=10,
+                null=True,
+                validators=[django.core.validators.MinValueValidator(0)],
+                verbose_name="Prix original",
+            ),
         ),
         migrations.AddField(
-            model_name='product',
-            name='sale_end_date',
-            field=models.DateTimeField(blank=True, null=True, verbose_name='Fin de la promotion'),
+            model_name="product",
+            name="sale_end_date",
+            field=models.DateTimeField(
+                blank=True, null=True, verbose_name="Fin de la promotion"
+            ),
         ),
         migrations.AddField(
-            model_name='product',
-            name='sale_start_date',
-            field=models.DateTimeField(blank=True, null=True, verbose_name='Début de la promotion'),
+            model_name="product",
+            name="sale_start_date",
+            field=models.DateTimeField(
+                blank=True, null=True, verbose_name="Début de la promotion"
+            ),
         ),
     ]

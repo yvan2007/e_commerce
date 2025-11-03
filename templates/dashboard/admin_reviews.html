@@ -72,15 +72,15 @@
                                         <td>{{ review.created_at|date:"d/m/Y" }}</td>
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <button type="button" 
-                                                        class="btn btn-sm btn-outline-{% if review.is_approved %}warning{% else %}success{% endif %} toggle-review-btn" 
+                                                <button type="button"
+                                                        class="btn btn-sm btn-outline-{% if review.is_approved %}warning{% else %}success{% endif %} toggle-review-btn"
                                                         data-review-id="{{ review.id }}"
                                                         data-is-approved="{{ review.is_approved|lower }}"
                                                         title="{% if review.is_approved %}Désapprouver{% else %}Approuver{% endif %}">
                                                     <i class="fas fa-{% if review.is_approved %}times{% else %}check{% endif %}"></i>
                                                 </button>
-                                                <button type="button" 
-                                                        class="btn btn-sm btn-outline-danger delete-review-btn" 
+                                                <button type="button"
+                                                        class="btn btn-sm btn-outline-danger delete-review-btn"
                                                         data-review-id="{{ review.id }}"
                                                         data-product-name="{{ review.product.name }}"
                                                         title="Supprimer">
@@ -123,13 +123,13 @@ function getCookie(name) {
 
 document.addEventListener('DOMContentLoaded', function() {
     const csrftoken = getCookie('csrftoken');
-    
+
     // Toggle approbation avis
     document.querySelectorAll('.toggle-review-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const reviewId = this.dataset.reviewId;
             const isApproved = this.dataset.isApproved === 'true';
-            
+
             if (confirm(`Êtes-vous sûr de vouloir ${isApproved ? 'désapprouver' : 'approuver'} cet avis ?`)) {
                 fetch(`/dashboard/api/approve-review/${reviewId}/`, {
                     method: 'POST',
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('click', function() {
             const reviewId = this.dataset.reviewId;
             const productName = this.dataset.productName;
-            
+
             if (confirm(`Êtes-vous sûr de vouloir supprimer cet avis pour "${productName}" ?\n\nCette action est irréversible !`)) {
                 fetch(`/dashboard/api/delete-review/${reviewId}/`, {
                     method: 'POST',
@@ -186,4 +186,3 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 {% endblock %}
-

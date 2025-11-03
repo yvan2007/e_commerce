@@ -10,7 +10,7 @@
         padding: 4rem 0;
         color: white;
     }
-    
+
     .contact-info-card {
         background: white;
         border-radius: 15px;
@@ -18,14 +18,14 @@
         box-shadow: 0 10px 40px rgba(0,0,0,0.1);
         margin-bottom: 2rem;
     }
-    
+
     .contact-form-card {
         background: white;
         border-radius: 15px;
         padding: 2.5rem;
         box-shadow: 0 10px 40px rgba(0,0,0,0.1);
     }
-    
+
     .contact-icon {
         width: 60px;
         height: 60px;
@@ -38,13 +38,13 @@
         color: white;
         margin-bottom: 1rem;
     }
-    
+
     .form-control, .form-select, textarea.form-control {
         border: 2px solid #e9ecef;
         border-radius: 10px;
         padding: 0.75rem 1rem;
     }
-    
+
     .form-control:focus, .form-select:focus, textarea.form-control:focus {
         border-color: #667eea;
         box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.15);
@@ -80,7 +80,7 @@
                     Côte d'Ivoire
                 </p>
             </div>
-            
+
             <div class="contact-info-card text-center">
                 <div class="contact-icon mx-auto">
                     <i class="fas fa-phone"></i>
@@ -91,7 +91,7 @@
                     <a href="tel:+22500000000" class="text-decoration-none text-dark">+225 00 00 00 00</a>
                 </p>
             </div>
-            
+
             <div class="contact-info-card text-center">
                 <div class="contact-icon mx-auto">
                     <i class="fas fa-envelope"></i>
@@ -102,7 +102,7 @@
                     <a href="mailto:support@kefystore.com" class="text-decoration-none text-dark">support@kefystore.com</a>
                 </p>
             </div>
-            
+
             <div class="contact-info-card text-center">
                 <div class="contact-icon mx-auto">
                     <i class="fas fa-clock"></i>
@@ -115,35 +115,35 @@
                 </p>
             </div>
         </div>
-        
+
         <!-- Contact Form -->
         <div class="col-lg-8">
             <div class="contact-form-card">
                 <h2 class="fw-bold mb-4">Envoyez-nous un message</h2>
                 <form id="contactForm" method="post">
                     {% csrf_token %}
-                    
+
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label for="name" class="form-label fw-semibold">Nom complet <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
-                        
+
                         <div class="col-md-6">
                             <label for="email" class="form-label fw-semibold">Email <span class="text-danger">*</span></label>
                             <input type="email" class="form-control" id="email" name="email" required>
                         </div>
-                        
+
                         <div class="col-12">
                             <label for="subject" class="form-label fw-semibold">Sujet <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="subject" name="subject" required>
                         </div>
-                        
+
                         <div class="col-12">
                             <label for="message" class="form-label fw-semibold">Message <span class="text-danger">*</span></label>
                             <textarea class="form-control" id="message" name="message" rows="6" required></textarea>
                         </div>
-                        
+
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary btn-lg w-100">
                                 <i class="fas fa-paper-plane me-2"></i>Envoyer le message
@@ -161,14 +161,14 @@
 <script>
 document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+
     const formData = new FormData(this);
     const btn = this.querySelector('button[type="submit"]');
     const originalText = btn.innerHTML;
-    
+
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Envoi en cours...';
-    
+
     fetch(this.action, {
         method: 'POST',
         body: formData,
@@ -196,4 +196,3 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
 });
 </script>
 {% endblock %}
-

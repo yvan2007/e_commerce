@@ -56,7 +56,7 @@
                             </p>
                         </div>
                     </div>
-                    
+
                     {% if order.payment_reference %}
                     <div class="row">
                         <div class="col-md-6">
@@ -88,12 +88,12 @@
                         <div class="row align-items-center">
                             <div class="col-md-2">
                                 {% if item.product.main_image %}
-                                    <img src="{{ item.product.main_image.url }}" 
-                                         alt="{{ item.product.name }}" 
-                                         class="img-fluid rounded" 
+                                    <img src="{{ item.product.main_image.url }}"
+                                         alt="{{ item.product.name }}"
+                                         class="img-fluid rounded"
                                          style="height: 80px; object-fit: cover;">
                                 {% else %}
-                                    <div class="img-fluid rounded d-flex align-items-center justify-content-center bg-light" 
+                                    <div class="img-fluid rounded d-flex align-items-center justify-content-center bg-light"
                                          style="height: 80px; width: 80px;">
                                         <i class="fas fa-image text-muted fa-2x"></i>
                                     </div>
@@ -383,16 +383,16 @@
     .btn, .card-header {
         display: none !important;
     }
-    
+
     .card {
         border: 1px solid #ddd !important;
         box-shadow: none !important;
     }
-    
+
     .timeline::before {
         display: none;
     }
-    
+
     .timeline-marker {
         display: none;
     }

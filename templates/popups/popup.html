@@ -105,13 +105,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const popupOverlay = document.getElementById('popupOverlay');
     const popupClose = document.getElementById('popupClose');
     const popupButton = document.getElementById('popupButton');
-    
+
     // Fermer le popup
     function closePopup() {
         popupOverlay.style.display = 'none';
         trackInteraction('closed');
     }
-    
+
     // Tracker les interactions
     function trackInteraction(action) {
         fetch('{% url "popups:track_popup_interaction" %}', {
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
         });
     }
-    
+
     // Événements
     popupClose.addEventListener('click', closePopup);
     popupButton.addEventListener('click', function() {
@@ -137,21 +137,21 @@ document.addEventListener('DOMContentLoaded', function() {
         {% endif %}
         trackInteraction('clicked');
     });
-    
+
     // Fermer en cliquant sur l'overlay
     popupOverlay.addEventListener('click', function(e) {
         if (e.target === popupOverlay) {
             closePopup();
         }
     });
-    
+
     // Fermer avec Escape
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             closePopup();
         }
     });
-    
+
     // Tracker l'affichage
     trackInteraction('shown');
 });

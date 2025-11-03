@@ -34,7 +34,7 @@
 
                     <form method="post" id="2fa-setup-form">
                         {% csrf_token %}
-                        
+
                         <div class="row g-3">
                             <!-- Authentificateur TOTP -->
                             <div class="col-md-4">
@@ -145,26 +145,26 @@
 document.addEventListener('DOMContentLoaded', function() {
     const methodCards = document.querySelectorAll('.method-card');
     const radioInputs = document.querySelectorAll('input[name="method"]');
-    
+
     methodCards.forEach(card => {
         card.addEventListener('click', function() {
             const method = this.dataset.method;
             const radio = document.getElementById('method-' + method);
-            
+
             // Désélectionner toutes les cartes
             methodCards.forEach(c => c.classList.remove('selected'));
-            
+
             // Sélectionner la carte cliquée
             this.classList.add('selected');
             radio.checked = true;
         });
     });
-    
+
     // Sélectionner la première carte par défaut
     if (methodCards.length > 0) {
         methodCards[0].classList.add('selected');
     }
-    
+
     // Gérer les changements de radio
     radioInputs.forEach(radio => {
         radio.addEventListener('change', function() {

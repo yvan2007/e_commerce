@@ -11,7 +11,7 @@
         color: white;
         text-align: center;
     }
-    
+
     .faq-card {
         background: white;
         border-radius: 10px;
@@ -19,7 +19,7 @@
         box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         overflow: hidden;
     }
-    
+
     .faq-question {
         background: #f8f9fa;
         padding: 1.5rem;
@@ -31,37 +31,37 @@
         transition: all 0.3s ease;
         border: 2px solid transparent;
     }
-    
+
     .faq-question:hover {
         background: #e9ecef;
     }
-    
+
     .faq-question.active {
         background: linear-gradient(135deg, #667eea, #764ba2);
         color: white;
     }
-    
+
     .faq-answer {
         padding: 0 1.5rem;
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.3s ease, padding 0.3s ease;
     }
-    
+
     .faq-answer.show {
         padding: 1.5rem;
         max-height: 500px;
     }
-    
+
     .faq-icon {
         font-size: 1.25rem;
         transition: transform 0.3s ease;
     }
-    
+
     .faq-question.active .faq-icon {
         transform: rotate(180deg);
     }
-    
+
     .category-card {
         background: white;
         border: 2px solid #e9ecef;
@@ -71,14 +71,14 @@
         cursor: pointer;
         transition: all 0.3s ease;
     }
-    
+
     .category-card:hover,
     .category-card.active {
         border-color: #667eea;
         transform: translateY(-5px);
         box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
     }
-    
+
     .category-icon {
         font-size: 3rem;
         color: #667eea;
@@ -125,7 +125,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- FAQ Questions -->
     <div class="row">
         <div class="col-lg-8 mx-auto">
@@ -140,7 +140,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="faq-item" data-category="commandes">
                 <div class="faq-card">
                     <div class="faq-question" onclick="toggleFAQ(this)">
@@ -151,7 +151,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="faq-item" data-category="commandes">
                 <div class="faq-card">
                     <div class="faq-question" onclick="toggleFAQ(this)">
@@ -162,7 +162,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Paiement -->
             <div class="faq-item" data-category="paiement">
                 <div class="faq-card">
@@ -174,7 +174,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="faq-item" data-category="paiement">
                 <div class="faq-card">
                     <div class="faq-question" onclick="toggleFAQ(this)">
@@ -185,7 +185,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="faq-item" data-category="paiement">
                 <div class="faq-card">
                     <div class="faq-question" onclick="toggleFAQ(this)">
@@ -196,7 +196,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Livraison -->
             <div class="faq-item" data-category="livraison">
                 <div class="faq-card">
@@ -208,7 +208,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="faq-item" data-category="livraison">
                 <div class="faq-card">
                     <div class="faq-question" onclick="toggleFAQ(this)">
@@ -219,7 +219,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="faq-item" data-category="livraison">
                 <div class="faq-card">
                     <div class="faq-question" onclick="toggleFAQ(this)">
@@ -230,7 +230,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="faq-item" data-category="livraison">
                 <div class="faq-card">
                     <div class="faq-question" onclick="toggleFAQ(this)">
@@ -243,7 +243,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Contact Support -->
     <div class="row mt-5">
         <div class="col-lg-8 mx-auto">
@@ -264,7 +264,7 @@
 function toggleFAQ(element) {
     const question = element;
     const answer = element.nextElementSibling;
-    
+
     // Close all other FAQs
     document.querySelectorAll('.faq-question.active').forEach(q => {
         if (q !== question) {
@@ -272,7 +272,7 @@ function toggleFAQ(element) {
             q.nextElementSibling.classList.remove('show');
         }
     });
-    
+
     // Toggle current FAQ
     question.classList.toggle('active');
     answer.classList.toggle('show');
@@ -284,7 +284,7 @@ function filterFAQ(category) {
         card.classList.remove('active');
     });
     document.querySelector(`[data-category="${category}"]`).classList.add('active');
-    
+
     // Show/hide FAQs
     document.querySelectorAll('.faq-item').forEach(item => {
         if (category === 'all' || item.getAttribute('data-category') === category) {
@@ -296,4 +296,3 @@ function filterFAQ(category) {
 }
 </script>
 {% endblock %}
-

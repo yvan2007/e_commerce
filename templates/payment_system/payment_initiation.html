@@ -19,19 +19,19 @@
                     <div class="row">
                         <div class="col-md-6">
                             <p><strong>Date :</strong> {{ order.created_at|date:"d/m/Y à H:i" }}</p>
-                            <p><strong>Statut :</strong> 
+                            <p><strong>Statut :</strong>
                                 <span class="badge bg-warning">{{ order.get_status_display }}</span>
                             </p>
                         </div>
                         <div class="col-md-6 text-md-end">
-                            <p><strong>Total :</strong> 
+                            <p><strong>Total :</strong>
                                 <span class="h5 text-primary">{{ order.total_amount|floatformat:0 }} FCFA</span>
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Formulaire de paiement -->
             <div class="card shadow">
                 <div class="card-header bg-success text-white">
@@ -43,7 +43,7 @@
                 <div class="card-body">
                     <form method="post" id="paymentForm">
                         {% csrf_token %}
-                        
+
                         <!-- Sélection du provider -->
                         <div class="mb-4">
                             <label class="form-label fw-bold">Choisissez votre opérateur :</label>
@@ -52,7 +52,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="provider" value="mtn" id="mtn">
                                         <label class="form-check-label" for="mtn">
-                                            <img src="{% static 'images/payment/mtn-money.png' %}" 
+                                            <img src="{% static 'images/payment/mtn-money.png' %}"
                                                  alt="MTN" class="img-fluid" style="max-height: 25px;">
                                             <br><small>MTN Money</small>
                                         </label>
@@ -62,7 +62,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="provider" value="moov" id="moov">
                                         <label class="form-check-label" for="moov">
-                                            <img src="{% static 'images/payment/moov-money.png' %}" 
+                                            <img src="{% static 'images/payment/moov-money.png' %}"
                                                  alt="Moov" class="img-fluid" style="max-height: 25px;">
                                             <br><small>Moov Money</small>
                                         </label>
@@ -72,7 +72,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="provider" value="orange" id="orange">
                                         <label class="form-check-label" for="orange">
-                                            <img src="{% static 'images/payment/orange-money.png' %}" 
+                                            <img src="{% static 'images/payment/orange-money.png' %}"
                                                  alt="Orange" class="img-fluid" style="max-height: 25px;">
                                             <br><small>Orange Money</small>
                                         </label>
@@ -82,7 +82,7 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="provider" value="wave" id="wave">
                                         <label class="form-check-label" for="wave">
-                                            <img src="{% static 'images/payment/wave.svg' %}" 
+                                            <img src="{% static 'images/payment/wave.svg' %}"
                                                  alt="Wave" class="img-fluid" style="max-height: 25px;">
                                             <br><small>Wave</small>
                                         </label>
@@ -90,15 +90,15 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Numéro de téléphone -->
                         <div class="mb-4">
                             <label for="phone_number" class="form-label fw-bold">
                                 <i class="fas fa-phone me-2"></i>
                                 Numéro de téléphone
                             </label>
-                            <input type="tel" class="form-control form-control-lg" 
-                                   id="phone_number" name="phone_number" 
+                            <input type="tel" class="form-control form-control-lg"
+                                   id="phone_number" name="phone_number"
                                    placeholder="+225XXXXXXXXX ou 0XXXXXXXXX"
                                    required>
                             <div class="form-text">
@@ -106,7 +106,7 @@
                                 Format accepté : +225XXXXXXXXX, 225XXXXXXXXX ou 0XXXXXXXXX
                             </div>
                         </div>
-                        
+
                         <!-- Montant à payer -->
                         <div class="mb-4">
                             <div class="alert alert-info">
@@ -124,10 +124,10 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Boutons d'action -->
                         <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                            <a href="{% url 'orders:order_detail' slug=order.order_number %}" 
+                            <a href="{% url 'orders:order_detail' slug=order.order_number %}"
                                class="btn btn-outline-secondary btn-lg">
                                 <i class="fas fa-arrow-left me-2"></i>
                                 Retour à la commande
@@ -140,7 +140,7 @@
                     </form>
                 </div>
             </div>
-            
+
             <!-- Informations de sécurité -->
             <div class="mt-4">
                 <div class="card border-0 bg-light">
@@ -201,25 +201,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const phoneInput = document.getElementById('phone_number');
     const payButton = document.getElementById('payButton');
     const providerInputs = document.querySelectorAll('input[name="provider"]');
-    
+
     // Validation du numéro de téléphone
     function validatePhoneNumber(phone) {
         const cleaned = phone.replace(/\s/g, '').replace(/-/g, '');
-        
+
         // Format +225XXXXXXXXX
         if (cleaned.match(/^\+225[0-9]{9}$/)) return true;
         // Format 225XXXXXXXXX
         if (cleaned.match(/^225[0-9]{9}$/)) return true;
         // Format 0XXXXXXXXX
         if (cleaned.match(/^0[0-9]{9}$/)) return true;
-        
+
         return false;
     }
-    
+
     // Formatage automatique du numéro
     phoneInput.addEventListener('input', function(e) {
         let value = e.target.value.replace(/\D/g, '');
-        
+
         if (value.startsWith('225')) {
             e.target.value = '+' + value;
         } else if (value.startsWith('0')) {
@@ -227,45 +227,45 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (value.length > 0 && !value.startsWith('225')) {
             e.target.value = '+225' + value;
         }
-        
+
         updatePayButton();
     });
-    
+
     // Mise à jour du bouton de paiement
     function updatePayButton() {
         const isProviderSelected = Array.from(providerInputs).some(input => input.checked);
         const isPhoneValid = validatePhoneNumber(phoneInput.value);
-        
+
         payButton.disabled = !isProviderSelected || !isPhoneValid;
-        
+
         if (isProviderSelected && isPhoneValid) {
             payButton.innerHTML = '<i class="fas fa-mobile-alt me-2"></i>Payer maintenant';
         } else {
             payButton.innerHTML = '<i class="fas fa-mobile-alt me-2"></i>Sélectionnez une méthode';
         }
     }
-    
+
     // Écouter les changements de provider
     providerInputs.forEach(input => {
         input.addEventListener('change', updatePayButton);
     });
-    
+
     // Validation du formulaire
     form.addEventListener('submit', function(e) {
         const selectedProvider = Array.from(providerInputs).find(input => input.checked);
-        
+
         if (!selectedProvider) {
             e.preventDefault();
             alert('Veuillez sélectionner un opérateur mobile money.');
             return;
         }
-        
+
         if (!validatePhoneNumber(phoneInput.value)) {
             e.preventDefault();
             alert('Veuillez saisir un numéro de téléphone valide.');
             return;
         }
-        
+
         // Confirmation avant paiement
         const confirmMessage = `Confirmer le paiement de ${phoneInput.value} avec ${selectedProvider.value.toUpperCase()} Money ?`;
         if (!confirm(confirmMessage)) {
@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', function() {
             payButton.disabled = true;
         }
     });
-    
+
     // Initialisation
     updatePayButton();
 });

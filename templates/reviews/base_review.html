@@ -313,9 +313,9 @@
         stroke-linejoin="round">
       </path>
     </svg>
-    
+
     <div class="w-2"></div>
-    
+
     <div class="kefy-loader-text">KefyStore</div>
     <div class="kefy-loader-subtitle">{% translate "Chargement en cours..." %}</div>
   </div>
@@ -392,9 +392,9 @@
         stroke-linejoin="round">
       </path>
     </svg>
-    
+
     <div class="w-2"></div>
-    
+
     <div class="payment-loader-text">KefyStore</div>
     <div class="payment-loader-subtitle">{% translate "Traitement du paiement..." %}</div>
   </div>
@@ -460,7 +460,7 @@ document.addEventListener('click', function(e) {
 function markHelpful(reviewId) {
     const btn = document.querySelector(`[data-review-id="${reviewId}"]`);
     const countSpan = btn.querySelector('.helpful-count');
-    
+
     fetch(`{% url 'reviews:mark_helpful' 0 %}`.replace('0', reviewId), {
         method: 'POST',
         headers: {

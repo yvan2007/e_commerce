@@ -13,28 +13,28 @@
                     <i class="fas fa-shopping-bag"></i> Continuer mes achats
                 </a>
             </div>
-            
+
             {% if history_items %}
                 <div class="row">
                     {% for item in history_items %}
                         <div class="col-md-3 mb-4">
                             <div class="card h-100 product-card">
                                 {% if item.product.images.exists %}
-                                    <img src="{{ item.product.images.first.image.url }}" 
-                                         class="card-img-top" 
+                                    <img src="{{ item.product.images.first.image.url }}"
+                                         class="card-img-top"
                                          alt="{{ item.product.name }}"
                                          style="height: 200px; object-fit: cover;">
                                 {% else %}
-                                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
+                                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center"
                                          style="height: 200px;">
                                         <i class="fas fa-image text-muted fa-3x"></i>
                                     </div>
                                 {% endif %}
-                                
+
                                 <div class="card-body d-flex flex-column">
                                     <h6 class="card-title">{{ item.product.name }}</h6>
                                     <p class="card-text text-primary fw-bold">{{ item.product.price }} FCFA</p>
-                                    
+
                                     <!-- Note -->
                                     <div class="rating mb-2">
                                         {% for i in "12345" %}
@@ -46,7 +46,7 @@
                                         {% endfor %}
                                         <small class="text-muted ms-1">({{ item.product.review_count }})</small>
                                     </div>
-                                    
+
                                     <!-- Stock -->
                                     <div class="stock-info mb-2">
                                         {% if item.product.is_in_stock %}
@@ -55,15 +55,15 @@
                                             <span class="badge bg-danger">Rupture</span>
                                         {% endif %}
                                     </div>
-                                    
+
                                     <!-- Date de consultation -->
                                     <small class="text-muted mb-3">
                                         Consulté le {{ item.viewed_at|date:"d/m/Y à H:i" }}
                                     </small>
-                                    
+
                                     <div class="mt-auto">
                                         <div class="d-grid gap-2">
-                                            <a href="{% url 'products:product_detail' item.product.slug %}" 
+                                            <a href="{% url 'products:product_detail' item.product.slug %}"
                                                class="btn btn-primary btn-sm">
                                                 <i class="fas fa-eye"></i> Voir le produit
                                             </a>
@@ -89,7 +89,7 @@
                         </div>
                     {% endfor %}
                 </div>
-                
+
                 <!-- Pagination si nécessaire -->
                 {% if is_paginated %}
                     <nav aria-label="Pagination de l'historique">
@@ -102,13 +102,13 @@
                                     <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Précédent</a>
                                 </li>
                             {% endif %}
-                            
+
                             <li class="page-item active">
                                 <span class="page-link">
                                     Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
                                 </span>
                             </li>
-                            
+
                             {% if page_obj.has_next %}
                                 <li class="page-item">
                                     <a class="page-link" href="?page={{ page_obj.next_page_number }}">Suivant</a>
@@ -120,7 +120,7 @@
                         </ul>
                     </nav>
                 {% endif %}
-                
+
             {% else %}
                 <div class="text-center py-5">
                     <i class="fas fa-history fa-5x text-muted mb-4"></i>

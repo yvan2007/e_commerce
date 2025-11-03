@@ -18,7 +18,7 @@
                     <p class="text-muted mb-4">
                         Choisissez votre méthode de paiement préférée pour finaliser votre commande.
                     </p>
-                    
+
                     <div class="row g-4">
                         <!-- MTN Mobile Money -->
                         <div class="col-md-6">
@@ -26,7 +26,7 @@
                                 <div class="card border-0 shadow-sm h-100">
                                     <div class="card-body text-center">
                                         <div class="payment-icon mb-3">
-                                            <img src="{% static 'images/payment/mtn-money.png' %}" 
+                                            <img src="{% static 'images/payment/mtn-money.png' %}"
                                                  alt="MTN Money" class="img-fluid" style="max-height: 30px;">
                                         </div>
                                         <h5 class="card-title text-primary">MTN Mobile Money</h5>
@@ -44,14 +44,14 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Moov Money -->
                         <div class="col-md-6">
                             <div class="payment-method-card h-100" data-provider="moov">
                                 <div class="card border-0 shadow-sm h-100">
                                     <div class="card-body text-center">
                                         <div class="payment-icon mb-3">
-                                            <img src="{% static 'images/payment/moov-money.png' %}" 
+                                            <img src="{% static 'images/payment/moov-money.png' %}"
                                                  alt="Moov Money" class="img-fluid" style="max-height: 30px;">
                                         </div>
                                         <h5 class="card-title text-success">Moov Money</h5>
@@ -69,14 +69,14 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Orange Money -->
                         <div class="col-md-6">
                             <div class="payment-method-card h-100" data-provider="orange">
                                 <div class="card border-0 shadow-sm h-100">
                                     <div class="card-body text-center">
                                         <div class="payment-icon mb-3">
-                                            <img src="{% static 'images/payment/orange-money.png' %}" 
+                                            <img src="{% static 'images/payment/orange-money.png' %}"
                                                  alt="Orange Money" class="img-fluid" style="max-height: 30px;">
                                         </div>
                                         <h5 class="card-title" style="color: #ff6600;">Orange Money</h5>
@@ -94,14 +94,14 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Wave -->
                         <div class="col-md-6">
                             <div class="payment-method-card h-100" data-provider="wave">
                                 <div class="card border-0 shadow-sm h-100">
                                     <div class="card-body text-center">
                                          <div class="payment-icon mb-3">
-                                             <img src="{% static 'images/payment/wave.png' %}" 
+                                             <img src="{% static 'images/payment/wave.png' %}"
                                                   alt="Wave" class="img-fluid" style="max-height: 30px;">
                                          </div>
                                         <h5 class="card-title text-info">Wave</h5>
@@ -120,11 +120,11 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="mt-4">
                         <div class="alert alert-info">
                             <i class="fas fa-info-circle me-2"></i>
-                            <strong>Information :</strong> Tous les paiements sont sécurisés et traités en temps réel. 
+                            <strong>Information :</strong> Tous les paiements sont sécurisés et traités en temps réel.
                             Vous recevrez une confirmation par SMS après chaque transaction réussie.
                         </div>
                     </div>
@@ -167,7 +167,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const paymentCards = document.querySelectorAll('.payment-method-card');
-    
+
     paymentCards.forEach(card => {
         card.addEventListener('click', function() {
             const provider = this.dataset.provider;

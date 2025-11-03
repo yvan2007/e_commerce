@@ -10,29 +10,29 @@
         transition: all 0.3s ease;
         overflow: hidden;
     }
-    
+
     .product-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
     }
-    
+
     .product-card .card-img-top {
         transition: transform 0.3s ease;
     }
-    
+
     .product-card:hover .card-img-top {
         transform: scale(1.05);
     }
-    
+
     .product-card a {
         color: inherit;
         text-decoration: none;
     }
-    
+
     .product-card a:hover {
         color: inherit;
     }
-    
+
     .add-to-cart-form-similar {
         margin: 0;
     }
@@ -47,22 +47,22 @@
             <div class="product-images">
                 {% if product.main_image %}
                     <div id="main-image" class="main-image mb-3">
-                        <img src="{{ product.main_image.url }}" 
-                             alt="{{ product.name }}" 
+                        <img src="{{ product.main_image.url }}"
+                             alt="{{ product.name }}"
                              class="img-fluid rounded shadow">
                     </div>
                 {% elif product.images.exists %}
                     <div id="main-image" class="main-image mb-3">
-                        <img src="{{ product.images.first.image.url }}" 
-                             alt="{{ product.name }}" 
+                        <img src="{{ product.images.first.image.url }}"
+                             alt="{{ product.name }}"
                              class="img-fluid rounded shadow">
                     </div>
                     {% if product.images.count > 1 %}
                         <div class="thumbnail-images">
                             {% for image in product.images.all %}
-                                <img src="{{ image.image.url }}" 
-                                     alt="{{ image.alt_text|default:product.name }}" 
-                                     class="thumbnail img-thumbnail me-2" 
+                                <img src="{{ image.image.url }}"
+                                     alt="{{ image.alt_text|default:product.name }}"
+                                     class="thumbnail img-thumbnail me-2"
                                      style="width: 80px; height: 80px; object-fit: cover; cursor: pointer;"
                                      onclick="changeMainImage('{{ image.image.url }}')">
                             {% endfor %}
@@ -70,37 +70,47 @@
                     {% endif %}
                 {% else %}
                     <div class="no-image-placeholder">
-                        <img src="{% static 'images/no-image.svg' %}" 
-                             alt="Image non disponible" 
+                        <img src="{% static 'images/no-image.svg' %}"
+                             alt="Image non disponible"
                              class="img-fluid rounded shadow">
                     </div>
                 {% endif %}
             </div>
         </div>
-        
+
         <div class="col-md-6">
             <!-- Informations du produit -->
             <div class="product-info">
                 <h1 class="product-title">{{ product.name }}</h1>
-                
+
                 <!-- Prix -->
                 <div class="price-section mb-3">
-                    {% if product.is_currently_on_sale %}
-                        <span class="current-price h3 text-primary">{{ product.price }} FCFA</span>
+                    <div class="d-flex align-items-center flex-wrap gap-2">
+                        <span class="current-price h3 text-primary mb-0">{{ product.price }} FCFA</span>
                         {% if product.get_original_price %}
-                            <span class="original-price text-muted text-decoration-line-through ms-2">{{ product.get_original_price }} FCFA</span>
+                            <span class="original-price text-muted text-decoration-line-through">{{ product.get_original_price }} FCFA</span>
+                            <span class="discount-badge badge bg-danger">-{{ product.get_discount_percentage }}%</span>
+                        {% elif product.compare_price and product.compare_price > product.price %}
+                            <span class="original-price text-muted text-decoration-line-through">{{ product.compare_price }} FCFA</span>
+                            {% if product.discount_percentage %}
+                                <span class="discount-badge badge bg-danger">-{{ product.discount_percentage }}%</span>
+                            {% endif %}
+                        {% elif product.original_price and product.original_price > product.price %}
+                            <span class="original-price text-muted text-decoration-line-through">{{ product.original_price }} FCFA</span>
+                            {% if product.discount_percentage %}
+                                <span class="discount-badge badge bg-danger">-{{ product.discount_percentage }}%</span>
+                            {% endif %}
+                        {% elif product.is_on_sale and product.get_discount_percentage %}
+                            <span class="discount-badge badge bg-danger">-{{ product.get_discount_percentage }}%</span>
                         {% endif %}
-                        <span class="discount-badge badge bg-danger ms-2">-{{ product.get_discount_percentage }}%</span>
-                    {% else %}
-                        <span class="current-price h3 text-primary">{{ product.price }} FCFA</span>
-                    {% endif %}
+                    </div>
                 </div>
-                
+
                 <!-- Description courte -->
                 {% if product.short_description %}
                     <p class="product-short-description text-muted">{{ product.short_description }}</p>
                 {% endif %}
-                
+
                 <!-- Stock -->
                 <div class="stock-info mb-3">
                     {% if product.is_in_stock %}
@@ -113,7 +123,7 @@
                         </span>
                     {% endif %}
                 </div>
-                
+
                 <!-- Note et avis -->
                 <div class="rating-section mb-3">
                     <div class="rating">
@@ -128,7 +138,7 @@
                         <span class="text-muted">({{ product.review_count }} avis)</span>
                     </div>
                 </div>
-                
+
                 <!-- Formulaire d'ajout au panier -->
                 {% if product.is_in_stock %}
                     {% if user.is_authenticated %}
@@ -137,12 +147,12 @@
                             <div class="row mb-3">
                                 <div class="col-md-4">
                                     <label for="quantity" class="form-label">Quantité</label>
-                                    <input type="number" 
-                                           id="quantity" 
-                                           name="quantity" 
-                                           value="1" 
-                                           min="1" 
-                                           max="{{ product.stock }}" 
+                                    <input type="number"
+                                           id="quantity"
+                                           name="quantity"
+                                           value="1"
+                                           min="1"
+                                           max="{{ product.stock }}"
                                            class="form-control">
                                 </div>
                                 {% if product.variants.exists %}
@@ -151,7 +161,7 @@
                                         <select id="variant_id" name="variant_id" class="form-select">
                                             <option value="">Sélectionner une variante</option>
                                             {% for variant in product.variants.all %}
-                                                <option value="{{ variant.id }}" 
+                                                <option value="{{ variant.id }}"
                                                         data-price="{{ variant.price|default:product.price }}">
                                                     {{ variant.name }} - {{ variant.price|default:product.price }} FCFA
                                                 </option>
@@ -160,7 +170,7 @@
                                     </div>
                                 {% endif %}
                             </div>
-                            
+
                             <div class="d-grid gap-2 d-md-flex">
                                 <button type="submit" class="btn btn-primary btn-lg">
                                     <i class="fas fa-shopping-cart"></i> Ajouter au panier
@@ -188,7 +198,7 @@
                         </div>
                         <div class="mt-2">
                             <small class="text-muted">
-                                <i class="fas fa-info-circle"></i> 
+                                <i class="fas fa-info-circle"></i>
                                 Vous devez être connecté pour ajouter des produits au panier ou aux favoris.
                             </small>
                         </div>
@@ -198,7 +208,7 @@
                         <i class="fas fa-exclamation-triangle"></i> Ce produit n'est actuellement pas disponible.
                     </div>
                 {% endif %}
-                
+
                 <!-- Informations du vendeur -->
                 <div class="vendor-info mt-4 p-3 bg-light rounded">
                     <h6>Vendeur</h6>
@@ -207,7 +217,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Description détaillée -->
     <div class="row mt-5">
         <div class="col-12">
@@ -219,7 +229,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Produits similaires -->
     {% if similar_products %}
         <div class="row mt-5">
@@ -232,22 +242,22 @@
                                 <a href="{{ similar_product.get_absolute_url }}" class="text-decoration-none text-dark">
                                     <div class="position-relative">
                                         {% if similar_product.has_main_image %}
-                                            <img src="{{ similar_product.main_image.url }}" 
-                                                 alt="{{ similar_product.name }}" 
-                                                 class="card-img-top" 
+                                            <img src="{{ similar_product.main_image.url }}"
+                                                 alt="{{ similar_product.name }}"
+                                                 class="card-img-top"
                                                  style="height: 250px; object-fit: cover;">
                                         {% elif similar_product.images.exists %}
-                                            <img src="{{ similar_product.images.first.image.url }}" 
-                                                 alt="{{ similar_product.name }}" 
-                                                 class="card-img-top" 
+                                            <img src="{{ similar_product.images.first.image.url }}"
+                                                 alt="{{ similar_product.name }}"
+                                                 class="card-img-top"
                                                  style="height: 250px; object-fit: cover;">
                                         {% else %}
-                                            <div class="card-img-top d-flex align-items-center justify-content-center bg-light" 
+                                            <div class="card-img-top d-flex align-items-center justify-content-center bg-light"
                                                  style="height: 250px;">
                                                 <i class="fas fa-image fa-3x text-muted"></i>
                                             </div>
                                         {% endif %}
-                                        
+
                                         <!-- Badges -->
                                         {% if similar_product.is_on_sale and similar_product.get_discount_percentage %}
                                             <span class="badge bg-danger position-absolute top-0 start-0 m-2">
@@ -259,7 +269,7 @@
                                                 <i class="fas fa-star me-1"></i>Vedette
                                             </span>
                                         {% endif %}
-                                        
+
                                         <!-- Badge stock -->
                                         {% if not similar_product.is_in_stock %}
                                             <span class="badge bg-secondary position-absolute bottom-0 start-0 m-2">
@@ -267,7 +277,7 @@
                                             </span>
                                         {% endif %}
                                     </div>
-                                    
+
                                     <div class="card-body d-flex flex-column">
                                         <h6 class="card-title text-dark mb-2" style="min-height: 48px;">
                                             {{ similar_product.name|truncatewords:10 }}
@@ -275,7 +285,7 @@
                                         <p class="text-muted small mb-2">
                                             <i class="fas fa-store me-1"></i>{{ similar_product.vendor.get_display_name }}
                                         </p>
-                                        
+
                                         <!-- Tags -->
                                         {% if similar_product.tags.all %}
                                             <div class="mb-2 d-flex flex-wrap gap-1">
@@ -286,7 +296,7 @@
                                                 {% endfor %}
                                             </div>
                                         {% endif %}
-                                        
+
                                         <!-- Rating -->
                                         {% if similar_product.rating > 0 %}
                                             <div class="mb-2">
@@ -304,7 +314,7 @@
                                                 </div>
                                             </div>
                                         {% endif %}
-                                        
+
                                         <!-- Price -->
                                         <div class="mb-3 mt-auto">
                                             <div class="d-flex justify-content-between align-items-center">
@@ -322,10 +332,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <!-- Actions -->
                                         <div class="d-grid gap-2 mt-auto">
-                                            <a href="{% url 'products:product_detail' similar_product.slug %}" 
+                                            <a href="{% url 'products:product_detail' similar_product.slug %}"
                                                class="btn btn-primary btn-sm">
                                                 <i class="fas fa-eye me-1"></i>Voir le produit
                                             </a>
@@ -339,7 +349,7 @@
                                                         </button>
                                                     </form>
                                                 {% else %}
-                                                    <a href="{% url 'accounts:login' %}?next={{ request.get_full_path }}" 
+                                                    <a href="{% url 'accounts:login' %}?next={{ request.get_full_path }}"
                                                        class="btn btn-outline-success btn-sm">
                                                         <i class="fas fa-shopping-cart me-1"></i>Ajouter au panier
                                                     </a>
@@ -355,12 +365,12 @@
             </div>
         </div>
     {% endif %}
-    
+
     <!-- Avis -->
     <div class="row mt-5">
         <div class="col-12">
             <h3>Avis clients</h3>
-            
+
             {% if recent_reviews %}
                 <div class="reviews-list">
                     {% for review in recent_reviews %}
@@ -402,7 +412,7 @@
                         </div>
                     {% endfor %}
                 </div>
-                
+
                 <!-- Lien vers tous les avis -->
                 <div class="text-center mt-3">
                     <a href="{% url 'reviews:product_reviews' product.id %}" class="btn btn-outline-primary">
@@ -417,14 +427,14 @@
                     <small class="text-muted">Les avis apparaissent seulement après livraison des commandes.</small>
                 </div>
             {% endif %}
-            
+
             <!-- Formulaire d'avis -->
             {% if user.is_authenticated and can_review %}
                 <div class="add-review mt-4">
                     <div class="alert alert-info">
                         <i class="fas fa-info-circle me-2"></i>
                         <strong>Vous pouvez laisser un avis !</strong><br>
-                        Vous avez reçu ce produit dans une commande livrée. 
+                        Vous avez reçu ce produit dans une commande livrée.
                         <a href="{% url 'orders:order_list' %}" class="btn btn-primary btn-sm ms-2">
                             <i class="fas fa-shopping-cart me-1"></i>
                             Voir mes commandes pour évaluer

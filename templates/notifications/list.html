@@ -166,13 +166,13 @@
                                             <a class="page-link" href="?page={{ notifications.previous_page_number }}&filter={{ filter_status }}">Précédent</a>
                                         </li>
                                     {% endif %}
-                                    
+
                                     <li class="page-item active">
                                         <span class="page-link">
                                             Page {{ notifications.number }} sur {{ notifications.paginator.num_pages }}
                                         </span>
                                     </li>
-                                    
+
                                     {% if notifications.has_next %}
                                         <li class="page-item">
                                             <a class="page-link" href="?page={{ notifications.next_page_number }}&filter={{ filter_status }}">Suivant</a>
@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const deleteSelectedBtn = document.getElementById('deleteSelectedBtn');
     const deleteAllBtn = document.getElementById('deleteAllBtn');
     const deleteForm = document.getElementById('deleteForm');
-    
+
     // Sélectionner/désélectionner toutes les notifications
     if (selectAllCheckbox) {
         selectAllCheckbox.addEventListener('change', function() {
@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateDeleteButton();
         });
     }
-    
+
     // Mettre à jour le bouton de suppression selon les sélections
     function updateDeleteButton() {
         const checked = document.querySelectorAll('.notification-checkbox:checked');
@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
             deleteSelectedBtn.disabled = checked.length === 0;
         }
     }
-    
+
     // Écouter les changements sur chaque checkbox
     notificationCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', function() {
@@ -263,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateDeleteButton();
         });
     });
-    
+
     // Supprimer les notifications sélectionnées
     if (deleteSelectedBtn && deleteForm) {
         deleteSelectedBtn.addEventListener('click', function() {
@@ -272,13 +272,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('Veuillez sélectionner au moins une notification.');
                 return;
             }
-            
+
             if (confirm(`Êtes-vous sûr de vouloir supprimer ${checked.length} notification(s) ?`)) {
                 deleteForm.submit();
             }
         });
     }
-    
+
     // Supprimer toutes les notifications (ouvrir modal)
     if (deleteAllBtn) {
         deleteAllBtn.addEventListener('click', function() {
@@ -286,10 +286,9 @@ document.addEventListener('DOMContentLoaded', function() {
             modal.show();
         });
     }
-    
+
     // Initialiser le bouton
     updateDeleteButton();
 });
 </script>
 {% endblock %}
-

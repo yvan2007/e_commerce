@@ -11,7 +11,7 @@
         <h4 class="fw-bold">Vérification de sécurité</h4>
         <p class="text-muted">Entrez le code de vérification envoyé à votre adresse email</p>
     </div>
-    
+
     <!-- Alerts -->
     {% if messages %}
         {% for message in messages %}
@@ -21,19 +21,19 @@
             </div>
         {% endfor %}
     {% endif %}
-    
+
     <form method="post" id="verify2FAForm">
         {% csrf_token %}
-        
+
         <div class="mb-4">
             <label for="code" class="form-label fw-semibold">Code de vérification</label>
-            <input 
-                type="text" 
-                class="form-control form-control-lg text-center" 
-                id="code" 
-                name="code" 
-                placeholder="000000" 
-                maxlength="6" 
+            <input
+                type="text"
+                class="form-control form-control-lg text-center"
+                id="code"
+                name="code"
+                placeholder="000000"
+                maxlength="6"
                 autofocus
                 required
                 pattern="[0-9]{6}"
@@ -41,14 +41,14 @@
             >
             <small class="text-muted">Le code à 6 chiffres envoyé à votre email</small>
         </div>
-        
+
         <div class="d-grid mb-3">
             <button type="submit" class="btn btn-primary btn-lg">
                 <i class="fas fa-check-circle me-2"></i>
                 Vérifier le code
             </button>
         </div>
-        
+
         <div class="text-center">
             <button type="button" class="btn btn-link text-decoration-none" onclick="resendCode()">
                 <i class="fas fa-redo me-2"></i>
@@ -56,7 +56,7 @@
             </button>
         </div>
     </form>
-    
+
     <!-- Help text -->
     <div class="mt-4">
         <div class="alert alert-info" role="alert">
@@ -72,7 +72,7 @@
 document.getElementById('code').addEventListener('input', function(e) {
     const code = this.value.replace(/\D/g, '');
     this.value = code;
-    
+
     if (code.length === 6) {
         // Auto-focus sur le bouton ou soumettre automatiquement
         setTimeout(() => {
@@ -109,4 +109,3 @@ function resendCode() {
 }
 </script>
 {% endblock %}
-

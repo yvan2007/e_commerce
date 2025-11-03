@@ -68,7 +68,7 @@
 
                     <form method="post" id="deleteAccountForm" class="needs-validation" novalidate>
                         {% csrf_token %}
-                        
+
                         <div class="form-check mb-4">
                             <input class="form-check-input" type="checkbox" id="confirmDelete" required>
                             <label class="form-check-label" for="confirmDelete">
@@ -204,12 +204,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const confirmCheckbox = document.getElementById('confirmDelete');
     const submitBtn = document.getElementById('submitBtn');
     const form = document.getElementById('deleteAccountForm');
-    
+
     // Activer/désactiver le bouton selon la checkbox
     confirmCheckbox.addEventListener('change', function() {
         submitBtn.disabled = !this.checked;
     });
-    
+
     // Validation du formulaire
     form.addEventListener('submit', function(e) {
         if (!confirmCheckbox.checked) {
@@ -223,16 +223,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Cette action est IRRÉVERSIBLE et toutes vos données seront définitivement perdues.\n\n' +
                 'Cliquez sur "OK" pour confirmer ou "Annuler" pour retourner.'
             );
-            
+
             if (!confirmed) {
                 e.preventDefault();
                 return false;
             }
         }
-        
+
         form.classList.add('was-validated');
     });
-    
+
     // Retirer l'état invalid quand la checkbox est cochée
     confirmCheckbox.addEventListener('change', function() {
         if (this.checked) {
@@ -242,4 +242,3 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 {% endblock %}
-

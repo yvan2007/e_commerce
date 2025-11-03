@@ -12,42 +12,42 @@
         margin-bottom: 2rem;
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    
+
     .form-section-header {
         border-bottom: 2px solid #f0f0f0;
         padding-bottom: 1rem;
         margin-bottom: 1.5rem;
     }
-    
+
     .form-section-header h5 {
         color: #333;
         font-weight: 600;
         margin: 0;
     }
-    
+
     .form-section-header h5 i {
         color: var(--primary-color);
         margin-right: 0.5rem;
     }
-    
+
     .help-text {
         color: #6c757d;
         font-size: 0.875rem;
         font-style: italic;
     }
-    
+
     #id_tags {
         border: 1px solid #ced4da;
         border-radius: 0.375rem;
         background-color: white;
         padding: 1rem;
     }
-    
+
     #id_tags li {
         list-style: none;
         margin-bottom: 0.5rem;
     }
-    
+
     #id_tags .form-check {
         display: flex;
         align-items: center;
@@ -55,16 +55,16 @@
         border-radius: 0.375rem;
         transition: background-color 0.2s ease;
     }
-    
+
     #id_tags .form-check:hover {
         background-color: #f8f9fa;
     }
-    
+
     #id_tags .form-check-input:checked {
         background-color: var(--primary-color);
         border-color: var(--primary-color);
     }
-    
+
     #id_tags .form-check-label {
         margin-left: 0.5rem;
         cursor: pointer;
@@ -72,7 +72,7 @@
         font-size: 0.95rem;
         color: #333;
     }
-    
+
     .preview-image {
         max-width: 200px;
         max-height: 200px;
@@ -81,12 +81,12 @@
         padding: 0.5rem;
         margin-top: 1rem;
     }
-    
+
     .ckeditor-container {
         border: 1px solid #ced4da;
         border-radius: 0.375rem;
     }
-    
+
     .required-field {
         color: #dc3545;
     }
@@ -116,13 +116,13 @@
             <!-- Formulaire -->
             <form method="post" enctype="multipart/form-data" id="productForm">
                 {% csrf_token %}
-                
+
                 <!-- Informations de base -->
                 <div class="form-section">
                     <div class="form-section-header">
                         <h5><i class="fas fa-info-circle"></i>Informations de Base</h5>
                     </div>
-                    
+
                     <div class="row">
                         <!-- Nom du produit -->
                         <div class="col-md-8">
@@ -137,7 +137,7 @@
                                 <small class="help-text">Nom descriptif et accrocheur pour votre produit</small>
                             </div>
                         </div>
-                        
+
                         <!-- Catégorie -->
                         <div class="col-md-4">
                             <div class="mb-3">
@@ -152,7 +152,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Description courte -->
                     <div class="mb-3">
                         <label for="id_short_description" class="form-label">
@@ -164,7 +164,7 @@
                         {% endif %}
                         <small class="help-text">Une courte description qui sera affichée dans les listes de produits (max 500 caractères)</small>
                     </div>
-                    
+
                     <!-- Description détaillée -->
                     <div class="mb-3">
                         <label for="id_description" class="form-label">
@@ -178,7 +178,7 @@
                         {% endif %}
                         <small class="help-text">Description complète du produit avec formatage enrichi</small>
                     </div>
-                    
+
                     <!-- Tags -->
                     <div class="mb-3">
                         <label class="form-label">
@@ -189,10 +189,10 @@
                                 {% for tag in form.tags.field.queryset %}
                                 <div class="col-md-4 col-lg-3">
                                     <div class="form-check">
-                                        <input type="checkbox" 
-                                               name="tags" 
-                                               value="{{ tag.id }}" 
-                                               id="tag_{{ tag.id }}" 
+                                        <input type="checkbox"
+                                               name="tags"
+                                               value="{{ tag.id }}"
+                                               id="tag_{{ tag.id }}"
                                                class="form-check-input">
                                         <label class="form-check-label" for="tag_{{ tag.id }}" style="cursor: pointer;">
                                             <span class="badge" style="background-color: {{ tag.color|default:'#007bff' }}; color: white; padding: 0.35rem 0.65rem; border-radius: 0.25rem; font-weight: 500;">
@@ -226,7 +226,7 @@
                     <div class="form-section-header">
                         <h5><i class="fas fa-images"></i>Image du Produit</h5>
                     </div>
-                    
+
                     <div class="mb-3">
                         <label for="id_main_image" class="form-label">Image Principale <span class="required-field">*</span></label>
                         {{ form.main_image }}
@@ -234,7 +234,7 @@
                             <div class="text-danger">{{ form.main_image.errors }}</div>
                         {% endif %}
                         <small class="help-text">Image principale du produit (recommandé: 800x800px, max 5MB)</small>
-                        
+
                         {% if object.main_image %}
                             <div class="mt-3">
                                 <p class="text-muted mb-2">Image actuelle:</p>
@@ -242,7 +242,7 @@
                                 <p class="text-muted mt-2 small">Sélectionnez une nouvelle image pour la remplacer</p>
                             </div>
                         {% endif %}
-                        
+
                         <div id="imagePreviewContainer" style="display: none;">
                             <p class="text-success mt-2">Nouvelle image sélectionnée:</p>
                             <img id="previewNewImage" src="" class="preview-image" style="display: none;">
@@ -255,7 +255,7 @@
                     <div class="form-section-header">
                         <h5><i class="fas fa-dollar-sign"></i>Prix et Stock</h5>
                     </div>
-                    
+
                     <div class="row">
                         <!-- Prix -->
                         <div class="col-md-6">
@@ -270,7 +270,7 @@
                                 <small class="help-text">Prix actuel du produit</small>
                             </div>
                         </div>
-                        
+
                         <!-- Prix original (pour promotions) -->
                         <div class="col-md-6">
                             <div class="mb-3">
@@ -285,7 +285,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <!-- Stock -->
                         <div class="col-md-6">
@@ -300,7 +300,7 @@
                                 <small class="help-text">Quantité en stock</small>
                             </div>
                         </div>
-                        
+
                         <!-- Stock minimum -->
                         <div class="col-md-6">
                             <div class="mb-3">
@@ -322,7 +322,7 @@
                     <div class="form-section-header">
                         <h5><i class="fas fa-tags"></i>Promotion</h5>
                     </div>
-                    
+
                     <div class="mb-3">
                         <div class="form-check form-switch">
                             {{ form.is_on_sale }}
@@ -332,7 +332,7 @@
                         </div>
                         <small class="help-text">Cochez pour mettre ce produit en promotion</small>
                     </div>
-                    
+
                     <div id="promotionFields" style="display: none;">
                         <div class="row">
                             <!-- Début promotion -->
@@ -347,7 +347,7 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            
+
                             <!-- Fin promotion -->
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -361,7 +361,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <!-- Pourcentage de réduction -->
                             <div class="col-md-6">
@@ -376,7 +376,7 @@
                                     <small class="help-text">Exemple: 20 pour 20% de réduction</small>
                                 </div>
                             </div>
-                            
+
                             <!-- Prix de comparaison -->
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -398,7 +398,7 @@
                     <div class="form-section-header">
                         <h5><i class="fas fa-cog"></i>Options Avancées</h5>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
@@ -410,13 +410,13 @@
                                     <div class="text-danger">{{ form.status.errors }}</div>
                                 {% endif %}
                                 <small class="help-text">
-                                    <strong>Brouillon:</strong> non visible | 
-                                    <strong>Publié:</strong> visible sur le site | 
+                                    <strong>Brouillon:</strong> non visible |
+                                    <strong>Publié:</strong> visible sur le site |
                                     <strong>Archivé:</strong> masqué du site
                                 </small>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="id_scheduled_publish_at" class="form-label">
@@ -427,7 +427,7 @@
                                     <div class="text-danger">{{ form.scheduled_publish_at.errors }}</div>
                                 {% endif %}
                                 <small class="help-text">
-                                    Définissez une date/heure pour publier automatiquement ce produit. 
+                                    Définissez une date/heure pour publier automatiquement ce produit.
                                     Le produit restera en brouillon jusqu'à cette date.
                                 </small>
                                 {% if object and object.scheduled_publish_at %}
@@ -439,7 +439,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
@@ -456,7 +456,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="mb-3">
                         <div class="form-check form-switch">
                             {{ form.is_featured }}
@@ -474,7 +474,7 @@
                         <i class="fas fa-times me-2"></i>
                         Annuler
                     </a>
-                    
+
                     <div>
                         {% if object %}
                             <button type="submit" name="save_draft" class="btn btn-outline-warning me-2">
@@ -521,20 +521,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     {% endif %}
-    
+
     // Compter les tags disponibles
     const tagCheckboxes = document.querySelectorAll('input[name="tags"]');
     console.log('Nombre de tags disponibles:', tagCheckboxes.length);
-    
+
     const isOnSale = document.getElementById('id_is_on_sale');
     const promotionFields = document.getElementById('promotionFields');
-    
+
     if (isOnSale) {
         // État initial
         if (isOnSale.checked) {
             promotionFields.style.display = 'block';
         }
-        
+
         // Changer l'état
         isOnSale.addEventListener('change', function() {
             if (this.checked) {
@@ -545,7 +545,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
+
     // Prévisualisation de l'image
     const mainImageInput = document.getElementById('id_main_image');
     if (mainImageInput) {
@@ -558,12 +558,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     this.value = '';
                     return;
                 }
-                
+
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const previewContainer = document.getElementById('imagePreviewContainer');
                     const previewImg = document.getElementById('previewNewImage');
-                    
+
                     if (previewContainer && previewImg) {
                         previewImg.src = e.target.result;
                         previewImg.style.display = 'block';
@@ -574,7 +574,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
+
     // Validation du formulaire
     const productForm = document.getElementById('productForm');
     if (productForm) {
@@ -585,13 +585,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const stock = document.getElementById('id_stock').value;
             const category = document.getElementById('id_category').value;
             const mainImage = document.getElementById('id_main_image').files[0];
-            
+
             if (!name || !price || !stock || !category) {
                 e.preventDefault();
                 alert('Veuillez remplir tous les champs obligatoires (marqués d\'un *)');
                 return false;
             }
-            
+
             // Vérifier l'image si création d'un nouveau produit
             {% if not object %}
             if (!mainImage) {
@@ -600,7 +600,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return false;
             }
             {% endif %}
-            
+
             return true;
         });
     }
@@ -617,4 +617,3 @@ style.textContent = `
 document.head.appendChild(style);
 </script>
 {% endblock %}
-

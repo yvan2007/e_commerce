@@ -1,18 +1,20 @@
 """
 Commande pour créer des défis captcha simples et abordables
 """
-from django.core.management.base import BaseCommand
-from popups.models import CaptchaChallenge
 import random
+
+from django.core.management.base import BaseCommand
+
+from popups.models import CaptchaChallenge
 
 
 class Command(BaseCommand):
-    help = 'Créer des défis captcha simples et abordables'
+    help = "Créer des défis captcha simples et abordables"
 
     def handle(self, *args, **options):
         # Supprimer les anciens défis
         CaptchaChallenge.objects.all().delete()
-        
+
         # Défis mathématiques simples
         math_challenges = [
             ("Combien font 2 + 3 ?", "5"),
@@ -26,16 +28,16 @@ class Command(BaseCommand):
             ("Combien font 9 ÷ 3 ?", "3"),
             ("Combien font 3 + 7 ?", "10"),
         ]
-        
+
         for question, answer in math_challenges:
             CaptchaChallenge.objects.create(
-                challenge_type='math',
+                challenge_type="math",
                 question=question,
                 answer=answer,
-                difficulty='easy',
-                is_active=True
+                difficulty="easy",
+                is_active=True,
             )
-        
+
         # Défis de texte simples
         text_challenges = [
             ("Écrivez le mot 'chat' en minuscules", "chat"),
@@ -49,54 +51,78 @@ class Command(BaseCommand):
             ("Écrivez le mot 'lune' en minuscules", "lune"),
             ("Écrivez le mot 'étoile' en minuscules", "étoile"),
         ]
-        
+
         for question, answer in text_challenges:
             CaptchaChallenge.objects.create(
-                challenge_type='text',
+                challenge_type="text",
                 question=question,
                 answer=answer,
-                difficulty='easy',
-                is_active=True
+                difficulty="easy",
+                is_active=True,
             )
-        
+
         # Défis de sélection d'image simples
         image_challenges = [
             ("Sélectionnez l'animal", ["Chat", "Voiture", "Maison", "Livre"], "Chat"),
             ("Sélectionnez le fruit", ["Pomme", "Voiture", "Livre", "Table"], "Pomme"),
-            ("Sélectionnez la couleur", ["Rouge", "Voiture", "Livre", "Table"], "Rouge"),
-            ("Sélectionnez l'objet rond", ["Ballon", "Livre", "Table", "Voiture"], "Ballon"),
-            ("Sélectionnez le véhicule", ["Voiture", "Pomme", "Livre", "Table"], "Voiture"),
+            (
+                "Sélectionnez la couleur",
+                ["Rouge", "Voiture", "Livre", "Table"],
+                "Rouge",
+            ),
+            (
+                "Sélectionnez l'objet rond",
+                ["Ballon", "Livre", "Table", "Voiture"],
+                "Ballon",
+            ),
+            (
+                "Sélectionnez le véhicule",
+                ["Voiture", "Pomme", "Livre", "Table"],
+                "Voiture",
+            ),
         ]
-        
+
         for question, options, answer in image_challenges:
             CaptchaChallenge.objects.create(
-                challenge_type='image',
+                challenge_type="image",
                 question=question,
                 answer=answer,
                 options=options,
-                difficulty='easy',
-                is_active=True
+                difficulty="easy",
+                is_active=True,
             )
-        
+
         # Défis checkbox simples
         checkbox_challenges = [
-            ("Cochez la case si vous n'êtes pas un robot", ["Je ne suis pas un robot"], "Je ne suis pas un robot"),
-            ("Cochez la case si vous êtes humain", ["Je suis humain"], "Je suis humain"),
-            ("Cochez la case pour continuer", ["Je veux continuer"], "Je veux continuer"),
+            (
+                "Cochez la case si vous n'êtes pas un robot",
+                ["Je ne suis pas un robot"],
+                "Je ne suis pas un robot",
+            ),
+            (
+                "Cochez la case si vous êtes humain",
+                ["Je suis humain"],
+                "Je suis humain",
+            ),
+            (
+                "Cochez la case pour continuer",
+                ["Je veux continuer"],
+                "Je veux continuer",
+            ),
         ]
-        
+
         for question, options, answer in checkbox_challenges:
             CaptchaChallenge.objects.create(
-                challenge_type='checkbox',
+                challenge_type="checkbox",
                 question=question,
                 answer=answer,
                 options=options,
-                difficulty='easy',
-                is_active=True
+                difficulty="easy",
+                is_active=True,
             )
-        
+
         self.stdout.write(
             self.style.SUCCESS(
-                f'Créé {len(math_challenges) + len(text_challenges) + len(image_challenges) + len(checkbox_challenges)} défis captcha simples'
+                f"Créé {len(math_challenges) + len(text_challenges) + len(image_challenges) + len(checkbox_challenges)} défis captcha simples"
             )
         )

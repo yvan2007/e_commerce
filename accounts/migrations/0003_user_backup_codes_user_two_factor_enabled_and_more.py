@@ -4,25 +4,28 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('accounts', '0002_remove_userprofile_preferences_and_more'),
+        ("accounts", "0002_remove_userprofile_preferences_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='user',
-            name='backup_codes',
-            field=models.JSONField(blank=True, default=list, verbose_name='Codes de secours'),
+            model_name="user",
+            name="backup_codes",
+            field=models.JSONField(
+                blank=True, default=list, verbose_name="Codes de secours"
+            ),
         ),
         migrations.AddField(
-            model_name='user',
-            name='two_factor_enabled',
-            field=models.BooleanField(default=False, verbose_name='2FA activé'),
+            model_name="user",
+            name="two_factor_enabled",
+            field=models.BooleanField(default=False, verbose_name="2FA activé"),
         ),
         migrations.AddField(
-            model_name='user',
-            name='two_factor_secret',
-            field=models.CharField(blank=True, max_length=32, null=True, verbose_name='Secret 2FA'),
+            model_name="user",
+            name="two_factor_secret",
+            field=models.CharField(
+                blank=True, max_length=32, null=True, verbose_name="Secret 2FA"
+            ),
         ),
     ]

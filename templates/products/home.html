@@ -13,7 +13,7 @@
                     Bienvenue sur E-Commerce CI
                 </h1>
                 <p class="lead mb-4">
-                    Découvrez des milliers de produits de qualité et faites vos achats en toute sécurité. 
+                    Découvrez des milliers de produits de qualité et faites vos achats en toute sécurité.
                     Livraison rapide dans toute la Côte d'Ivoire.
                 </p>
                 <div class="d-flex gap-3">
@@ -45,7 +45,7 @@
                     </div>
                     <h5 class="fw-bold">Paiements sécurisés</h5>
                     <p class="text-muted">
-                        Moov Money, Orange Money, MTN Money, Wave et cartes bancaires. 
+                        Moov Money, Orange Money, MTN Money, Wave et cartes bancaires.
                         Vos paiements sont 100% sécurisés.
                     </p>
                 </div>
@@ -57,7 +57,7 @@
                     </div>
                     <h5 class="fw-bold">Livraison rapide</h5>
                     <p class="text-muted">
-                        Livraison dans toute la Côte d'Ivoire en 24-48h. 
+                        Livraison dans toute la Côte d'Ivoire en 24-48h.
                         Suivez votre commande en temps réel.
                     </p>
                 </div>
@@ -69,7 +69,7 @@
                     </div>
                     <h5 class="fw-bold">Support 24/7</h5>
                     <p class="text-muted">
-                        Notre équipe est disponible 24h/24 pour vous accompagner 
+                        Notre équipe est disponible 24h/24 pour vous accompagner
                         dans vos achats et répondre à vos questions.
                     </p>
                 </div>
@@ -88,7 +88,7 @@
                 Explorez nos différentes catégories de produits
             </p>
         </div>
-        
+
         <div class="row">
             {% for category in categories %}
             <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
@@ -112,7 +112,7 @@
             </div>
             {% endfor %}
         </div>
-        
+
         <div class="text-center mt-4">
             <a href="{% url 'products:category_list' %}" class="btn btn-outline-primary">
                 Voir toutes les catégories
@@ -132,7 +132,7 @@
                 Découvrez nos produits les plus populaires
             </p>
         </div>
-        
+
         <div class="row">
             {% for product in featured_products %}
             <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
@@ -140,13 +140,13 @@
                     <a href="{{ product.get_absolute_url }}" class="text-decoration-none">
                         <div class="position-relative">
                             {% if product.main_image %}
-                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}" 
+                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}"
                                      class="card-img-top" style="height: 200px; object-fit: cover;">
                             {% elif product.images.first %}
-                                <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" 
+                                <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}"
                                      class="card-img-top" style="height: 200px; object-fit: cover;">
                             {% else %}
-                                <img src="{% static 'images/no-image.svg' %}" alt="{{ product.name }}" 
+                                <img src="{% static 'images/no-image.svg' %}" alt="{{ product.name }}"
                                      class="card-img-top" style="height: 200px; object-fit: cover;">
                             {% endif %}
                             {% if product.compare_price and product.compare_price > product.price %}
@@ -189,7 +189,7 @@
             </div>
             {% endfor %}
         </div>
-        
+
         <div class="text-center mt-4">
             <a href="{% url 'products:product_list' %}" class="btn btn-primary">
                 Voir tous les produits
@@ -209,7 +209,7 @@
                 Découvrez nos derniers produits ajoutés
             </p>
         </div>
-        
+
         <div class="row">
             {% for product in latest_products %}
             <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
@@ -217,13 +217,13 @@
                     <a href="{{ product.get_absolute_url }}" class="text-decoration-none">
                         <div class="position-relative">
                             {% if product.main_image %}
-                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}" 
+                                <img src="{{ product.main_image.url }}" alt="{{ product.name }}"
                                      class="card-img-top" style="height: 200px; object-fit: cover;">
                             {% elif product.images.first %}
-                                <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" 
+                                <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}"
                                      class="card-img-top" style="height: 200px; object-fit: cover;">
                             {% else %}
-                                <img src="{% static 'images/no-image.svg' %}" alt="{{ product.name }}" 
+                                <img src="{% static 'images/no-image.svg' %}" alt="{{ product.name }}"
                                      class="card-img-top" style="height: 200px; object-fit: cover;">
                             {% endif %}
                             <span class="badge bg-success position-absolute top-0 start-0 m-2">
@@ -287,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function() {
         easing: 'ease-in-out',
         once: true
     });
-    
+
     // Newsletter form
     const newsletterForm = document.querySelector('form');
     if (newsletterForm) {

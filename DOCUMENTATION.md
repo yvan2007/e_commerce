@@ -1960,4 +1960,3 @@ Développé par l'équipe KefyStore.
 ---
 
 *Documentation complète de l'application e-commerce KefyStore*
-

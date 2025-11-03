@@ -128,8 +128,9 @@
 .product-card .card-body {
     padding: var(--spacing-lg);
     flex-grow: 1;
-    display: flex;
-    flex-direction: column;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0;
 }
 
 .product-card .card-title {
@@ -145,12 +146,102 @@
     padding: var(--spacing-md) var(--spacing-lg);
     background: var(--secondary-color);
     border-top: 1px solid var(--border-color);
+    margin-top: auto; /* Force l'alignement en bas */
 }
 
 /* Alignement uniforme des boutons */
 .product-card .card-footer form .d-flex {
     align-items: stretch;
     min-height: 42px;
+}
+
+/* Force l'alignement horizontal des boutons pour toutes les cartes */
+.product-item {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.product-item .product-card {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    min-height: 100%;
+}
+
+.product-item .product-card > a {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-height: 0;
+}
+
+.product-item .product-card .card-body {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-grow: 1 !important;
+    min-height: 0;
+}
+
+.product-item .product-card .card-footer {
+    margin-top: auto !important;
+    flex-shrink: 0 !important;
+    width: 100% !important;
+}
+
+/* FORCER L'ALIGNEMENT DES BOUTONS - Utiliser le système Bootstrap normal mais forcer les hauteurs */
+#productsContainer.row {
+    align-items: stretch !important;
+}
+
+#productsContainer.row > .product-item {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+}
+
+#productsContainer.row > .product-item > .product-card {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    flex: 1 1 auto !important;
+}
+
+/* Assure que le footer est toujours aligné en bas */
+.product-card > .card-footer {
+    margin-top: auto !important;
+    flex-shrink: 0 !important;
+}
+
+/* Force l'alignement des boutons en bas des cartes */
+.product-card {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+}
+
+.product-card > a {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+}
+
+.product-card .card-body {
+    flex-grow: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+}
+
+.product-card .card-footer {
+    margin-top: auto !important;
+    flex-shrink: 0 !important;
+    width: 100% !important;
+    min-height: 75px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
 }
 
 .product-card .card-footer input.form-control {
@@ -260,33 +351,33 @@
     .product-card .card-img-top {
         height: 180px;
     }
-    
+
     .product-card .card-body {
         padding: var(--spacing-md);
     }
-    
+
     .product-card .card-footer {
         padding: var(--spacing-sm) var(--spacing-md);
     }
-    
+
     .card-footer .btn {
         min-height: 38px;
         font-size: var(--font-size-xs);
         padding: var(--spacing-xs) var(--spacing-sm);
     }
-    
+
     .card-footer a.btn {
         width: 38px;
         min-width: 38px;
         height: 38px;
     }
-    
+
     .card-footer input.form-control {
         width: 60px;
         height: 38px;
         font-size: var(--font-size-xs);
     }
-    
+
     .product-actions .btn {
         width: 34px;
         height: 34px;
@@ -299,13 +390,12 @@
     .product-card .card-img-top {
         height: 160px;
     }
-    
+
     .product-card .card-body {
         padding: var(--spacing-sm);
     }
-    
+
     .product-card .card-footer {
         padding: var(--spacing-xs) var(--spacing-sm);
     }
 }
-

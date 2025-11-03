@@ -11,12 +11,12 @@
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         transition: all 0.3s ease;
     }
-    
+
     .dashboard-card:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
     }
-    
+
     .stats-card {
         background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
         color: white;
@@ -24,49 +24,49 @@
         border-radius: 15px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
-    
+
     .stats-card.success {
         background: linear-gradient(135deg, #28a745, #1e7e34);
     }
-    
+
     .stats-card.warning {
         background: linear-gradient(135deg, #ffc107, #e0a800);
     }
-    
+
     .stats-card.info {
         background: linear-gradient(135deg, #17a2b8, #138496);
     }
-    
+
     .card-header {
         background: var(--secondary-color) !important;
         border-bottom: 2px solid var(--accent-color);
         border-radius: 15px 15px 0 0 !important;
     }
-    
+
     .table-hover tbody tr:hover {
         background-color: var(--accent-color);
     }
-    
+
     .btn-outline-primary {
         border-color: var(--primary-color);
         color: var(--primary-color);
     }
-    
+
     .btn-outline-primary:hover {
         background-color: var(--primary-color);
         border-color: var(--primary-color);
     }
-    
+
     .badge {
         border-radius: 20px;
         padding: 0.5em 1em;
     }
-    
+
     .chart-container {
         position: relative;
         height: 300px;
     }
-    
+
     .action-btn {
         border-radius: 15px;
         padding: 1.5rem;
@@ -74,12 +74,12 @@
         transition: all 0.3s ease;
         border: 2px solid var(--accent-color);
     }
-    
+
     .action-btn:hover {
         transform: translateY(-3px);
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
     }
-    
+
     .vendor-avatar {
         width: 40px;
         height: 40px;
@@ -87,7 +87,7 @@
         object-fit: cover;
         border: 2px solid var(--accent-color);
     }
-    
+
     .vendor-placeholder {
         background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
         color: white;
@@ -98,7 +98,7 @@
         align-items: center;
         justify-content: center;
     }
-    
+
     .category-image {
         width: 40px;
         height: 40px;
@@ -106,7 +106,7 @@
         object-fit: cover;
         border: 2px solid var(--accent-color);
     }
-    
+
     .category-placeholder {
         background: var(--accent-color);
         border-radius: 8px;
@@ -116,32 +116,32 @@
         align-items: center;
         justify-content: center;
     }
-    
+
     .review-stars {
         color: #ffc107;
     }
-    
+
     .empty-state {
         text-align: center;
         padding: 3rem 1rem;
         color: var(--text-muted);
     }
-    
+
     .empty-state i {
         font-size: 3rem;
         margin-bottom: 1rem;
         opacity: 0.5;
     }
-    
+
     @media (max-width: 768px) {
         .dashboard-card {
             margin-bottom: 1rem;
         }
-        
+
         .action-btn {
             margin-bottom: 1rem;
         }
-        
+
         .chart-container {
             height: 250px;
         }
@@ -335,7 +335,7 @@
                                         </td>
                                         <td>{{ order.total_amount }} FCFA</td>
                                         <td>
-                                            <a href="{% url 'orders:order_detail' order.order_number %}" 
+                                            <a href="{% url 'orders:order_detail' order.order_number %}"
                                                class="btn btn-sm btn-outline-primary">
                                                 <i class="fas fa-eye"></i>
                                             </a>
@@ -370,8 +370,8 @@
                         <div class="d-flex align-items-center mb-3">
                             <div class="me-3">
                                 {% if vendor.profile_picture %}
-                                    <img src="{{ vendor.profile_picture.url }}" 
-                                         alt="{{ vendor.get_display_name }}" 
+                                    <img src="{{ vendor.profile_picture.url }}"
+                                         alt="{{ vendor.get_display_name }}"
                                          class="vendor-avatar">
                                 {% else %}
                                     <div class="vendor-placeholder">
@@ -432,8 +432,8 @@
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <div class="d-flex align-items-center">
                                 {% if category.image %}
-                                    <img src="{{ category.image.url }}" 
-                                         alt="{{ category.name }}" 
+                                    <img src="{{ category.image.url }}"
+                                         alt="{{ category.name }}"
                                          class="category-image me-3">
                                 {% else %}
                                     <div class="category-placeholder me-3">
@@ -579,16 +579,16 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('Canvas revenueChart not found');
         return;
     }
-    
+
     const monthlyData = JSON.parse('{{ monthly_stats|escapejs }}');
-    
+
     const labels = monthlyData.map(item => {
         const date = new Date(item.month);
         return date.toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
     });
-    
+
     const revenueData = monthlyData.map(item => parseFloat(item.revenue || 0));
-    
+
     new Chart(revenueCtx.getContext('2d'), {
         type: 'line',
         data: {
@@ -623,9 +623,9 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('Canvas statusChart not found');
         return;
     }
-    
+
     const statusData = JSON.parse('{{ order_status_stats|escapejs }}');
-    
+
     const statusLabels = statusData.map(item => {
         const statusMap = {
             'pending': 'En attente',
@@ -639,7 +639,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return statusMap[item.status] || item.status;
     });
     const statusCounts = statusData.map(item => parseInt(item.count || 0));
-    
+
     new Chart(statusCtx.getContext('2d'), {
         type: 'doughnut',
         data: {

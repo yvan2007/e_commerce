@@ -11,7 +11,7 @@
     --gradient-purple: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
     --gradient-blue: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --gradient-green: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
-    
+
     /* Ombres professionnelles */
     --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.08);
     --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
@@ -652,27 +652,27 @@
         min-height: 120px;
         padding: var(--spacing-lg);
     }
-    
+
     .stats-card .stat-value {
         font-size: var(--font-size-3xl);
     }
-    
+
     .stats-card .stat-icon {
         font-size: var(--font-size-3xl);
         top: var(--spacing-md);
         right: var(--spacing-md);
     }
-    
+
     .dashboard-card .card-body {
         padding: var(--spacing-md);
     }
-    
+
     .dashboard-card .table thead th,
     .dashboard-card .table tbody td {
         padding: var(--spacing-sm);
         font-size: var(--font-size-sm);
     }
-    
+
     .quick-actions {
         grid-template-columns: 1fr;
     }
@@ -710,4 +710,3 @@
     height: 200px;
     border-radius: var(--border-radius-lg);
 }
-

@@ -179,7 +179,7 @@
             </div>
         </div>
         {% endif %}
-        
+
         {% if attention_orders %}
         <div class="col-lg-6 mb-4">
             <div class="card dashboard-card">
@@ -201,7 +201,7 @@
                                         {{ order.order_number }}
                                     </h6>
                                     <small class="text-muted">
-                                        Client: {{ order.user.get_display_name }} | 
+                                        Client: {{ order.user.get_display_name }} |
                                         {{ order.created_at|timesince }}
                                     </small>
                                 </div>
@@ -209,7 +209,7 @@
                                     <span class="badge bg-{{ order.get_status_display_color }} me-2">
                                         {{ order.get_status_display }}
                                     </span>
-                                    <a href="{% url 'orders:order_detail' order.order_number %}" 
+                                    <a href="{% url 'orders:order_detail' order.order_number %}"
                                        class="btn btn-sm btn-primary">
                                         Voir
                                     </a>
@@ -269,7 +269,7 @@
                                         </td>
                                         <td>{{ order.total_amount }} FCFA</td>
                                         <td>
-                                            <a href="{% url 'orders:order_detail' order.order_number %}" 
+                                            <a href="{% url 'orders:order_detail' order.order_number %}"
                                                class="btn btn-sm btn-outline-primary">
                                                 <i class="fas fa-eye"></i>
                                             </a>
@@ -303,8 +303,8 @@
                         {% for product in top_products %}
                         <div class="d-flex align-items-center mb-3">
                             {% if product.main_image %}
-                                <img src="{{ product.main_image.url }}" 
-                                     alt="{{ product.name }}" 
+                                <img src="{{ product.main_image.url }}"
+                                     alt="{{ product.name }}"
                                      class="product-image me-3">
                             {% else %}
                                 <div class="product-image bg-light d-flex align-items-center justify-content-center me-3">
@@ -412,7 +412,7 @@
                             </div>
                         </div>
                         {% endif %}
-                        
+
                         {% if low_stock_products > 0 %}
                         <div class="col-md-6 mb-3">
                             <div class="alert alert-warning mb-0">
@@ -424,7 +424,7 @@
                             </div>
                         </div>
                         {% endif %}
-                        
+
                         {% if draft_products > 0 %}
                         <div class="col-md-6 mb-3">
                             <div class="alert alert-info mb-0">
@@ -436,7 +436,7 @@
                             </div>
                         </div>
                         {% endif %}
-                        
+
                         {% if pending_orders > 0 %}
                         <div class="col-md-6 mb-3">
                             <div class="alert alert-primary mb-0">
@@ -448,7 +448,7 @@
                             </div>
                         </div>
                         {% endif %}
-                        
+
                         {% if conversion_rate > 0 %}
                         <div class="col-md-6 mb-3">
                             <div class="alert alert-success mb-0">
@@ -475,15 +475,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Graphique des ventes
     const ctx = document.getElementById('salesChart').getContext('2d');
     const monthlyData = {{ monthly_stats|safe }};
-    
+
     const labels = monthlyData.map(item => {
         const date = new Date(item.month);
         return date.toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
     });
-    
+
     const salesData = monthlyData.map(item => item.order_count || 0);
     const revenueData = monthlyData.map(item => item.revenue || 0);
-    
+
     new Chart(ctx, {
         type: 'line',
         data: {

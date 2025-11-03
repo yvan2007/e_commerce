@@ -9,9 +9,9 @@
     {% if category.description %}
         <p>{{ category.description }}</p>
     {% endif %}
-    
+
     <h2>Produits ({{ products|length }})</h2>
-    
+
     {% if products %}
         <div class="row">
             {% for product in products %}

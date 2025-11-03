@@ -4,15 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('products', '0005_product_features_product_specifications_and_more'),
+        ("products", "0005_product_features_product_specifications_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='product',
-            name='scheduled_publish_at',
-            field=models.DateTimeField(blank=True, help_text='Si défini, le produit sera automatiquement publié à cette date/heure', null=True, verbose_name='Date de publication programmée'),
+            model_name="product",
+            name="scheduled_publish_at",
+            field=models.DateTimeField(
+                blank=True,
+                help_text="Si défini, le produit sera automatiquement publié à cette date/heure",
+                null=True,
+                verbose_name="Date de publication programmée",
+            ),
         ),
     ]

@@ -4,16 +4,17 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('products', '0005_product_features_product_specifications_and_more'),
-        ('wishlist', '0001_initial'),
+        ("products", "0005_product_features_product_specifications_and_more"),
+        ("wishlist", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='wishlist',
-            name='products',
-            field=models.ManyToManyField(blank=True, related_name='wishlists', to='products.product'),
+            model_name="wishlist",
+            name="products",
+            field=models.ManyToManyField(
+                blank=True, related_name="wishlists", to="products.product"
+            ),
         ),
     ]

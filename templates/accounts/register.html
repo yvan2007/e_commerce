@@ -9,7 +9,7 @@
         <h4 class="fw-bold">Créer un compte</h4>
         <p class="text-muted">Rejoignez notre communauté d'acheteurs</p>
     </div>
-    
+
     <!-- Affichage des erreurs générales -->
     {% if form.errors %}
     <div class="alert alert-danger" role="alert">
@@ -23,7 +23,7 @@
         </ul>
     </div>
     {% endif %}
-    
+
     <!-- Debug: Afficher les erreurs non-validées -->
     {% if form.non_field_errors %}
     <div class="alert alert-danger" role="alert">
@@ -35,14 +35,14 @@
         </ul>
     </div>
     {% endif %}
-    
+
     <!-- Registration form -->
     <form method="post" id="registrationForm">
         {% csrf_token %}
-        
+
         <!-- Champ caché pour user_type -->
         <input type="hidden" name="user_type" value="client">
-        
+
         <div class="mb-3">
             <label for="{{ form.username.id_for_label }}" class="form-label">Nom d'utilisateur *</label>
             {{ form.username }}
@@ -55,7 +55,7 @@
                 </div>
             {% endif %}
         </div>
-        
+
         <div class="mb-3">
             <label for="{{ form.email.id_for_label }}" class="form-label">Email *</label>
             {{ form.email }}
@@ -67,7 +67,7 @@
                 </div>
             {% endif %}
         </div>
-        
+
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="{{ form.first_name.id_for_label }}" class="form-label">Prénom *</label>
@@ -92,7 +92,7 @@
                 {% endif %}
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col-md-4 mb-3">
                 <label for="{{ form.country_code.id_for_label }}" class="form-label">Code pays *</label>
@@ -117,7 +117,7 @@
                 {% endif %}
             </div>
         </div>
-        
+
         <div class="mb-3">
             <label for="{{ form.password1.id_for_label }}" class="form-label">Mot de passe *</label>
             {{ form.password1 }}
@@ -129,7 +129,7 @@
                 </div>
             {% endif %}
         </div>
-        
+
         <div class="mb-3">
             <label for="{{ form.password2.id_for_label }}" class="form-label">Confirmation du mot de passe *</label>
             {{ form.password2 }}
@@ -141,7 +141,7 @@
                 </div>
             {% endif %}
         </div>
-        
+
         <div class="mb-3 form-check">
             {{ form.terms_accepted }}
             <label class="form-check-label" for="{{ form.terms_accepted.id_for_label }}">
@@ -155,7 +155,7 @@
                 </div>
             {% endif %}
         </div>
-        
+
         <div class="d-grid">
             <button type="submit" class="btn btn-primary btn-lg">
                 <i class="fas fa-user-plus me-2"></i>
@@ -163,12 +163,12 @@
             </button>
         </div>
     </form>
-    
+
     <div class="text-center mt-4">
         <div class="divider">
             <span class="divider-text">ou</span>
         </div>
-        
+
         <div class="social-login mt-3">
             <button class="btn btn-outline-danger w-100 mb-2" onclick="window.location.href='/accounts/google/login/?process=signup'">
                 <i class="fab fa-google me-2"></i>
@@ -179,9 +179,9 @@
                 Continuer avec Facebook
             </button>
         </div>
-        
+
         <p class="text-muted">
-            Déjà un compte ? 
+            Déjà un compte ?
             <a href="{% url 'accounts:login' %}" class="text-primary fw-bold text-decoration-none">
                 Se connecter
             </a>
@@ -214,7 +214,7 @@
                             <i class="fas fa-check-circle text-success"></i>
                         </div>
                     </div>
-                    
+
                     <div class="google-account-item" onclick="selectGoogleAccount('user2@gmail.com', 'Jane Smith')">
                         <div class="account-avatar">
                             <i class="fas fa-user-circle fa-2x text-success"></i>
@@ -227,7 +227,7 @@
                             <i class="fas fa-check-circle text-success"></i>
                         </div>
                     </div>
-                    
+
                     <div class="google-account-item" onclick="selectGoogleAccount('yvan@gmail.com', 'Yvan Kouakou')">
                         <div class="account-avatar">
                             <i class="fas fa-user-circle fa-2x text-warning"></i>
@@ -269,11 +269,11 @@ function selectGoogleAccount(email, name) {
     document.querySelectorAll('.google-account-item').forEach(item => {
         item.classList.remove('selected');
     });
-    
+
     // Sélectionner le compte cliqué
     event.currentTarget.classList.add('selected');
     selectedGoogleAccount = { email: email, name: name };
-    
+
     // Mettre à jour le bouton de confirmation
     const confirmBtn = document.querySelector('#googleAccountModal .btn-primary');
     confirmBtn.disabled = false;
@@ -287,7 +287,7 @@ function confirmGoogleLogin() {
         formData.append('email', selectedGoogleAccount.email);
         formData.append('name', selectedGoogleAccount.name);
         formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
-        
+
         fetch('{% url "accounts:google_auth" %}', {
             method: 'POST',
             body: formData
@@ -297,11 +297,11 @@ function confirmGoogleLogin() {
             if (data.success) {
                 // Afficher le message de succès
                 alert(data.message);
-                
+
                 // Fermer le modal
                 const modal = bootstrap.Modal.getInstance(document.getElementById('googleAccountModal'));
                 modal.hide();
-                
+
                 // Rediriger vers la page d'accueil
                 window.location.href = data.redirect_url;
             } else {
@@ -324,7 +324,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.target.value = value;
         });
     }
-    
+
     // Real-time validation
     const emailInput = document.querySelector('input[name="email"]');
     if (emailInput) {

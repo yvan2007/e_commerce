@@ -95,14 +95,14 @@
         <div class="header">
             <h1>✨ Bienvenue sur KefyStore !</h1>
         </div>
-        
+
         <div class="content">
             <div class="welcome-message">
                 🎁 Bonjour {{ user.first_name|default:user.username }},
             </div>
-            
+
             <p>Nous sommes ravis de vous compter parmi nos clients ! Votre compte a été créé avec succès.</p>
-            
+
             <div class="features">
                 <h3>🌟 Découvrez ce que vous pouvez faire :</h3>
                 <ul>
@@ -114,15 +114,15 @@
                     <li>💬 Bénéficier d'un support client 24/7</li>
                 </ul>
             </div>
-            
+
             <p>Votre compte est maintenant actif et vous pouvez commencer vos achats immédiatement.</p>
-            
+
             <div style="text-align: center;">
                 <a href="{{ site_url }}" class="cta-button">
                     🛒 Commencer mes achats maintenant
                 </a>
             </div>
-            
+
             <p><strong>📋 Informations de votre compte :</strong></p>
             <ul>
                 <li>👤 <strong>Nom d'utilisateur :</strong> {{ user.username }}</li>
@@ -130,10 +130,10 @@
                 <li>🏷️ <strong>Type de compte :</strong> {{ user.get_user_type_display }}</li>
                 <li>📅 <strong>Date d'inscription :</strong> {{ user.date_joined|date:"d/m/Y à H:i" }}</li>
             </ul>
-            
+
             <p>Si vous avez des questions, n'hésitez pas à nous contacter. Notre équipe est là pour vous aider !</p>
         </div>
-        
+
         <div class="footer">
             <p><strong>KefyStore</strong> - Votre boutique en ligne de confiance</p>
             <div class="social-links">

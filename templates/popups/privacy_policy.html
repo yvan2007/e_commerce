@@ -95,11 +95,11 @@
     .privacy-policy {
         padding: 1rem;
     }
-    
+
     .privacy-policy h1 {
         font-size: 2rem;
     }
-    
+
     .privacy-policy h2 {
         font-size: 1.3rem;
     }
@@ -110,28 +110,28 @@
 {% block content %}
 <div class="privacy-policy">
     <a href="{% url 'products:home_page' %}" class="back-btn">← Retour à l'accueil</a>
-    
+
     {% if privacy_policy %}
         <h1>{{ privacy_policy.title }}</h1>
-        
+
         <div class="last-updated">
             Dernière mise à jour : {{ privacy_policy.updated_at|date:"d F Y" }}
         </div>
-        
+
         <div class="privacy-content">
             {{ privacy_policy.content|safe }}
         </div>
     {% else %}
         <h1>Politique de Confidentialité</h1>
-        
+
         <div class="last-updated">
             Dernière mise à jour : {{ "now"|date:"d F Y" }}
         </div>
-        
+
         <div class="privacy-content">
             <h2>1. Introduction</h2>
             <p>Cette politique de confidentialité décrit comment nous collectons, utilisons et protégeons vos informations personnelles lorsque vous utilisez notre site e-commerce.</p>
-            
+
             <h2>2. Informations que nous collectons</h2>
             <h3>2.1 Informations personnelles</h3>
             <p>Nous collectons les informations suivantes :</p>
@@ -142,7 +142,7 @@
                 <li>Adresse de livraison</li>
                 <li>Informations de paiement (sécurisées)</li>
             </ul>
-            
+
             <h3>2.2 Informations techniques</h3>
             <p>Nous collectons automatiquement :</p>
             <ul>
@@ -152,7 +152,7 @@
                 <li>Durée de la session</li>
                 <li>Cookies et technologies similaires</li>
             </ul>
-            
+
             <h2>3. Utilisation des informations</h2>
             <p>Nous utilisons vos informations pour :</p>
             <ul>
@@ -162,7 +162,7 @@
                 <li>Vous envoyer des communications marketing (avec votre consentement)</li>
                 <li>Respecter nos obligations légales</li>
             </ul>
-            
+
             <h2>4. Partage des informations</h2>
             <p>Nous ne vendons, n'échangeons ni ne louons vos informations personnelles à des tiers, sauf dans les cas suivants :</p>
             <ul>
@@ -171,7 +171,7 @@
                 <li>Avec nos prestataires de services (sous contrat de confidentialité)</li>
                 <li>En cas de fusion ou d'acquisition de notre entreprise</li>
             </ul>
-            
+
             <h2>5. Sécurité des données</h2>
             <p>Nous mettons en place des mesures de sécurité appropriées pour protéger vos informations :</p>
             <ul>
@@ -180,7 +180,7 @@
                 <li>Surveillance continue des systèmes</li>
                 <li>Formation du personnel à la protection des données</li>
             </ul>
-            
+
             <h2>6. Cookies</h2>
             <p>Notre site utilise des cookies pour :</p>
             <ul>
@@ -190,7 +190,7 @@
                 <li>Faciliter les achats</li>
             </ul>
             <p>Vous pouvez gérer vos préférences de cookies dans les paramètres de votre navigateur.</p>
-            
+
             <h2>7. Vos droits</h2>
             <p>Conformément au RGPD, vous avez le droit de :</p>
             <ul>
@@ -201,7 +201,7 @@
                 <li>Vous opposer au traitement</li>
                 <li>Portabilité des données</li>
             </ul>
-            
+
             <h2>8. Conservation des données</h2>
             <p>Nous conservons vos données personnelles :</p>
             <ul>
@@ -209,10 +209,10 @@
                 <li>7 ans après votre dernière commande (obligation légale)</li>
                 <li>Jusqu'à ce que vous demandiez leur suppression</li>
             </ul>
-            
+
             <h2>9. Modifications de cette politique</h2>
             <p>Nous pouvons modifier cette politique de confidentialité. Les modifications importantes seront communiquées par email ou via une notification sur le site.</p>
-            
+
             <h2>10. Contact</h2>
             <div class="contact-info">
                 <p>Pour toute question concernant cette politique de confidentialité ou vos données personnelles :</p>

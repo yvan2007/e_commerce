@@ -5,22 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}KefyStore - Votre Boutique en Ligne{% endblock %}</title>
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    
+
     <!-- TinyMCE -->
     {{ form.media }}
-    
+
     {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -78,7 +78,7 @@
                         <img src="{% static 'images/logo-kefystore.svg' %}" alt="KefyStore" class="logo" style="height: 50px;">
                     </a>
                 </div>
-                
+
                 <div class="col-lg-6 col-md-12 mt-3 mt-lg-0">
                     <form class="search-form" method="GET" action="{% url 'search:search_results' %}">
                         <div class="input-group">
@@ -89,7 +89,7 @@
                         </div>
                     </form>
                 </div>
-                
+
                 <div class="col-lg-3 col-md-6 mt-3 mt-lg-0">
                     <div class="d-flex justify-content-end align-items-center">
                         <a href="{% url 'orders:cart' %}" class="btn btn-outline-primary me-3 position-relative">
@@ -112,14 +112,14 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-top">
             <div class="container">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                
+
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
@@ -182,7 +182,7 @@
                         <a href="#" class="text-white"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-                
+
                 <div class="col-lg-3 col-md-6 mb-4">
                     <h6 class="text-primary mb-3">Liens Rapides</h6>
                     <ul class="list-unstyled">
@@ -192,7 +192,7 @@
                         <li><a href="#" class="text-light text-decoration-none">Promotions</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="col-lg-3 col-md-6 mb-4">
                     <h6 class="text-primary mb-3">Service Client</h6>
                     <ul class="list-unstyled">
@@ -202,7 +202,7 @@
                         <li><a href="#" class="text-light text-decoration-none">FAQ</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="col-lg-3 col-md-6 mb-4">
                     <h6 class="text-primary mb-3">Newsletter</h6>
                     <p class="text-light">Inscrivez-vous pour recevoir nos offres exclusives</p>
@@ -216,9 +216,9 @@
                     </form>
                 </div>
             </div>
-            
+
             <hr class="my-4">
-            
+
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <p class="mb-0">&copy; 2025 KefyStore. Tous droits réservés.</p>
@@ -237,14 +237,14 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+
     <!-- Custom JS -->
     <script src="{% static 'js/main.js' %}"></script>
     <script src="{% static 'js/popups.js' %}?v={{ timestamp|default:'' }}"></script>
-    
+
     {% block extra_js %}{% endblock %}
 </body>
 </html>

@@ -4,15 +4,20 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('delivery_system', '0003_region_city_deliveryzone_city'),
+        ("delivery_system", "0003_region_city_deliveryzone_city"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='deliveryzone',
-            name='city_list',
-            field=models.CharField(blank=True, help_text='Liste des villes pour cette zone (séparées par des virgules)', max_length=500, null=True, verbose_name='Liste des villes'),
+            model_name="deliveryzone",
+            name="city_list",
+            field=models.CharField(
+                blank=True,
+                help_text="Liste des villes pour cette zone (séparées par des virgules)",
+                max_length=500,
+                null=True,
+                verbose_name="Liste des villes",
+            ),
         ),
     ]

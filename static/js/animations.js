@@ -10,9 +10,9 @@ function showNotification(message, type = 'info') {
         ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     `;
-    
+
     document.body.appendChild(notification);
-    
+
     setTimeout(() => {
         if (notification.parentNode) {
             notification.style.animation = 'slideOutRight 0.3s ease';
@@ -55,11 +55,11 @@ function animateQuantityUpdate(element) {
 // Animation de succès
 function showSuccessAnimation(element) {
     if (!element) return;
-    
+
     const successIcon = document.createElement('i');
     successIcon.className = 'fas fa-check-circle text-success';
     successIcon.style.cssText = 'position: absolute; font-size: 2rem; animation: scaleIn 0.3s ease;';
-    
+
     const overlay = document.createElement('div');
     overlay.style.cssText = `
         position: absolute;
@@ -74,10 +74,10 @@ function showSuccessAnimation(element) {
         animation: fadeIn 0.3s ease;
     `;
     overlay.appendChild(successIcon);
-    
+
     element.style.position = 'relative';
     element.appendChild(overlay);
-    
+
     setTimeout(() => {
         overlay.style.animation = 'fadeOut 0.3s ease';
         setTimeout(() => {
@@ -98,7 +98,7 @@ const animationStyles = `
             opacity: 1;
         }
     }
-    
+
     @keyframes slideOutRight {
         from {
             transform: translateX(0);
@@ -109,7 +109,7 @@ const animationStyles = `
             opacity: 0;
         }
     }
-    
+
     @keyframes slideOutLeft {
         from {
             transform: translateX(0);
@@ -120,7 +120,7 @@ const animationStyles = `
             opacity: 0;
         }
     }
-    
+
     @keyframes bounce {
         0%, 20%, 50%, 80%, 100% {
             transform: translateY(0);
@@ -132,7 +132,7 @@ const animationStyles = `
             transform: translateY(-5px);
         }
     }
-    
+
     @keyframes pulse {
         0% {
             transform: scale(1);
@@ -144,7 +144,7 @@ const animationStyles = `
             transform: scale(1);
         }
     }
-    
+
     @keyframes scaleIn {
         from {
             transform: scale(0);
@@ -155,7 +155,7 @@ const animationStyles = `
             opacity: 1;
         }
     }
-    
+
     @keyframes fadeIn {
         from {
             opacity: 0;
@@ -164,7 +164,7 @@ const animationStyles = `
             opacity: 1;
         }
     }
-    
+
     @keyframes fadeOut {
         from {
             opacity: 1;
@@ -173,7 +173,7 @@ const animationStyles = `
             opacity: 0;
         }
     }
-    
+
     @keyframes shimmer {
         0% {
             background-position: -1000px 0;
@@ -182,7 +182,7 @@ const animationStyles = `
             background-position: 1000px 0;
         }
     }
-    
+
     .shimmer {
         background: linear-gradient(
             90deg,
@@ -206,4 +206,3 @@ window.showCartAnimation = showCartAnimation;
 window.animateElementOut = animateElementOut;
 window.animateQuantityUpdate = animateQuantityUpdate;
 window.showSuccessAnimation = showSuccessAnimation;
-

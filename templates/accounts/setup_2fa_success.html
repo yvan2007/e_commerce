@@ -75,7 +75,7 @@
                                 {% translate "Codes de secours" %}
                             </h5>
                             <p class="mb-3">{% translate "Conservez ces codes en lieu sûr. Ils vous permettront de vous connecter si vous perdez votre téléphone." %}</p>
-                            
+
                             <div class="row">
                                 {% for code in backup_codes %}
                                 <div class="col-md-3 col-sm-4 col-6 mb-2">
@@ -87,7 +87,7 @@
                                 </div>
                                 {% endfor %}
                             </div>
-                            
+
                             <div class="mt-3">
                                 <button class="btn btn-outline-primary btn-sm" onclick="downloadBackupCodes()">
                                     <i class="fas fa-download me-1"></i>
@@ -125,7 +125,7 @@ function copySecret() {
     const secretInput = document.getElementById('secret-key');
     secretInput.select();
     secretInput.setSelectionRange(0, 99999); // Pour mobile
-    
+
     try {
         document.execCommand('copy');
         // Afficher une notification de succès
@@ -138,7 +138,7 @@ function copySecret() {
 function downloadBackupCodes() {
     const codes = {{ backup_codes|safe }};
     const content = `Codes de secours KefyStore\n\n` + codes.join('\n');
-    
+
     const blob = new Blob([content], { type: 'text/plain' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -187,9 +187,9 @@ function showNotification(message, type = 'info') {
         ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     `;
-    
+
     document.body.appendChild(toast);
-    
+
     // Supprimer automatiquement après 3 secondes
     setTimeout(() => {
         if (toast.parentNode) {
