@@ -181,8 +181,8 @@
             <div class="row g-3" id="productsContainer">
                 {% for product in products %}
                 <div class="col-lg-4 col-md-6 product-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
-                    <div class="product-card card h-100 border-0 shadow-sm">
-                        <a href="{{ product.get_absolute_url }}" class="text-decoration-none">
+                    <div class="product-card card h-100 border-0 shadow-sm d-flex flex-column">
+                        <a href="{{ product.get_absolute_url }}" class="text-decoration-none d-flex flex-column flex-grow-1" style="flex: 1 1 auto; min-height: 0;">
                             <div class="position-relative">
                                 {% if product.has_main_image %}
                                 <img src="{{ product.main_image.url }}" alt="{{ product.name }}" 
@@ -216,7 +216,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="card-body d-flex flex-column">
+                            <div class="card-body d-flex flex-column flex-grow-1" style="flex: 1 1 auto;">
                                 <h6 class="card-title text-dark mb-2" style="min-height: 48px;">{{ product.name|truncatewords:10 }}</h6>
                                 <p class="text-muted small mb-2">{{ product.vendor.get_display_name }}</p>
                                 
@@ -232,14 +232,26 @@
                                 {% endif %}
                                 
                                 <!-- Price and Rating -->
-                                <div class="mb-3 mt-auto">
+                                <div class="mb-3">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <div>
-                                            <span class="h5 text-primary fw-bold mb-0">{{ product.price }} FCFA</span>
-                                            {% if product.compare_price and product.compare_price > product.price %}
+                                        <div style="min-height: 48px;">
+                                            <span class="h5 text-primary fw-bold mb-0" style="white-space: nowrap;">{{ product.price }} FCFA</span>
+                                            {% if product.get_original_price %}
                                                 <div>
-                                                    <small class="text-muted text-decoration-line-through">
+                                                    <small class="text-muted text-decoration-line-through" style="white-space: nowrap;">
+                                                        {{ product.get_original_price }} FCFA
+                                                    </small>
+                                                </div>
+                                            {% elif product.compare_price and product.compare_price > product.price %}
+                                                <div>
+                                                    <small class="text-muted text-decoration-line-through" style="white-space: nowrap;">
                                                         {{ product.compare_price }} FCFA
+                                                    </small>
+                                                </div>
+                                            {% elif product.original_price and product.original_price > product.price %}
+                                                <div>
+                                                    <small class="text-muted text-decoration-line-through" style="white-space: nowrap;">
+                                                        {{ product.original_price }} FCFA
                                                     </small>
                                                 </div>
                                             {% endif %}
@@ -267,39 +279,42 @@
                             </div>
                         </a>
                         
-                        <!-- Add to cart button -->
-                        <div class="card-footer bg-transparent border-0 p-3">
+                        <!-- Add to cart button - Toujours aligné en bas - Structure uniforme -->
+                        <div class="card-footer bg-transparent border-0 p-3 mt-auto" style="min-height: 75px;">
                             {% if user.is_authenticated %}
                                 <form method="post" action="{% url 'products:add_to_cart' product.id %}" class="add-to-cart-form" data-ajax-cart="add-to-cart">
                                     {% csrf_token %}
                                     <div class="d-flex gap-2 align-items-stretch">
                                         <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" 
-                                               class="form-control" style="width: 80px; min-height: 42px;">
+                                               class="form-control" style="width: 80px; min-height: 42px; max-height: 42px;">
                                         <button type="submit" class="btn btn-primary flex-grow-1 d-flex align-items-center justify-content-center" 
+                                                style="min-height: 42px; max-height: 42px;"
                                                 {% if not product.is_in_stock %}disabled{% endif %}>
                                             <i class="fas fa-cart-plus me-2"></i>
                                             <span>{% if product.is_in_stock %}Ajouter{% else %}Rupture{% endif %}</span>
                                         </button>
                                         {% if product in user.wishlist.products.all %}
-                                            <a href="{% url 'wishlist:remove_from_wishlist' product.id %}" class="btn btn-danger d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;" title="Retirer des favoris">
+                                            <a href="{% url 'wishlist:remove_from_wishlist' product.id %}" class="btn btn-danger d-flex align-items-center justify-content-center" style="width: 42px; min-width: 42px; height: 42px; min-height: 42px;" title="Retirer des favoris">
                                                 <i class="fas fa-heart"></i>
                                             </a>
                                         {% else %}
-                                            <a href="{% url 'wishlist:add_to_wishlist' product.id %}" class="btn btn-outline-danger d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;" title="Ajouter aux favoris">
+                                            <a href="{% url 'wishlist:add_to_wishlist' product.id %}" class="btn btn-outline-danger d-flex align-items-center justify-content-center" style="width: 42px; min-width: 42px; height: 42px; min-height: 42px;" title="Ajouter aux favoris">
                                                 <i class="far fa-heart"></i>
                                             </a>
                                         {% endif %}
                                     </div>
                                 </form>
                             {% else %}
-                                <!-- Boutons pour utilisateurs non connectés -->
+                                <!-- Boutons pour utilisateurs non connectés - Même structure avec input invisible pour garder l'espace -->
                                 <div class="d-flex gap-2 align-items-stretch">
+                                    <div style="width: 80px; min-width: 80px; min-height: 42px; visibility: hidden;"></div>
                                     <a href="{% url 'accounts:login' %}?next={{ request.get_full_path }}" class="btn btn-primary flex-grow-1 d-flex align-items-center justify-content-center" 
-                                       {% if not product.is_in_stock %}style="opacity: 0.5; pointer-events: none;"{% endif %}>
+                                       style="min-height: 42px; max-height: 42px;"
+                                       {% if not product.is_in_stock %}style="opacity: 0.5; pointer-events: none; min-height: 42px; max-height: 42px;"{% endif %}>
                                         <i class="fas fa-cart-plus me-2"></i>
                                         <span>{% if product.is_in_stock %}Ajouter{% else %}Rupture{% endif %}</span>
                                     </a>
-                                    <a href="{% url 'accounts:login' %}?next={{ request.get_full_path }}" class="btn btn-outline-secondary d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;" title="Ajouter aux favoris">
+                                    <a href="{% url 'accounts:login' %}?next={{ request.get_full_path }}" class="btn btn-outline-secondary d-flex align-items-center justify-content-center" style="width: 42px; min-width: 42px; height: 42px; min-height: 42px;" title="Ajouter aux favoris">
                                         <i class="far fa-heart"></i>
                                     </a>
                                 </div>
@@ -328,7 +343,7 @@
                     <a href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}" 
                        class="btn btn-primary btn-lg px-5">
                         <i class="fas fa-arrow-down me-2"></i>
-                        Voir plus de produits ({{ total_products|add:"-"|add:products|length }} restants)
+                        Voir plus de produits
                     </a>
                 </div>
             </div>
@@ -397,6 +412,42 @@
 
 {% block extra_js %}
 <script>
+// Fonction pour récupérer le token CSRF depuis les cookies
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Fonction pour obtenir le token CSRF (depuis le formulaire ou les cookies)
+function getCSRFToken() {
+    // Essayer depuis le formulaire
+    const formToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+    if (formToken) {
+        return formToken;
+    }
+    // Essayer depuis les cookies
+    const cookieToken = getCookie('csrftoken');
+    if (cookieToken) {
+        return cookieToken;
+    }
+    // Essayer depuis la meta tag
+    const metaToken = document.querySelector('meta[name=csrf-token]')?.getAttribute('content');
+    if (metaToken) {
+        return metaToken;
+    }
+    return null;
+}
+
 // Fonction pour rechercher dans les étiquettes
 document.addEventListener('DOMContentLoaded', function() {
     const tagSearch = document.getElementById('tagSearch');
@@ -407,11 +458,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const tagItems = document.querySelectorAll('.tag-item');
             
             tagItems.forEach(item => {
-                const tagName = item.querySelector('label').textContent.toLowerCase();
-                if (tagName.includes(searchTerm)) {
-                    item.style.display = '';
-                } else {
-                    item.style.display = 'none';
+                const label = item.querySelector('label');
+                if (label) {
+                    const tagName = label.textContent.toLowerCase();
+                    if (tagName.includes(searchTerm)) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
                 }
             });
         });
@@ -421,6 +475,11 @@ document.addEventListener('DOMContentLoaded', function() {
 // Fonction pour appliquer les filtres
 function applyTagFilters() {
     const form = document.getElementById('filterForm');
+    if (!form) {
+        console.warn('filterForm not found');
+        return;
+    }
+    
     const checkedTags = Array.from(document.querySelectorAll('input[name="tags"]:checked'));
     
     // Réinitialiser les tags existants dans le formulaire
@@ -440,11 +499,193 @@ function applyTagFilters() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Aligner les boutons en forçant la même hauteur pour toutes les cartes dans une même rangée
+    function alignProductCards() {
+        const container = document.getElementById('productsContainer');
+        if (!container) return;
+        
+        // Forcer un reflow
+        container.offsetHeight;
+        
+        // Réinitialiser toutes les hauteurs
+        const allCards = container.querySelectorAll('.product-card');
+        allCards.forEach(card => {
+            card.style.height = 'auto';
+            card.style.minHeight = '';
+            card.style.maxHeight = '';
+        });
+        
+        // Forcer un nouveau reflow après réinitialisation
+        container.offsetHeight;
+        
+        // Utiliser requestAnimationFrame pour s'assurer que le reflow est complet
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                // Grouper les cartes par rangée (en fonction de la position Y)
+                const items = Array.from(container.querySelectorAll('.product-item'));
+                
+                if (items.length === 0) return;
+                
+                // Grouper par position Y avec tolérance plus large
+                const rowMap = new Map();
+                
+                items.forEach((item) => {
+                    const rect = item.getBoundingClientRect();
+                    // Arrondir à 10px près pour une meilleure détection de rangée
+                    const top = Math.round(rect.top / 10) * 10;
+                    
+                    if (!rowMap.has(top)) {
+                        rowMap.set(top, []);
+                    }
+                    rowMap.get(top).push(item);
+                });
+                
+                // Pour chaque rangée, trouver la hauteur maximale et l'appliquer
+                rowMap.forEach((rowItems, rowTop) => {
+                    if (rowItems.length <= 1) return; // Pas besoin d'aligner si une seule carte
+                    
+                    let maxHeight = 0;
+                    
+                    // Première passe: mesurer toutes les cartes sans hauteur fixe
+                    rowItems.forEach(item => {
+                        const card = item.querySelector('.product-card');
+                        if (card) {
+                            // S'assurer que la hauteur est réinitialisée pour cette mesure
+                            const oldHeight = card.style.height;
+                            card.style.height = 'auto';
+                            // Forcer un reflow
+                            card.offsetHeight;
+                            
+                            const height = card.offsetHeight || card.scrollHeight;
+                            if (height > maxHeight) {
+                                maxHeight = height;
+                            }
+                            
+                            // Restaurer la hauteur temporairement
+                            card.style.height = oldHeight;
+                        }
+                    });
+                    
+                    // Deuxième passe: appliquer la hauteur maximale à toutes les cartes de la rangée
+                    if (maxHeight > 0) {
+                        rowItems.forEach(item => {
+                            const card = item.querySelector('.product-card');
+                            if (card) {
+                                card.style.height = maxHeight + 'px';
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    }
+    
+    // Fonction pour forcer le réalignement après les images
+    function waitForImagesAndAlign() {
+        const containerForImages = document.getElementById('productsContainer');
+        if (!containerForImages) {
+            alignProductCards();
+            return;
+        }
+        
+        const images = containerForImages.querySelectorAll('img');
+        if (images.length === 0) {
+            alignProductCards();
+            return;
+        }
+        
+        let loadedCount = 0;
+        let hasStarted = false;
+        
+        images.forEach(img => {
+            if (img.complete && img.naturalHeight !== 0) {
+                loadedCount++;
+            } else {
+                img.addEventListener('load', function() {
+                    loadedCount++;
+                    if (loadedCount === images.length && !hasStarted) {
+                        hasStarted = true;
+                        setTimeout(alignProductCards, 100);
+                    }
+                });
+                img.addEventListener('error', function() {
+                    loadedCount++;
+                    if (loadedCount === images.length && !hasStarted) {
+                        hasStarted = true;
+                        setTimeout(alignProductCards, 100);
+                    }
+                });
+            }
+        });
+        
+        if (loadedCount === images.length && !hasStarted) {
+            hasStarted = true;
+            setTimeout(alignProductCards, 100);
+        }
+    }
+    
+    // Observer pour détecter les changements dans le DOM et réaligner automatiquement
+    const observer = new MutationObserver(function(mutations) {
+        let shouldRealign = false;
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList' || mutation.type === 'attributes') {
+                shouldRealign = true;
+            }
+        });
+        if (shouldRealign) {
+            setTimeout(alignProductCards, 100);
+        }
+    });
+    
+    // Observer le conteneur des produits
+    const container = document.getElementById('productsContainer');
+    if (container) {
+        observer.observe(container, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['style', 'class']
+        });
+    }
+    
+    // Aligner au chargement
+    alignProductCards();
+    
+    // Réaligner plusieurs fois pour s'assurer que ça fonctionne
+    setTimeout(() => alignProductCards(), 50);
+    setTimeout(() => alignProductCards(), 150);
+    setTimeout(() => alignProductCards(), 300);
+    setTimeout(() => alignProductCards(), 600);
+    setTimeout(() => alignProductCards(), 1000);
+    setTimeout(() => alignProductCards(), 1500);
+    
+    // Attendre les images
+    waitForImagesAndAlign();
+    
+    // Réaligner lors du redimensionnement
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            alignProductCards();
+        }, 250);
+    });
+    
     // Initialize AOS
-    AOS.init({
-        duration: 600,
-        easing: 'ease-in-out',
-        once: true
+    if (typeof AOS !== 'undefined') {
+        AOS.init({
+            duration: 600,
+            easing: 'ease-in-out',
+            once: true
+        });
+        
+        // Réaligner après AOS
+        setTimeout(() => alignProductCards(), 900);
+    }
+    
+    // Forcer l'alignement après le chargement complet
+    window.addEventListener('load', function() {
+        setTimeout(() => alignProductCards(), 500);
     });
     
     // View toggle
@@ -452,28 +693,35 @@ document.addEventListener('DOMContentLoaded', function() {
     const listView = document.getElementById('listView');
     const productsContainer = document.getElementById('productsContainer');
     
-    gridView.addEventListener('click', function() {
-        this.classList.add('active');
-        listView.classList.remove('active');
-        productsContainer.className = 'row';
-    });
-    
-    listView.addEventListener('click', function() {
-        this.classList.add('active');
-        gridView.classList.remove('active');
-        productsContainer.className = 'row list-view';
-    });
+    if (gridView && listView && productsContainer) {
+        gridView.addEventListener('click', function() {
+            this.classList.add('active');
+            listView.classList.remove('active');
+            productsContainer.className = 'row';
+            setTimeout(alignProductCards, 100);
+        });
+        
+        listView.addEventListener('click', function() {
+            this.classList.add('active');
+            gridView.classList.remove('active');
+            productsContainer.className = 'row list-view';
+            setTimeout(alignProductCards, 100);
+        });
+    }
     
     // Product hover effects
     const productCards = document.querySelectorAll('.product-card');
     productCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.querySelector('.product-actions').style.opacity = '1';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.querySelector('.product-actions').style.opacity = '0';
-        });
+        const productActions = card.querySelector('.product-actions');
+        if (productActions) {
+            card.addEventListener('mouseenter', function() {
+                productActions.style.opacity = '1';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                productActions.style.opacity = '0';
+            });
+        }
     });
     
     // Add to cart form
@@ -483,16 +731,100 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             
             const formData = new FormData(this);
-            const productId = this.action.split('/').slice(-2, -1)[0];
+            const submitButton = this.querySelector('button[type="submit"]');
+            // Débogage: afficher l'URL de l'action
+            console.log('Action URL:', this.action);
+            const originalText = submitButton ? submitButton.innerHTML : '';
             
-            fetch(this.action, {
+            // Désactiver le bouton pendant la requête
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Ajout...';
+            }
+            
+            // Récupérer le token CSRF depuis le formulaire ou les cookies
+            const csrfToken = formData.get('csrfmiddlewaretoken') || getCSRFToken();
+            if (!csrfToken) {
+                console.error('Token CSRF non trouvé');
+                showNotification('Erreur: Token CSRF non trouvé. Veuillez rafraîchir la page.', 'error');
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalText;
+                }
+                return;
+            }
+            
+            // S'assurer que le token CSRF est dans le FormData
+            if (!formData.get('csrfmiddlewaretoken')) {
+                formData.append('csrfmiddlewaretoken', csrfToken);
+            }
+            
+            // Utiliser l'URL absolue pour éviter les problèmes avec les URLs relatives
+            let actionUrl = this.action;
+            
+            // Si l'URL commence par /, c'est déjà une URL absolue (relative à l'origine)
+            // Si l'URL ne commence pas par / et ne commence pas par http, c'est une URL relative
+            if (!actionUrl.startsWith('http') && !actionUrl.startsWith('/')) {
+                // Construire l'URL absolue à partir de l'URL relative
+                actionUrl = new URL(actionUrl, window.location.origin).href;
+            } else if (actionUrl.startsWith('/')) {
+                // URL absolue relative à l'origine
+                actionUrl = window.location.origin + actionUrl;
+            }
+            
+            console.log('Final URL:', actionUrl);
+            
+            fetch(actionUrl, {
                 method: 'POST',
                 headers: {
-                    'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+                    'X-CSRFToken': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest'
                 },
-                body: formData
+                body: formData,
+                credentials: 'same-origin'
             })
-            .then(response => response.json())
+            .then(response => {
+                // Vérifier si la réponse est OK
+                if (!response.ok) {
+                    // Gérer spécifiquement les erreurs CSRF (403)
+                    if (response.status === 403) {
+                        return response.text().then(text => {
+                            // Vérifier si c'est une erreur CSRF
+                            if (text.includes('CSRF') || text.includes('csrf') || text.includes('Forbidden')) {
+                                throw new Error('Erreur CSRF: Token invalide ou expiré. Veuillez rafraîchir la page.');
+                            }
+                            throw new Error(`Erreur HTTP ${response.status}: Accès refusé`);
+                        });
+                    }
+                    // Pour les autres erreurs, lire le texte
+                    return response.text().then(text => {
+                        // Essayer de parser comme JSON si possible
+                        try {
+                            const jsonData = JSON.parse(text);
+                            if (jsonData.error || jsonData.message) {
+                                throw new Error(jsonData.error || jsonData.message);
+                            }
+                        } catch (e) {
+                            // Ce n'est pas du JSON, utiliser le texte brut
+                        }
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    });
+                }
+                // Vérifier si le contenu est JSON
+                const contentType = response.headers.get("content-type");
+                if (contentType && contentType.includes("application/json")) {
+                    return response.json();
+                } else {
+                    // Essayer quand même de parser comme JSON
+                    return response.text().then(text => {
+                        try {
+                            return JSON.parse(text);
+                        } catch (e) {
+                            throw new Error("La réponse n'est pas du JSON");
+                        }
+                    });
+                }
+            })
             .then(data => {
                 if (data.success) {
                     // Update cart count
@@ -502,27 +834,38 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
                     // Show success message
-                    showNotification(data.message, 'success');
+                    showNotification(data.message || 'Produit ajouté au panier avec succès.', 'success');
                 } else {
                     showNotification(data.message || 'Erreur lors de l\'ajout au panier', 'error');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                showNotification('Erreur lors de l\'ajout au panier', 'error');
+                console.error('Action URL was:', this.action);
+                console.error('Final URL was:', actionUrl);
+                showNotification('Erreur de connexion lors de l\'ajout au panier. URL: ' + actionUrl + '. Veuillez vérifier la console pour plus de détails.', 'error');
+            })
+            .finally(() => {
+                // Réactiver le bouton
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalText;
+                }
             });
         });
     });
     
     // Auto-submit filter form on change
     const filterForm = document.getElementById('filterForm');
-    const filterInputs = filterForm.querySelectorAll('select, input[type="number"]');
-    
-    filterInputs.forEach(input => {
-        input.addEventListener('change', function() {
-            filterForm.submit();
+    if (filterForm) {
+        const filterInputs = filterForm.querySelectorAll('select, input[type="number"]');
+        
+        filterInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                filterForm.submit();
+            });
         });
-    });
+    }
 });
 
 function addToWishlist(productId) {

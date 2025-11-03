@@ -231,10 +231,21 @@
                                 </small>
                             {% endif %}
                             
-                            <button class="btn btn-primary btn-sm" 
-                                    {% if product.stock == 0 %}disabled{% endif %}>
-                                <i class="fas fa-cart-plus me-1"></i>Ajouter
-                            </button>
+                            {% if user.is_authenticated %}
+                                <form action="{% url 'products:add_to_cart' product.id %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary btn-sm" 
+                                            data-action="add-to-cart" 
+                                            data-product-id="{{ product.id }}"
+                                            {% if product.stock == 0 %}disabled{% endif %}>
+                                        <i class="fas fa-cart-plus me-1"></i>Ajouter
+                                    </button>
+                                </form>
+                            {% else %}
+                                <a href="{% url 'accounts:login' %}?next={{ request.get_full_path }}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-cart-plus me-1"></i>Ajouter
+                                </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -323,10 +334,21 @@
                                 </small>
                             {% endif %}
                             
-                            <button class="btn btn-primary btn-sm" 
-                                    {% if product.stock == 0 %}disabled{% endif %}>
-                                <i class="fas fa-cart-plus me-1"></i>Ajouter
-                            </button>
+                            {% if user.is_authenticated %}
+                                <form action="{% url 'products:add_to_cart' product.id %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary btn-sm" 
+                                            data-action="add-to-cart" 
+                                            data-product-id="{{ product.id }}"
+                                            {% if product.stock == 0 %}disabled{% endif %}>
+                                        <i class="fas fa-cart-plus me-1"></i>Ajouter
+                                    </button>
+                                </form>
+                            {% else %}
+                                <a href="{% url 'accounts:login' %}?next={{ request.get_full_path }}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-cart-plus me-1"></i>Ajouter
+                                </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -395,33 +417,166 @@
 
 {% block extra_js %}
 <script>
+// Fonction pour récupérer le token CSRF depuis les cookies
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Fonction pour obtenir le token CSRF (depuis le formulaire ou les cookies)
+function getCSRFToken() {
+    // Essayer depuis le formulaire
+    const formToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+    if (formToken) {
+        return formToken;
+    }
+    // Essayer depuis les cookies
+    const cookieToken = getCookie('csrftoken');
+    if (cookieToken) {
+        return cookieToken;
+    }
+    // Essayer depuis la meta tag
+    const metaToken = document.querySelector('meta[name=csrf-token]')?.getAttribute('content');
+    if (metaToken) {
+        return metaToken;
+    }
+    return null;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Add to cart functionality
-    const addToCartBtns = document.querySelectorAll('.btn[data-product-id]');
-    addToCartBtns.forEach(btn => {
-        btn.addEventListener('click', function(e) {
+    // Add to cart functionality with AJAX
+    const addToCartForms = document.querySelectorAll('form[action*="add-to-cart"]');
+    addToCartForms.forEach(form => {
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
-            const productId = this.dataset.productId;
+            const button = this.querySelector('button[type="submit"]');
+            const productId = button.dataset.productId;
             
             // Add loading state
-            this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Ajout...';
-            this.disabled = true;
+            const originalHTML = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Ajout...';
+            button.disabled = true;
             
-            // Simulate API call
-            setTimeout(() => {
-                this.innerHTML = '<i class="fas fa-check me-1"></i>Ajouté';
-                this.classList.remove('btn-primary');
-                this.classList.add('btn-success');
+            try {
+                const formData = new FormData(this);
                 
-                // Update cart count
-                const cartCount = document.getElementById('cart-count');
-                if (cartCount) {
-                    cartCount.textContent = parseInt(cartCount.textContent) + 1;
+                // Récupérer le token CSRF depuis le formulaire ou les cookies
+                const csrfToken = formData.get('csrfmiddlewaretoken') || getCSRFToken();
+                if (!csrfToken) {
+                    console.error('Token CSRF non trouvé');
+                    showNotification('Erreur: Token CSRF non trouvé. Veuillez rafraîchir la page.', 'danger');
+                    button.innerHTML = originalHTML;
+                    button.disabled = false;
+                    return;
                 }
                 
-                // Show success message
-                showNotification('Produit ajouté au panier !', 'success');
-            }, 1000);
+                // S'assurer que le token CSRF est dans le FormData
+                if (!formData.get('csrfmiddlewaretoken')) {
+                    formData.append('csrfmiddlewaretoken', csrfToken);
+                }
+                
+                // Utiliser l'URL absolue pour éviter les problèmes avec les URLs relatives
+                let actionUrl = this.action;
+                
+                // Si l'URL commence par /, c'est déjà une URL absolue (relative à l'origine)
+                // Si l'URL ne commence pas par / et ne commence pas par http, c'est une URL relative
+                if (!actionUrl.startsWith('http') && !actionUrl.startsWith('/')) {
+                    // Construire l'URL absolue à partir de l'URL relative
+                    actionUrl = new URL(actionUrl, window.location.origin).href;
+                } else if (actionUrl.startsWith('/')) {
+                    // URL absolue relative à l'origine
+                    actionUrl = window.location.origin + actionUrl;
+                }
+                
+                console.log('Final URL:', actionUrl);
+                
+                const response = await fetch(actionUrl, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    credentials: 'same-origin'
+                });
+                
+                // Vérifier si la réponse est OK
+                if (!response.ok) {
+                    // Gérer spécifiquement les erreurs CSRF (403)
+                    if (response.status === 403) {
+                        const text = await response.text();
+                        if (text.includes('CSRF') || text.includes('csrf') || text.includes('Forbidden')) {
+                            showNotification('Erreur CSRF: Token invalide ou expiré. Veuillez rafraîchir la page.', 'danger');
+                            button.innerHTML = originalHTML;
+                            button.disabled = false;
+                            return;
+                        }
+                    }
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                // Vérifier si le contenu est JSON
+                const contentType = response.headers.get("content-type");
+                let data;
+                if (contentType && contentType.includes("application/json")) {
+                    data = await response.json();
+                } else {
+                    // Essayer quand même de parser comme JSON
+                    try {
+                        const text = await response.text();
+                        data = JSON.parse(text);
+                    } catch (e) {
+                        throw new Error("La réponse n'est pas du JSON");
+                    }
+                }
+                
+                if (data.success) {
+                    button.innerHTML = '<i class="fas fa-check me-1"></i>Ajouté';
+                    button.classList.remove('btn-primary');
+                    button.classList.add('btn-success');
+                    
+                    // Update cart count
+                    const cartCount = document.getElementById('cart-count');
+                    if (cartCount && data.cart_count !== undefined) {
+                        cartCount.textContent = data.cart_count;
+                    } else if (cartCount) {
+                        const currentCount = parseInt(cartCount.textContent) || 0;
+                        cartCount.textContent = currentCount + 1;
+                    }
+                    
+                    // Show success message
+                    showNotification(data.message || 'Produit ajouté au panier !', 'success');
+                    
+                    // Reset button after 2 seconds
+                    setTimeout(() => {
+                        button.innerHTML = originalHTML;
+                        button.classList.remove('btn-success');
+                        button.classList.add('btn-primary');
+                        button.disabled = false;
+                    }, 2000);
+                } else {
+                    button.innerHTML = originalHTML;
+                    button.disabled = false;
+                    showNotification(data.message || 'Erreur lors de l\'ajout au panier', 'danger');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                console.error('Action URL was:', this.action);
+                console.error('Final URL was:', actionUrl);
+                button.innerHTML = originalHTML;
+                button.disabled = false;
+                showNotification('Erreur de connexion lors de l\'ajout au panier. URL: ' + actionUrl + '. Veuillez vérifier la console pour plus de détails.', 'danger');
+            }
         });
     });
     

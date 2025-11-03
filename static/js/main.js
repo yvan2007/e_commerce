@@ -8,10 +8,10 @@ const CONFIG = {
     animationDuration: 300,
     debounceDelay: 300,
     apiEndpoints: {
-        addToCart: '/products/add-to-cart/',
-        removeFromCart: '/products/remove-from-cart/',
-        updateCart: '/products/update-cart-item/',
-        searchSuggestions: '/products/api/search-suggestions/',
+        addToCart: '/add-to-cart/',
+        removeFromCart: '/remove-from-cart/',
+        updateCart: '/update-cart-item/',
+        searchSuggestions: '/api/search-suggestions/',
         checkUsername: '/accounts/api/check-username/',
         checkEmail: '/accounts/api/check-email/',
     }
@@ -233,11 +233,37 @@ class CartManager {
                 method: 'POST',
                 body: formData,
                 headers: {
+                    'X-CSRFToken': this.getCSRFToken(),
                     'X-Requested-With': 'XMLHttpRequest'
-                }
+                },
+                credentials: 'same-origin'
             });
 
-            const data = await response.json();
+            // Vérifier si la réponse est OK
+            if (!response.ok) {
+                // Si ce n'est pas OK (404, 500, etc.), essayer de lire le texte pour voir l'erreur
+                const text = await response.text();
+                console.error('Erreur HTTP:', response.status, text);
+                Utils.showNotification(`Erreur ${response.status}: URL non trouvée. Veuillez rafraîchir la page.`, 'danger');
+                return;
+            }
+
+            // Vérifier si le contenu est JSON
+            const contentType = response.headers.get("content-type");
+            let data;
+            if (contentType && contentType.includes("application/json")) {
+                data = await response.json();
+            } else {
+                // Essayer quand même de parser comme JSON
+                try {
+                    const text = await response.text();
+                    data = JSON.parse(text);
+                } catch (e) {
+                    console.error('La réponse n\'est pas du JSON:', e);
+                    Utils.showNotification('Erreur: Réponse invalide du serveur', 'danger');
+                    return;
+                }
+            }
 
             if (data.success) {
                 Utils.showNotification(data.message || 'Produit ajouté au panier', 'success');
@@ -248,7 +274,7 @@ class CartManager {
             }
         } catch (error) {
             console.error('Erreur:', error);
-            Utils.showNotification('Erreur de connexion', 'danger');
+            Utils.showNotification('Erreur de connexion lors de l\'ajout au panier. Veuillez réessayer.', 'danger');
         } finally {
             button.disabled = false;
             button.innerHTML = '<i class="fas fa-shopping-cart me-2"></i>Ajouter au panier';
@@ -269,11 +295,33 @@ class CartManager {
                 method: 'POST',
                 body: formData,
                 headers: {
+                    'X-CSRFToken': this.getCSRFToken(),
                     'X-Requested-With': 'XMLHttpRequest'
-                }
+                },
+                credentials: 'same-origin'
             });
 
-            const data = await response.json();
+            if (!response.ok) {
+                const text = await response.text();
+                console.error('Erreur HTTP:', response.status, text);
+                Utils.showNotification(`Erreur ${response.status}: URL non trouvée.`, 'danger');
+                return;
+            }
+
+            const contentType = response.headers.get("content-type");
+            let data;
+            if (contentType && contentType.includes("application/json")) {
+                data = await response.json();
+            } else {
+                try {
+                    const text = await response.text();
+                    data = JSON.parse(text);
+                } catch (e) {
+                    console.error('La réponse n\'est pas du JSON:', e);
+                    Utils.showNotification('Erreur: Réponse invalide du serveur', 'danger');
+                    return;
+                }
+            }
 
             if (data.success) {
                 Utils.showNotification(data.message || 'Produit retiré du panier', 'success');
@@ -303,11 +351,33 @@ class CartManager {
                 method: 'POST',
                 body: formData,
                 headers: {
+                    'X-CSRFToken': this.getCSRFToken(),
                     'X-Requested-With': 'XMLHttpRequest'
-                }
+                },
+                credentials: 'same-origin'
             });
 
-            const data = await response.json();
+            if (!response.ok) {
+                const text = await response.text();
+                console.error('Erreur HTTP:', response.status, text);
+                Utils.showNotification(`Erreur ${response.status}: URL non trouvée.`, 'danger');
+                return;
+            }
+
+            const contentType = response.headers.get("content-type");
+            let data;
+            if (contentType && contentType.includes("application/json")) {
+                data = await response.json();
+            } else {
+                try {
+                    const text = await response.text();
+                    data = JSON.parse(text);
+                } catch (e) {
+                    console.error('La réponse n\'est pas du JSON:', e);
+                    Utils.showNotification('Erreur: Réponse invalide du serveur', 'danger');
+                    return;
+                }
+            }
 
             if (data.success) {
                 this.updateCartCount(data.cart_count);
