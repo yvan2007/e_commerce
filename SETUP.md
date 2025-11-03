@@ -163,6 +163,9 @@ python manage.py collectstatic --noinput
 # Créer des catégories et tags
 python manage.py create_categories_and_tags
 
+# Créer les régions et villes de Côte d'Ivoire
+python manage.py create_regions_and_cities
+
 # Créer des produits d'exemple
 python manage.py create_sample_products
 ```
@@ -251,6 +254,9 @@ python manage.py createsuperuser
 
 # Créer des catégories et tags
 python manage.py create_categories_and_tags
+
+# Créer les régions et villes de Côte d'Ivoire
+python manage.py create_regions_and_cities
 
 # Créer des produits d'exemple
 python manage.py create_sample_products

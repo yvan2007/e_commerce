@@ -1,0 +1,4006 @@
+[
+{
+  "model": "products.tag",
+  "pk": 61,
+  "fields": {
+    "name": "Nouveau",
+    "slug": "nouveau",
+    "color": "#28a745",
+    "updated_at": "2025-10-28T22:57:22.565Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 62,
+  "fields": {
+    "name": "Populaire",
+    "slug": "populaire",
+    "color": "#dc3545",
+    "updated_at": "2025-10-28T22:57:22.573Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 63,
+  "fields": {
+    "name": "Best-seller",
+    "slug": "best-seller",
+    "color": "#ffc107",
+    "updated_at": "2025-10-28T22:57:22.580Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 64,
+  "fields": {
+    "name": "Qualité Premium",
+    "slug": "qualite-premium",
+    "color": "#6f42c1",
+    "updated_at": "2025-10-28T22:57:22.588Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 65,
+  "fields": {
+    "name": "Made in Côte d'Ivoire",
+    "slug": "made-in-cote-divoire",
+    "color": "#fd7e14",
+    "updated_at": "2025-10-28T22:57:22.593Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 66,
+  "fields": {
+    "name": "Prix réduit",
+    "slug": "prix-reduit",
+    "color": "#20c997",
+    "updated_at": "2025-10-28T22:57:22.599Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 67,
+  "fields": {
+    "name": "Meilleur rapport qualité/prix",
+    "slug": "meilleur-rapport-qualiteprix",
+    "color": "#0d6efd",
+    "updated_at": "2025-10-28T22:57:22.604Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 68,
+  "fields": {
+    "name": "Économique",
+    "slug": "economique",
+    "color": "#198754",
+    "updated_at": "2025-10-28T22:57:22.610Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 69,
+  "fields": {
+    "name": "Coton Bio",
+    "slug": "coton-bio",
+    "color": "#40c057",
+    "updated_at": "2025-10-28T22:57:22.616Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 70,
+  "fields": {
+    "name": "100% Coton",
+    "slug": "100-coton",
+    "color": "#339af0",
+    "updated_at": "2025-10-28T22:57:22.620Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 71,
+  "fields": {
+    "name": "Cuir Véritable",
+    "slug": "cuir-veritable",
+    "color": "#5f3dc4",
+    "updated_at": "2025-10-28T22:57:22.625Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 72,
+  "fields": {
+    "name": "Métal Inoxydable",
+    "slug": "metal-inoxydable",
+    "color": "#ced4da",
+    "updated_at": "2025-10-28T22:57:22.630Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 73,
+  "fields": {
+    "name": "Plastique Durable",
+    "slug": "plastique-durable",
+    "color": "#fab005",
+    "updated_at": "2025-10-28T22:57:22.635Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 74,
+  "fields": {
+    "name": "Bois Massif",
+    "slug": "bois-massif",
+    "color": "#cd7f32",
+    "updated_at": "2025-10-28T22:57:22.641Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 75,
+  "fields": {
+    "name": "Tissu Élastique",
+    "slug": "tissu-elastique",
+    "color": "#c2255c",
+    "updated_at": "2025-10-28T22:57:22.647Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 76,
+  "fields": {
+    "name": "Pour Toute la Famille",
+    "slug": "pour-toute-la-famille",
+    "color": "#8675ff",
+    "updated_at": "2025-10-28T22:57:22.652Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 77,
+  "fields": {
+    "name": "Taille Unique",
+    "slug": "taille-unique",
+    "color": "#fd7e14",
+    "updated_at": "2025-10-28T22:57:22.656Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 78,
+  "fields": {
+    "name": "Plusieurs Taille Disponibles",
+    "slug": "plusieurs-taille-disponibles",
+    "color": "#20c997",
+    "updated_at": "2025-10-28T22:57:22.661Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 79,
+  "fields": {
+    "name": "Kit Complet",
+    "slug": "kit-complet",
+    "color": "#6c5ce7",
+    "updated_at": "2025-10-28T22:57:22.667Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 80,
+  "fields": {
+    "name": "Résistant à l'Eau",
+    "slug": "resistant-a-leau",
+    "color": "#339af0",
+    "updated_at": "2025-10-28T22:57:22.672Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 81,
+  "fields": {
+    "name": "Anti-tâches",
+    "slug": "anti-taches",
+    "color": "#40c057",
+    "updated_at": "2025-10-28T22:57:22.676Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 82,
+  "fields": {
+    "name": "Anti-dérapant",
+    "slug": "anti-derapant",
+    "color": "#e03131",
+    "updated_at": "2025-10-28T22:57:22.681Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 83,
+  "fields": {
+    "name": "Lavable en Machine",
+    "slug": "lavable-en-machine",
+    "color": "#0d6efd",
+    "updated_at": "2025-10-28T22:57:22.686Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 84,
+  "fields": {
+    "name": "Séchage Rapide",
+    "slug": "sechage-rapide",
+    "color": "#fd7e14",
+    "updated_at": "2025-10-28T22:57:22.690Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 85,
+  "fields": {
+    "name": "Certifié ISO",
+    "slug": "certifie-iso",
+    "color": "#6c5ce7",
+    "updated_at": "2025-10-28T22:57:22.695Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 86,
+  "fields": {
+    "name": "Éco-responsable",
+    "slug": "eco-responsable",
+    "color": "#40c057",
+    "updated_at": "2025-10-28T22:57:22.700Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 87,
+  "fields": {
+    "name": "Fair Trade",
+    "slug": "fair-trade",
+    "color": "#fab005",
+    "updated_at": "2025-10-28T22:57:22.705Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 88,
+  "fields": {
+    "name": "Garantie Qualité",
+    "slug": "garantie-qualite",
+    "color": "#5f3dc4",
+    "updated_at": "2025-10-28T22:57:22.709Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 89,
+  "fields": {
+    "name": "Livraison Gratuite",
+    "slug": "livraison-gratuite",
+    "color": "#28a745",
+    "updated_at": "2025-10-28T22:57:22.715Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 90,
+  "fields": {
+    "name": "Livraison Express",
+    "slug": "livraison-express",
+    "color": "#fd7e14",
+    "updated_at": "2025-10-28T22:57:22.719Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 91,
+  "fields": {
+    "name": "Disponible en Stock",
+    "slug": "disponible-en-stock",
+    "color": "#20c997",
+    "updated_at": "2025-10-28T22:57:22.724Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 92,
+  "fields": {
+    "name": "Promo de la Semaine",
+    "slug": "promo-de-la-semaine",
+    "color": "#e03131",
+    "updated_at": "2025-10-28T22:57:22.728Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 93,
+  "fields": {
+    "name": "Black Friday",
+    "slug": "black-friday",
+    "color": "#212529",
+    "updated_at": "2025-10-28T22:57:22.733Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 94,
+  "fields": {
+    "name": "Offre Spéciale",
+    "slug": "offre-speciale",
+    "color": "#c2255c",
+    "updated_at": "2025-10-28T22:57:22.738Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 95,
+  "fields": {
+    "name": "Électronique",
+    "slug": "electronique",
+    "color": "#0d6efd",
+    "updated_at": "2025-10-28T22:57:22.744Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 96,
+  "fields": {
+    "name": "Mode & Stylisme",
+    "slug": "mode-stylisme",
+    "color": "#e91e63",
+    "updated_at": "2025-10-28T22:57:22.749Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 97,
+  "fields": {
+    "name": "Maison & Décoration",
+    "slug": "maison-decoration",
+    "color": "#8bc34a",
+    "updated_at": "2025-10-28T22:57:22.753Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 98,
+  "fields": {
+    "name": "Sport & Fitness",
+    "slug": "sport-fitness",
+    "color": "#ff9800",
+    "updated_at": "2025-10-28T22:57:22.758Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 99,
+  "fields": {
+    "name": "Cuisine & Cuisine",
+    "slug": "cuisine-cuisine",
+    "color": "#795548",
+    "updated_at": "2025-10-28T22:57:22.763Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 100,
+  "fields": {
+    "name": "Santé & Bien-être",
+    "slug": "sante-bien-etre",
+    "color": "#4caf50",
+    "updated_at": "2025-10-28T22:57:22.768Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 101,
+  "fields": {
+    "name": "Beauté & Soins",
+    "slug": "beaute-soins",
+    "color": "#e91e63",
+    "updated_at": "2025-10-28T22:57:22.772Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 102,
+  "fields": {
+    "name": "Automobile",
+    "slug": "automobile",
+    "color": "#607d8b",
+    "updated_at": "2025-10-28T22:57:22.777Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 103,
+  "fields": {
+    "name": "Jardinage",
+    "slug": "jardinage",
+    "color": "#4caf50",
+    "updated_at": "2025-10-28T22:57:22.782Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 104,
+  "fields": {
+    "name": "Informatique",
+    "slug": "informatique",
+    "color": "#2196f3",
+    "updated_at": "2025-10-28T22:57:22.786Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 105,
+  "fields": {
+    "name": "Femme",
+    "slug": "femme",
+    "color": "#e91e63",
+    "updated_at": "2025-10-28T22:57:22.792Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 106,
+  "fields": {
+    "name": "Homme",
+    "slug": "homme",
+    "color": "#2196f3",
+    "updated_at": "2025-10-28T22:57:22.797Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 107,
+  "fields": {
+    "name": "Enfant",
+    "slug": "enfant",
+    "color": "#ff9800",
+    "updated_at": "2025-10-28T22:57:22.801Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 108,
+  "fields": {
+    "name": "Bébé",
+    "slug": "bebe",
+    "color": "#00bcd4",
+    "updated_at": "2025-10-28T22:57:22.807Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 109,
+  "fields": {
+    "name": "Senior",
+    "slug": "senior",
+    "color": "#9e9e9e",
+    "updated_at": "2025-10-28T22:57:22.811Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 110,
+  "fields": {
+    "name": "Idéal pour Cadeaux",
+    "slug": "ideal-pour-cadeaux",
+    "color": "#ff6b6b",
+    "updated_at": "2025-10-28T22:57:22.816Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 111,
+  "fields": {
+    "name": "Mariage",
+    "slug": "mariage",
+    "color": "#ff6b9d",
+    "updated_at": "2025-10-28T22:57:22.821Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 112,
+  "fields": {
+    "name": "Anniversaire",
+    "slug": "anniversaire",
+    "color": "#feca57",
+    "updated_at": "2025-10-28T22:57:22.827Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 113,
+  "fields": {
+    "name": "Noël",
+    "slug": "noel",
+    "color": "#ee5a6f",
+    "updated_at": "2025-10-28T22:57:22.832Z"
+  }
+},
+{
+  "model": "products.tag",
+  "pk": 114,
+  "fields": {
+    "name": "Fête",
+    "slug": "fete",
+    "color": "#00d2d3",
+    "updated_at": "2025-10-28T22:57:22.836Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 1,
+  "fields": {
+    "name": "Électronique",
+    "slug": "electronique",
+    "description": "Appareils électroniques",
+    "image": "",
+    "parent": null,
+    "is_active": true,
+    "created_at": "2025-10-25T20:14:33.898Z",
+    "updated_at": "2025-10-25T20:14:33.898Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 2,
+  "fields": {
+    "name": "Mode & Vêtements",
+    "slug": "mode-vetements",
+    "description": "Vêtements et accessoires",
+    "image": "",
+    "parent": null,
+    "is_active": true,
+    "created_at": "2025-10-25T20:14:33.904Z",
+    "updated_at": "2025-10-25T20:14:33.904Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 8,
+  "fields": {
+    "name": "Smartphones et Tablettes",
+    "slug": "smartphones-et-tablettes",
+    "description": "",
+    "image": "",
+    "parent": 1,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.264Z",
+    "updated_at": "2025-10-28T19:13:44.264Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 9,
+  "fields": {
+    "name": "iPhone",
+    "slug": "iphone",
+    "description": "",
+    "image": "",
+    "parent": 8,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.272Z",
+    "updated_at": "2025-10-28T19:13:44.272Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 10,
+  "fields": {
+    "name": "Samsung Galaxy",
+    "slug": "samsung-galaxy",
+    "description": "",
+    "image": "",
+    "parent": 8,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.281Z",
+    "updated_at": "2025-10-28T19:13:44.281Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 11,
+  "fields": {
+    "name": "Xiaomi",
+    "slug": "xiaomi",
+    "description": "",
+    "image": "",
+    "parent": 8,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.292Z",
+    "updated_at": "2025-10-28T19:13:44.292Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 12,
+  "fields": {
+    "name": "Tablettes",
+    "slug": "tablettes",
+    "description": "",
+    "image": "",
+    "parent": 8,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.299Z",
+    "updated_at": "2025-10-28T19:13:44.299Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 13,
+  "fields": {
+    "name": "Accessoires mobiles",
+    "slug": "accessoires-mobiles",
+    "description": "",
+    "image": "",
+    "parent": 8,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.307Z",
+    "updated_at": "2025-10-28T19:13:44.307Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 14,
+  "fields": {
+    "name": "Ordinateurs",
+    "slug": "ordinateurs",
+    "description": "",
+    "image": "",
+    "parent": 1,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.316Z",
+    "updated_at": "2025-10-28T19:13:44.316Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 15,
+  "fields": {
+    "name": "Laptops",
+    "slug": "laptops",
+    "description": "",
+    "image": "",
+    "parent": 14,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.325Z",
+    "updated_at": "2025-10-28T19:13:44.325Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 16,
+  "fields": {
+    "name": "PC de Bureau",
+    "slug": "pc-de-bureau",
+    "description": "",
+    "image": "",
+    "parent": 14,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.333Z",
+    "updated_at": "2025-10-28T19:13:44.333Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 17,
+  "fields": {
+    "name": "Ordinateurs Portables",
+    "slug": "ordinateurs-portables",
+    "description": "",
+    "image": "",
+    "parent": 14,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.340Z",
+    "updated_at": "2025-10-28T19:13:44.340Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 18,
+  "fields": {
+    "name": "Accessoires PC",
+    "slug": "accessoires-pc",
+    "description": "",
+    "image": "",
+    "parent": 14,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.347Z",
+    "updated_at": "2025-10-28T19:13:44.347Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 19,
+  "fields": {
+    "name": "Audio",
+    "slug": "audio",
+    "description": "",
+    "image": "",
+    "parent": 1,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.356Z",
+    "updated_at": "2025-10-28T19:13:44.356Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 20,
+  "fields": {
+    "name": "Écouteurs",
+    "slug": "ecouteurs",
+    "description": "",
+    "image": "",
+    "parent": 19,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.366Z",
+    "updated_at": "2025-10-28T19:13:44.366Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 21,
+  "fields": {
+    "name": "Enceintes",
+    "slug": "enceintes",
+    "description": "",
+    "image": "",
+    "parent": 19,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.374Z",
+    "updated_at": "2025-10-28T19:13:44.374Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 22,
+  "fields": {
+    "name": "Casanques",
+    "slug": "casanques",
+    "description": "",
+    "image": "",
+    "parent": 19,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.382Z",
+    "updated_at": "2025-10-28T19:13:44.382Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 23,
+  "fields": {
+    "name": "Microphones",
+    "slug": "microphones",
+    "description": "",
+    "image": "",
+    "parent": 19,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.388Z",
+    "updated_at": "2025-10-28T19:13:44.389Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 24,
+  "fields": {
+    "name": "TV et Home Cinéma",
+    "slug": "tv-et-home-cinema",
+    "description": "",
+    "image": "",
+    "parent": 1,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.396Z",
+    "updated_at": "2025-10-28T19:13:44.396Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 25,
+  "fields": {
+    "name": "Téléviseurs",
+    "slug": "televiseurs",
+    "description": "",
+    "image": "",
+    "parent": 24,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.402Z",
+    "updated_at": "2025-10-28T19:13:44.402Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 26,
+  "fields": {
+    "name": "Projecteurs",
+    "slug": "projecteurs",
+    "description": "",
+    "image": "",
+    "parent": 24,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.410Z",
+    "updated_at": "2025-10-28T19:13:44.410Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 27,
+  "fields": {
+    "name": "Soundbars",
+    "slug": "soundbars",
+    "description": "",
+    "image": "",
+    "parent": 24,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.416Z",
+    "updated_at": "2025-10-28T19:13:44.416Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 28,
+  "fields": {
+    "name": "Accessoires TV",
+    "slug": "accessoires-tv",
+    "description": "",
+    "image": "",
+    "parent": 24,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.424Z",
+    "updated_at": "2025-10-28T19:13:44.424Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 49,
+  "fields": {
+    "name": "Maison et Jardin",
+    "slug": "maison-et-jardin",
+    "description": "Tout pour votre maison et jardin",
+    "image": "",
+    "parent": null,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.573Z",
+    "updated_at": "2025-10-28T19:13:44.573Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 50,
+  "fields": {
+    "name": "Mobilier",
+    "slug": "mobilier",
+    "description": "",
+    "image": "",
+    "parent": 49,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.580Z",
+    "updated_at": "2025-10-28T19:13:44.580Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 51,
+  "fields": {
+    "name": "Salles à manger",
+    "slug": "salles-a-manger",
+    "description": "",
+    "image": "",
+    "parent": 50,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.588Z",
+    "updated_at": "2025-10-28T19:13:44.588Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 52,
+  "fields": {
+    "name": "Salon et Canapés",
+    "slug": "salon-et-canapes",
+    "description": "",
+    "image": "",
+    "parent": 50,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.596Z",
+    "updated_at": "2025-10-28T19:13:44.596Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 53,
+  "fields": {
+    "name": "Chambres à coucher",
+    "slug": "chambres-a-coucher",
+    "description": "",
+    "image": "",
+    "parent": 50,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.602Z",
+    "updated_at": "2025-10-28T19:13:44.602Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 54,
+  "fields": {
+    "name": "Bureaux",
+    "slug": "bureaux",
+    "description": "",
+    "image": "",
+    "parent": 50,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.611Z",
+    "updated_at": "2025-10-28T19:13:44.611Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 55,
+  "fields": {
+    "name": "Rangement",
+    "slug": "rangement",
+    "description": "",
+    "image": "",
+    "parent": 50,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.617Z",
+    "updated_at": "2025-10-28T19:13:44.617Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 56,
+  "fields": {
+    "name": "Décorations",
+    "slug": "decorations",
+    "description": "",
+    "image": "",
+    "parent": 49,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.624Z",
+    "updated_at": "2025-10-28T19:13:44.624Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 57,
+  "fields": {
+    "name": "Tapis et Carpettes",
+    "slug": "tapis-et-carpettes",
+    "description": "",
+    "image": "",
+    "parent": 56,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.632Z",
+    "updated_at": "2025-10-28T19:13:44.632Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 58,
+  "fields": {
+    "name": "Tableaux",
+    "slug": "tableaux",
+    "description": "",
+    "image": "",
+    "parent": 56,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.638Z",
+    "updated_at": "2025-10-28T19:13:44.638Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 59,
+  "fields": {
+    "name": "Plantes décoratives",
+    "slug": "plantes-decoratives",
+    "description": "",
+    "image": "",
+    "parent": 56,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.645Z",
+    "updated_at": "2025-10-28T19:13:44.645Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 60,
+  "fields": {
+    "name": "Luminaires",
+    "slug": "luminaires",
+    "description": "",
+    "image": "",
+    "parent": 56,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.653Z",
+    "updated_at": "2025-10-28T19:13:44.653Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 61,
+  "fields": {
+    "name": "Cuisine",
+    "slug": "cuisine",
+    "description": "",
+    "image": "",
+    "parent": 49,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.660Z",
+    "updated_at": "2025-10-28T19:13:44.660Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 62,
+  "fields": {
+    "name": "Ustensiles de cuisine",
+    "slug": "ustensiles-de-cuisine",
+    "description": "",
+    "image": "",
+    "parent": 61,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.667Z",
+    "updated_at": "2025-10-28T19:13:44.667Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 63,
+  "fields": {
+    "name": "Appareils ménagers",
+    "slug": "appareils-menagers",
+    "description": "",
+    "image": "",
+    "parent": 61,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.674Z",
+    "updated_at": "2025-10-28T19:13:44.674Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 64,
+  "fields": {
+    "name": "Vaiselle",
+    "slug": "vaiselle",
+    "description": "",
+    "image": "",
+    "parent": 61,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.680Z",
+    "updated_at": "2025-10-28T19:13:44.680Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 65,
+  "fields": {
+    "name": "Arts de la table",
+    "slug": "arts-de-la-table",
+    "description": "",
+    "image": "",
+    "parent": 61,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.687Z",
+    "updated_at": "2025-10-28T19:13:44.687Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 66,
+  "fields": {
+    "name": "Beauté et Cosmétiques",
+    "slug": "beaute-et-cosmetiques",
+    "description": "Produits de beauté et cosmétiques",
+    "image": "",
+    "parent": null,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.693Z",
+    "updated_at": "2025-10-28T19:13:44.693Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 67,
+  "fields": {
+    "name": "Soins visage",
+    "slug": "soins-visage",
+    "description": "",
+    "image": "",
+    "parent": 66,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.701Z",
+    "updated_at": "2025-10-28T19:13:44.701Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 68,
+  "fields": {
+    "name": "Maquillage",
+    "slug": "maquillage",
+    "description": "",
+    "image": "",
+    "parent": 66,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.707Z",
+    "updated_at": "2025-10-28T19:13:44.707Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 69,
+  "fields": {
+    "name": "Soins cheveux",
+    "slug": "soins-cheveux",
+    "description": "",
+    "image": "",
+    "parent": 66,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.714Z",
+    "updated_at": "2025-10-28T19:13:44.714Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 70,
+  "fields": {
+    "name": "Parfums",
+    "slug": "parfums",
+    "description": "",
+    "image": "",
+    "parent": 66,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.720Z",
+    "updated_at": "2025-10-28T19:13:44.720Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 71,
+  "fields": {
+    "name": "Produits corporels",
+    "slug": "produits-corporels",
+    "description": "",
+    "image": "",
+    "parent": 66,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.728Z",
+    "updated_at": "2025-10-28T19:13:44.728Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 72,
+  "fields": {
+    "name": "Beauté homme",
+    "slug": "beaute-homme",
+    "description": "",
+    "image": "",
+    "parent": 66,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.734Z",
+    "updated_at": "2025-10-28T19:13:44.734Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 73,
+  "fields": {
+    "name": "Sport et Loisirs",
+    "slug": "sport-et-loisirs",
+    "description": "Équipements sportifs et loisirs",
+    "image": "",
+    "parent": null,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.741Z",
+    "updated_at": "2025-10-28T19:13:44.741Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 74,
+  "fields": {
+    "name": "Fitness",
+    "slug": "fitness",
+    "description": "",
+    "image": "",
+    "parent": 73,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.748Z",
+    "updated_at": "2025-10-28T19:13:44.748Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 75,
+  "fields": {
+    "name": "Matériel fitness",
+    "slug": "materiel-fitness",
+    "description": "",
+    "image": "",
+    "parent": 74,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.755Z",
+    "updated_at": "2025-10-28T19:13:44.755Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 76,
+  "fields": {
+    "name": "Vêtements sport",
+    "slug": "vetements-sport",
+    "description": "",
+    "image": "",
+    "parent": 74,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.761Z",
+    "updated_at": "2025-10-28T19:13:44.761Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 77,
+  "fields": {
+    "name": "Accessoires fitness",
+    "slug": "accessoires-fitness",
+    "description": "",
+    "image": "",
+    "parent": 74,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.769Z",
+    "updated_at": "2025-10-28T19:13:44.769Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 78,
+  "fields": {
+    "name": "Running",
+    "slug": "running",
+    "description": "",
+    "image": "",
+    "parent": 73,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.775Z",
+    "updated_at": "2025-10-28T19:13:44.775Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 79,
+  "fields": {
+    "name": "Chaussures running",
+    "slug": "chaussures-running",
+    "description": "",
+    "image": "",
+    "parent": 78,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.783Z",
+    "updated_at": "2025-10-28T19:13:44.783Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 80,
+  "fields": {
+    "name": "Vêtements running",
+    "slug": "vetements-running",
+    "description": "",
+    "image": "",
+    "parent": 78,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.789Z",
+    "updated_at": "2025-10-28T19:13:44.789Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 81,
+  "fields": {
+    "name": "Football",
+    "slug": "football",
+    "description": "",
+    "image": "",
+    "parent": 73,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.795Z",
+    "updated_at": "2025-10-28T19:13:44.795Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 82,
+  "fields": {
+    "name": "Basketball",
+    "slug": "basketball",
+    "description": "",
+    "image": "",
+    "parent": 73,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.800Z",
+    "updated_at": "2025-10-28T19:13:44.800Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 83,
+  "fields": {
+    "name": "Natation",
+    "slug": "natation",
+    "description": "",
+    "image": "",
+    "parent": 73,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.806Z",
+    "updated_at": "2025-10-28T19:13:44.806Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 84,
+  "fields": {
+    "name": "Cyclisme",
+    "slug": "cyclisme",
+    "description": "",
+    "image": "",
+    "parent": 73,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.812Z",
+    "updated_at": "2025-10-28T19:13:44.812Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 85,
+  "fields": {
+    "name": "Automobile",
+    "slug": "automobile",
+    "description": "Pièces et accessoires auto",
+    "image": "",
+    "parent": null,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.819Z",
+    "updated_at": "2025-10-28T19:13:44.819Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 86,
+  "fields": {
+    "name": "Pièces auto",
+    "slug": "pieces-auto",
+    "description": "",
+    "image": "",
+    "parent": 85,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.826Z",
+    "updated_at": "2025-10-28T19:13:44.826Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 87,
+  "fields": {
+    "name": "Accessoires auto",
+    "slug": "accessoires-auto",
+    "description": "",
+    "image": "",
+    "parent": 85,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.832Z",
+    "updated_at": "2025-10-28T19:13:44.832Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 88,
+  "fields": {
+    "name": "Jantes et Pneus",
+    "slug": "jantes-et-pneus",
+    "description": "",
+    "image": "",
+    "parent": 85,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.838Z",
+    "updated_at": "2025-10-28T19:13:44.838Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 89,
+  "fields": {
+    "name": "Équipement intérieur",
+    "slug": "equipement-interieur",
+    "description": "",
+    "image": "",
+    "parent": 85,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.845Z",
+    "updated_at": "2025-10-28T19:13:44.845Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 90,
+  "fields": {
+    "name": "Outils auto",
+    "slug": "outils-auto",
+    "description": "",
+    "image": "",
+    "parent": 85,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.852Z",
+    "updated_at": "2025-10-28T19:13:44.852Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 91,
+  "fields": {
+    "name": "Santé et Bien-être",
+    "slug": "sante-et-bien-etre",
+    "description": "Produits pour votre santé",
+    "image": "",
+    "parent": null,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.858Z",
+    "updated_at": "2025-10-28T19:13:44.858Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 92,
+  "fields": {
+    "name": "Compléments alimentaires",
+    "slug": "complements-alimentaires",
+    "description": "",
+    "image": "",
+    "parent": 91,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.864Z",
+    "updated_at": "2025-10-28T19:13:44.864Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 93,
+  "fields": {
+    "name": "Vitamines",
+    "slug": "vitamines",
+    "description": "",
+    "image": "",
+    "parent": 91,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.869Z",
+    "updated_at": "2025-10-28T19:13:44.869Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 94,
+  "fields": {
+    "name": "Appareils médicaux",
+    "slug": "appareils-medicaux",
+    "description": "",
+    "image": "",
+    "parent": 91,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.876Z",
+    "updated_at": "2025-10-28T19:13:44.876Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 95,
+  "fields": {
+    "name": "Produits naturels",
+    "slug": "produits-naturels",
+    "description": "",
+    "image": "",
+    "parent": 91,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.882Z",
+    "updated_at": "2025-10-28T19:13:44.882Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 100,
+  "fields": {
+    "name": "Jeux vidéo",
+    "slug": "jeux-video",
+    "description": "",
+    "image": "",
+    "parent": 1,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.915Z",
+    "updated_at": "2025-10-29T02:36:56.724Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 101,
+  "fields": {
+    "name": "Jouets et Jeux",
+    "slug": "jouets-et-jeux",
+    "description": "Jouets pour enfants",
+    "image": "",
+    "parent": null,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.921Z",
+    "updated_at": "2025-10-28T19:13:44.921Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 102,
+  "fields": {
+    "name": "Jouets éducatifs",
+    "slug": "jouets-educatifs",
+    "description": "",
+    "image": "",
+    "parent": 101,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.929Z",
+    "updated_at": "2025-10-28T19:13:44.929Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 103,
+  "fields": {
+    "name": "Peluches",
+    "slug": "peluches",
+    "description": "",
+    "image": "",
+    "parent": 101,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.936Z",
+    "updated_at": "2025-10-28T19:13:44.936Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 104,
+  "fields": {
+    "name": "Jeux de société",
+    "slug": "jeux-de-societe",
+    "description": "",
+    "image": "",
+    "parent": 101,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.943Z",
+    "updated_at": "2025-10-28T19:13:44.943Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 105,
+  "fields": {
+    "name": "Puzzles",
+    "slug": "puzzles",
+    "description": "",
+    "image": "",
+    "parent": 101,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.950Z",
+    "updated_at": "2025-10-28T19:13:44.950Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 106,
+  "fields": {
+    "name": "Véhicules miniatures",
+    "slug": "vehicules-miniatures",
+    "description": "",
+    "image": "",
+    "parent": 101,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.956Z",
+    "updated_at": "2025-10-28T19:13:44.956Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 107,
+  "fields": {
+    "name": "Alimentation",
+    "slug": "alimentation",
+    "description": "Produits alimentaires",
+    "image": "",
+    "parent": null,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.962Z",
+    "updated_at": "2025-10-28T19:13:44.962Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 108,
+  "fields": {
+    "name": "Épicerie",
+    "slug": "epicerie",
+    "description": "",
+    "image": "",
+    "parent": 107,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.969Z",
+    "updated_at": "2025-10-28T19:13:44.969Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 109,
+  "fields": {
+    "name": "Pâtes et Riz",
+    "slug": "pates-et-riz",
+    "description": "",
+    "image": "",
+    "parent": 108,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.977Z",
+    "updated_at": "2025-10-28T19:13:44.977Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 110,
+  "fields": {
+    "name": "Conserves",
+    "slug": "conserves",
+    "description": "",
+    "image": "",
+    "parent": 108,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.985Z",
+    "updated_at": "2025-10-28T19:13:44.985Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 111,
+  "fields": {
+    "name": "Huiles et Vinaigres",
+    "slug": "huiles-et-vinaigres",
+    "description": "",
+    "image": "",
+    "parent": 108,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.992Z",
+    "updated_at": "2025-10-28T19:13:44.992Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 112,
+  "fields": {
+    "name": "Boissons",
+    "slug": "boissons",
+    "description": "",
+    "image": "",
+    "parent": 107,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:44.998Z",
+    "updated_at": "2025-10-28T19:13:44.998Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 113,
+  "fields": {
+    "name": "Eau",
+    "slug": "eau",
+    "description": "",
+    "image": "",
+    "parent": 112,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.006Z",
+    "updated_at": "2025-10-28T19:13:45.006Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 114,
+  "fields": {
+    "name": "Sodas",
+    "slug": "sodas",
+    "description": "",
+    "image": "",
+    "parent": 112,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.012Z",
+    "updated_at": "2025-10-28T19:13:45.012Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 115,
+  "fields": {
+    "name": "Jus",
+    "slug": "jus",
+    "description": "",
+    "image": "",
+    "parent": 112,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.019Z",
+    "updated_at": "2025-10-28T19:13:45.019Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 116,
+  "fields": {
+    "name": "Produits frais",
+    "slug": "produits-frais",
+    "description": "",
+    "image": "",
+    "parent": 107,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.026Z",
+    "updated_at": "2025-10-28T19:13:45.026Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 117,
+  "fields": {
+    "name": "Café et Thé",
+    "slug": "cafe-et-the",
+    "description": "",
+    "image": "",
+    "parent": 107,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.033Z",
+    "updated_at": "2025-10-28T19:13:45.033Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 118,
+  "fields": {
+    "name": "Bébé et Puériculture",
+    "slug": "bebe-et-puericulture",
+    "description": "Tout pour bébé",
+    "image": "",
+    "parent": null,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.039Z",
+    "updated_at": "2025-10-28T19:13:45.039Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 119,
+  "fields": {
+    "name": "Poussettes",
+    "slug": "poussettes",
+    "description": "",
+    "image": "",
+    "parent": 118,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.045Z",
+    "updated_at": "2025-10-28T19:13:45.045Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 120,
+  "fields": {
+    "name": "Sièges auto",
+    "slug": "sieges-auto",
+    "description": "",
+    "image": "",
+    "parent": 118,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.053Z",
+    "updated_at": "2025-10-28T19:13:45.053Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 121,
+  "fields": {
+    "name": "Équipement bébé",
+    "slug": "equipement-bebe",
+    "description": "",
+    "image": "",
+    "parent": 118,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.060Z",
+    "updated_at": "2025-10-28T19:13:45.060Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 122,
+  "fields": {
+    "name": "Vêtements bébé",
+    "slug": "vetements-bebe",
+    "description": "",
+    "image": "",
+    "parent": 118,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.068Z",
+    "updated_at": "2025-10-28T19:13:45.068Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 123,
+  "fields": {
+    "name": "Couches et Soins",
+    "slug": "couches-et-soins",
+    "description": "",
+    "image": "",
+    "parent": 118,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.074Z",
+    "updated_at": "2025-10-28T19:13:45.074Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 124,
+  "fields": {
+    "name": "Animaux",
+    "slug": "animaux",
+    "description": "Accessoires pour animaux",
+    "image": "",
+    "parent": null,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.081Z",
+    "updated_at": "2025-10-28T19:13:45.081Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 125,
+  "fields": {
+    "name": "Chiens",
+    "slug": "chiens",
+    "description": "",
+    "image": "",
+    "parent": 124,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.088Z",
+    "updated_at": "2025-10-28T19:13:45.088Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 126,
+  "fields": {
+    "name": "Chats",
+    "slug": "chats",
+    "description": "",
+    "image": "",
+    "parent": 124,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.095Z",
+    "updated_at": "2025-10-28T19:13:45.095Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 127,
+  "fields": {
+    "name": "Oiseaux",
+    "slug": "oiseaux",
+    "description": "",
+    "image": "",
+    "parent": 124,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.101Z",
+    "updated_at": "2025-10-28T19:13:45.101Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 128,
+  "fields": {
+    "name": "Aquariophilie",
+    "slug": "aquariophilie",
+    "description": "",
+    "image": "",
+    "parent": 124,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.110Z",
+    "updated_at": "2025-10-28T19:13:45.110Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 129,
+  "fields": {
+    "name": "Immobilier et Décoration",
+    "slug": "immobilier-et-decoration",
+    "description": "Produits pour la maison",
+    "image": "",
+    "parent": null,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.117Z",
+    "updated_at": "2025-10-28T19:13:45.117Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 130,
+  "fields": {
+    "name": "Peintures",
+    "slug": "peintures",
+    "description": "",
+    "image": "",
+    "parent": 129,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.123Z",
+    "updated_at": "2025-10-28T19:13:45.124Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 131,
+  "fields": {
+    "name": "Carrelages",
+    "slug": "carrelages",
+    "description": "",
+    "image": "",
+    "parent": 129,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.130Z",
+    "updated_at": "2025-10-28T19:13:45.130Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 132,
+  "fields": {
+    "name": "Outillage",
+    "slug": "outillage",
+    "description": "",
+    "image": "",
+    "parent": 129,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.136Z",
+    "updated_at": "2025-10-28T19:13:45.136Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 133,
+  "fields": {
+    "name": "Éclairage",
+    "slug": "eclairage",
+    "description": "",
+    "image": "",
+    "parent": 129,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.142Z",
+    "updated_at": "2025-10-28T19:13:45.143Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 134,
+  "fields": {
+    "name": "Tissus",
+    "slug": "tissus",
+    "description": "",
+    "image": "",
+    "parent": 129,
+    "is_active": true,
+    "created_at": "2025-10-28T19:13:45.150Z",
+    "updated_at": "2025-10-28T19:13:45.150Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 135,
+  "fields": {
+    "name": "Mode et Vêtements",
+    "slug": "mode-et-vetements",
+    "description": "Vêtements et accessoires de mode",
+    "image": "",
+    "parent": null,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.074Z",
+    "updated_at": "2025-11-03T20:16:26.074Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 136,
+  "fields": {
+    "name": "Femme",
+    "slug": "femme",
+    "description": "",
+    "image": "",
+    "parent": 135,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.081Z",
+    "updated_at": "2025-11-03T20:16:26.081Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 137,
+  "fields": {
+    "name": "Robes",
+    "slug": "robes",
+    "description": "",
+    "image": "",
+    "parent": 136,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.086Z",
+    "updated_at": "2025-11-03T20:16:26.086Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 138,
+  "fields": {
+    "name": "Hauts et T-shirts",
+    "slug": "hauts-et-t-shirts",
+    "description": "",
+    "image": "",
+    "parent": 136,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.090Z",
+    "updated_at": "2025-11-03T20:16:26.090Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 139,
+  "fields": {
+    "name": "Pantalons et Jupes",
+    "slug": "pantalons-et-jupes",
+    "description": "",
+    "image": "",
+    "parent": 136,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.094Z",
+    "updated_at": "2025-11-03T20:16:26.094Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 140,
+  "fields": {
+    "name": "Sacs à main",
+    "slug": "sacs-a-main",
+    "description": "",
+    "image": "",
+    "parent": 136,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.100Z",
+    "updated_at": "2025-11-03T20:16:26.101Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 141,
+  "fields": {
+    "name": "Chaussures femme",
+    "slug": "chaussures-femme",
+    "description": "",
+    "image": "",
+    "parent": 136,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.105Z",
+    "updated_at": "2025-11-03T20:16:26.105Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 142,
+  "fields": {
+    "name": "Bijoux femme",
+    "slug": "bijoux-femme",
+    "description": "",
+    "image": "",
+    "parent": 136,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.109Z",
+    "updated_at": "2025-11-03T20:16:26.109Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 143,
+  "fields": {
+    "name": "Homme",
+    "slug": "homme",
+    "description": "",
+    "image": "",
+    "parent": 135,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.116Z",
+    "updated_at": "2025-11-03T20:16:26.116Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 144,
+  "fields": {
+    "name": "Chemises",
+    "slug": "chemises",
+    "description": "",
+    "image": "",
+    "parent": 143,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.121Z",
+    "updated_at": "2025-11-03T20:16:26.121Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 145,
+  "fields": {
+    "name": "Pantalons homme",
+    "slug": "pantalons-homme",
+    "description": "",
+    "image": "",
+    "parent": 143,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.127Z",
+    "updated_at": "2025-11-03T20:16:26.127Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 146,
+  "fields": {
+    "name": "T-shirts",
+    "slug": "t-shirts",
+    "description": "",
+    "image": "",
+    "parent": 143,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.131Z",
+    "updated_at": "2025-11-03T20:16:26.131Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 147,
+  "fields": {
+    "name": "Chaussures homme",
+    "slug": "chaussures-homme",
+    "description": "",
+    "image": "",
+    "parent": 143,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.137Z",
+    "updated_at": "2025-11-03T20:16:26.138Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 148,
+  "fields": {
+    "name": "Montres homme",
+    "slug": "montres-homme",
+    "description": "",
+    "image": "",
+    "parent": 143,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.142Z",
+    "updated_at": "2025-11-03T20:16:26.142Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 149,
+  "fields": {
+    "name": "Accessoires homme",
+    "slug": "accessoires-homme",
+    "description": "",
+    "image": "",
+    "parent": 143,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.148Z",
+    "updated_at": "2025-11-03T20:16:26.148Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 150,
+  "fields": {
+    "name": "Enfant",
+    "slug": "enfant",
+    "description": "",
+    "image": "",
+    "parent": 135,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.152Z",
+    "updated_at": "2025-11-03T20:16:26.152Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 151,
+  "fields": {
+    "name": "Vêtements garçon",
+    "slug": "vetements-garcon",
+    "description": "",
+    "image": "",
+    "parent": 150,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.158Z",
+    "updated_at": "2025-11-03T20:16:26.158Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 152,
+  "fields": {
+    "name": "Vêtements fille",
+    "slug": "vetements-fille",
+    "description": "",
+    "image": "",
+    "parent": 150,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.162Z",
+    "updated_at": "2025-11-03T20:16:26.162Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 153,
+  "fields": {
+    "name": "Chaussures enfant",
+    "slug": "chaussures-enfant",
+    "description": "",
+    "image": "",
+    "parent": 150,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.169Z",
+    "updated_at": "2025-11-03T20:16:26.169Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 154,
+  "fields": {
+    "name": "Jouets",
+    "slug": "jouets",
+    "description": "",
+    "image": "",
+    "parent": 150,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.173Z",
+    "updated_at": "2025-11-03T20:16:26.173Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 155,
+  "fields": {
+    "name": "Livres et Médias",
+    "slug": "livres-et-medias",
+    "description": "Livres, DVD et médias",
+    "image": "",
+    "parent": null,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.211Z",
+    "updated_at": "2025-11-03T20:16:26.211Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 156,
+  "fields": {
+    "name": "Livres",
+    "slug": "livres",
+    "description": "",
+    "image": "",
+    "parent": 155,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.217Z",
+    "updated_at": "2025-11-03T20:16:26.217Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 157,
+  "fields": {
+    "name": "DVD et Blu-ray",
+    "slug": "dvd-et-blu-ray",
+    "description": "",
+    "image": "",
+    "parent": 155,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.220Z",
+    "updated_at": "2025-11-03T20:16:26.220Z"
+  }
+},
+{
+  "model": "products.category",
+  "pk": 158,
+  "fields": {
+    "name": "Musique",
+    "slug": "musique",
+    "description": "",
+    "image": "",
+    "parent": 155,
+    "is_active": true,
+    "created_at": "2025-11-03T20:16:26.226Z",
+    "updated_at": "2025-11-03T20:16:26.226Z"
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 41,
+  "fields": {
+    "name": "Abidjan",
+    "code": "ABI",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 42,
+  "fields": {
+    "name": "Bafing",
+    "code": "BAFIN",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 43,
+  "fields": {
+    "name": "Bagoué",
+    "code": "BAGOU",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 44,
+  "fields": {
+    "name": "Bas-Sassandra",
+    "code": "BAS",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 45,
+  "fields": {
+    "name": "Cavally",
+    "code": "CAV",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 46,
+  "fields": {
+    "name": "Comoé",
+    "code": "COM",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 47,
+  "fields": {
+    "name": "Gboklé",
+    "code": "GBOK",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 48,
+  "fields": {
+    "name": "Gbêkê",
+    "code": "GBEKE",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 49,
+  "fields": {
+    "name": "Gbôklé",
+    "code": "GBOKLE",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 50,
+  "fields": {
+    "name": "Guémon",
+    "code": "GUEM",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 51,
+  "fields": {
+    "name": "Hambol",
+    "code": "HAM",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 52,
+  "fields": {
+    "name": "Haut-Sassandra",
+    "code": "HSAS",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 53,
+  "fields": {
+    "name": "Iffou",
+    "code": "IFF",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 54,
+  "fields": {
+    "name": "Indénié-Djuablin",
+    "code": "IND",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 55,
+  "fields": {
+    "name": "Kabadougou",
+    "code": "KAB",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 56,
+  "fields": {
+    "name": "Lagunes",
+    "code": "LAG",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 57,
+  "fields": {
+    "name": "Lacs",
+    "code": "LAC",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 58,
+  "fields": {
+    "name": "Marahoué",
+    "code": "MAR",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 59,
+  "fields": {
+    "name": "Mé",
+    "code": "ME",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 60,
+  "fields": {
+    "name": "Moronou",
+    "code": "MOR",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 61,
+  "fields": {
+    "name": "Nawa",
+    "code": "NAW",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 62,
+  "fields": {
+    "name": "N'Zi",
+    "code": "N'ZI",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 63,
+  "fields": {
+    "name": "Poro",
+    "code": "POR",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 64,
+  "fields": {
+    "name": "San-Pédro",
+    "code": "SANP",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 65,
+  "fields": {
+    "name": "Sud-Comoé",
+    "code": "SUDC",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 66,
+  "fields": {
+    "name": "Sud-Tchologo",
+    "code": "SUDT",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 67,
+  "fields": {
+    "name": "Tchologo",
+    "code": "TCHOL",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 68,
+  "fields": {
+    "name": "Tonkpi",
+    "code": "TON",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 69,
+  "fields": {
+    "name": "Worodougou",
+    "code": "WOR",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 70,
+  "fields": {
+    "name": "Yamoussoukro",
+    "code": "YAM",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 71,
+  "fields": {
+    "name": "Yopougon",
+    "code": "YOP",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.region",
+  "pk": 72,
+  "fields": {
+    "name": "Zanzan",
+    "code": "ZAN",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 222,
+  "fields": {
+    "name": "Abidjan",
+    "region": 41,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 223,
+  "fields": {
+    "name": "Cocody",
+    "region": 41,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 224,
+  "fields": {
+    "name": "Marcory",
+    "region": 41,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 225,
+  "fields": {
+    "name": "Treichville",
+    "region": 41,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 226,
+  "fields": {
+    "name": "Adjame",
+    "region": 41,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 227,
+  "fields": {
+    "name": "Plateau",
+    "region": 41,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 228,
+  "fields": {
+    "name": "Koumassi",
+    "region": 41,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 229,
+  "fields": {
+    "name": "Attecoube",
+    "region": 41,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 230,
+  "fields": {
+    "name": "Yopougon",
+    "region": 41,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 231,
+  "fields": {
+    "name": "Abobo",
+    "region": 41,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 232,
+  "fields": {
+    "name": "Anyama",
+    "region": 41,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 233,
+  "fields": {
+    "name": "Songon",
+    "region": 41,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 234,
+  "fields": {
+    "name": "Port-Bouet",
+    "region": 41,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 235,
+  "fields": {
+    "name": "Dabou",
+    "region": 41,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 236,
+  "fields": {
+    "name": "Touba",
+    "region": 42,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 237,
+  "fields": {
+    "name": "Koro",
+    "region": 42,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 238,
+  "fields": {
+    "name": "Boundiali",
+    "region": 43,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 239,
+  "fields": {
+    "name": "Kouto",
+    "region": 43,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 240,
+  "fields": {
+    "name": "San-Pédro",
+    "region": 44,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 241,
+  "fields": {
+    "name": "Sassandra",
+    "region": 44,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 242,
+  "fields": {
+    "name": "Soubré",
+    "region": 44,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 243,
+  "fields": {
+    "name": "Buyo",
+    "region": 44,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 244,
+  "fields": {
+    "name": "Tabou",
+    "region": 44,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 245,
+  "fields": {
+    "name": "Guiglo",
+    "region": 45,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 246,
+  "fields": {
+    "name": "Toulepleu",
+    "region": 45,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 247,
+  "fields": {
+    "name": "Bloléquin",
+    "region": 45,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 248,
+  "fields": {
+    "name": "Taï",
+    "region": 45,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 249,
+  "fields": {
+    "name": "Zagné",
+    "region": 45,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 250,
+  "fields": {
+    "name": "Abengourou",
+    "region": 46,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 251,
+  "fields": {
+    "name": "Agnibilékrou",
+    "region": 46,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 252,
+  "fields": {
+    "name": "Béttié",
+    "region": 46,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 253,
+  "fields": {
+    "name": "Maféré",
+    "region": 46,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 254,
+  "fields": {
+    "name": "Zaranou",
+    "region": 46,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 255,
+  "fields": {
+    "name": "Bocanda",
+    "region": 46,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 256,
+  "fields": {
+    "name": "Grand-Bassam",
+    "region": 47,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 257,
+  "fields": {
+    "name": "Bonoua",
+    "region": 47,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 258,
+  "fields": {
+    "name": "Ono",
+    "region": 47,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 259,
+  "fields": {
+    "name": "Noé",
+    "region": 47,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 260,
+  "fields": {
+    "name": "Bouaké",
+    "region": 48,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 261,
+  "fields": {
+    "name": "Sakassou",
+    "region": 48,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 262,
+  "fields": {
+    "name": "Botro",
+    "region": 48,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 263,
+  "fields": {
+    "name": "Kouassi-Kouassikro",
+    "region": 48,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 264,
+  "fields": {
+    "name": "Béoumi",
+    "region": 48,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 265,
+  "fields": {
+    "name": "Abengourou",
+    "region": 49,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 266,
+  "fields": {
+    "name": "Bécédi-Brignan",
+    "region": 49,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 267,
+  "fields": {
+    "name": "Grand-Morié",
+    "region": 49,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 268,
+  "fields": {
+    "name": "Man",
+    "region": 50,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 269,
+  "fields": {
+    "name": "Danané",
+    "region": 50,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 270,
+  "fields": {
+    "name": "Sipilou",
+    "region": 50,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 271,
+  "fields": {
+    "name": "Kouibly",
+    "region": 50,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 272,
+  "fields": {
+    "name": "Fengolo",
+    "region": 50,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 273,
+  "fields": {
+    "name": "Gbangbégouiné",
+    "region": 50,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 274,
+  "fields": {
+    "name": "Béoué",
+    "region": 50,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 275,
+  "fields": {
+    "name": "Tai",
+    "region": 50,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 276,
+  "fields": {
+    "name": "Katiola",
+    "region": 51,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 277,
+  "fields": {
+    "name": "Niakara",
+    "region": 51,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 278,
+  "fields": {
+    "name": "Ferkessédougou",
+    "region": 51,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 279,
+  "fields": {
+    "name": "Kobénan",
+    "region": 51,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 280,
+  "fields": {
+    "name": "Daloa",
+    "region": 52,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 281,
+  "fields": {
+    "name": "Vavoua",
+    "region": 52,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 282,
+  "fields": {
+    "name": "Haut-Sassandra",
+    "region": 52,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 283,
+  "fields": {
+    "name": "Issia",
+    "region": 52,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 284,
+  "fields": {
+    "name": "Gueyo",
+    "region": 52,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 285,
+  "fields": {
+    "name": "Daoukro",
+    "region": 53,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 286,
+  "fields": {
+    "name": "M'Bahiakro",
+    "region": 53,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 287,
+  "fields": {
+    "name": "Ananda",
+    "region": 53,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 288,
+  "fields": {
+    "name": "Azaguie",
+    "region": 53,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 289,
+  "fields": {
+    "name": "Abengourou",
+    "region": 54,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 290,
+  "fields": {
+    "name": "Ano-Sud",
+    "region": 54,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 291,
+  "fields": {
+    "name": "Kossou",
+    "region": 54,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 292,
+  "fields": {
+    "name": "Arrah",
+    "region": 54,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 293,
+  "fields": {
+    "name": "Odienné",
+    "region": 55,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 294,
+  "fields": {
+    "name": "Samatiguila",
+    "region": 55,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 295,
+  "fields": {
+    "name": "Mankono",
+    "region": 55,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 296,
+  "fields": {
+    "name": "Dabou",
+    "region": 56,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 297,
+  "fields": {
+    "name": "Jacqueville",
+    "region": 56,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 298,
+  "fields": {
+    "name": "Tiassalé",
+    "region": 56,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 299,
+  "fields": {
+    "name": "Alépé",
+    "region": 56,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 300,
+  "fields": {
+    "name": "Agboville",
+    "region": 56,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 301,
+  "fields": {
+    "name": "Grand-Bassam",
+    "region": 56,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 302,
+  "fields": {
+    "name": "Dimbokro",
+    "region": 57,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 303,
+  "fields": {
+    "name": "Bocanda",
+    "region": 57,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 304,
+  "fields": {
+    "name": "Yamoussoukro",
+    "region": 57,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 305,
+  "fields": {
+    "name": "Tiébissou",
+    "region": 57,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 306,
+  "fields": {
+    "name": "Toumodi",
+    "region": 57,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 307,
+  "fields": {
+    "name": "Bouaflé",
+    "region": 58,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 308,
+  "fields": {
+    "name": "Sinfra",
+    "region": 58,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 309,
+  "fields": {
+    "name": "Zuéénoula",
+    "region": 58,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 310,
+  "fields": {
+    "name": "Adzopé",
+    "region": 59,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 311,
+  "fields": {
+    "name": "Akébé",
+    "region": 59,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 312,
+  "fields": {
+    "name": "Alépé",
+    "region": 59,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 313,
+  "fields": {
+    "name": "Attobrou",
+    "region": 59,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 314,
+  "fields": {
+    "name": "Bocanda",
+    "region": 59,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 315,
+  "fields": {
+    "name": "Bongouanou",
+    "region": 60,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 316,
+  "fields": {
+    "name": "Arrah",
+    "region": 60,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 317,
+  "fields": {
+    "name": "M'Bahiakro",
+    "region": 60,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 318,
+  "fields": {
+    "name": "Soubré",
+    "region": 61,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 319,
+  "fields": {
+    "name": "Buyo",
+    "region": 61,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 320,
+  "fields": {
+    "name": "Guéyo",
+    "region": 61,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 321,
+  "fields": {
+    "name": "Méagui",
+    "region": 61,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 322,
+  "fields": {
+    "name": "Dimbokro",
+    "region": 62,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 323,
+  "fields": {
+    "name": "Kouassi-Kouassikro",
+    "region": 62,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 324,
+  "fields": {
+    "name": "Prikro",
+    "region": 62,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 325,
+  "fields": {
+    "name": "Korhogo",
+    "region": 63,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 326,
+  "fields": {
+    "name": "Ferkessédougou",
+    "region": 63,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 327,
+  "fields": {
+    "name": "Dikodougou",
+    "region": 63,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 328,
+  "fields": {
+    "name": "Niakara",
+    "region": 63,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 329,
+  "fields": {
+    "name": "San-Pédro",
+    "region": 64,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 330,
+  "fields": {
+    "name": "Tabou",
+    "region": 64,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 331,
+  "fields": {
+    "name": "Sassandra",
+    "region": 64,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 332,
+  "fields": {
+    "name": "Abengourou",
+    "region": 65,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 333,
+  "fields": {
+    "name": "Ano-Sud",
+    "region": 65,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 334,
+  "fields": {
+    "name": "Bettie",
+    "region": 65,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 335,
+  "fields": {
+    "name": "Agnibilékrou",
+    "region": 65,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 336,
+  "fields": {
+    "name": "Ferkessédougou",
+    "region": 66,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 337,
+  "fields": {
+    "name": "Kong",
+    "region": 66,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 338,
+  "fields": {
+    "name": "Napié",
+    "region": 66,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 339,
+  "fields": {
+    "name": "Ferkessédougou",
+    "region": 67,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 340,
+  "fields": {
+    "name": "Ouangolodougou",
+    "region": 67,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 341,
+  "fields": {
+    "name": "Napie",
+    "region": 67,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 342,
+  "fields": {
+    "name": "Man",
+    "region": 68,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 343,
+  "fields": {
+    "name": "Danané",
+    "region": 68,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 344,
+  "fields": {
+    "name": "Sipilou",
+    "region": 68,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 345,
+  "fields": {
+    "name": "Zouan-Hounien",
+    "region": 68,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 346,
+  "fields": {
+    "name": "Séguéla",
+    "region": 69,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 347,
+  "fields": {
+    "name": "Mankono",
+    "region": 69,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 348,
+  "fields": {
+    "name": "Kani",
+    "region": 69,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 349,
+  "fields": {
+    "name": "Yamoussoukro",
+    "region": 70,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 350,
+  "fields": {
+    "name": "Attiégouakro",
+    "region": 70,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 351,
+  "fields": {
+    "name": "Lolobo",
+    "region": 70,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 352,
+  "fields": {
+    "name": "Yopougon",
+    "region": 71,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 353,
+  "fields": {
+    "name": "Anyama",
+    "region": 71,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 354,
+  "fields": {
+    "name": "Songon",
+    "region": 71,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 355,
+  "fields": {
+    "name": "Bondoukou",
+    "region": 72,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 356,
+  "fields": {
+    "name": "Tanda",
+    "region": 72,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 357,
+  "fields": {
+    "name": "Sakassou",
+    "region": 72,
+    "postal_code": "",
+    "is_active": true
+  }
+},
+{
+  "model": "delivery_system.city",
+  "pk": 358,
+  "fields": {
+    "name": "Bouna",
+    "region": 72,
+    "postal_code": "",
+    "is_active": true
+  }
+}
+]
