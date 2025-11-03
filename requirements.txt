@@ -5,6 +5,7 @@ crispy-bootstrap5==0.7
 
 # CKEditor
 django-ckeditor==6.7.0
+django-ckeditor-5==0.2.18
 Pillow==10.1.0
 
 # REST Framework
