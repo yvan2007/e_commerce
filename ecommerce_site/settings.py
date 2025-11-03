@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     # Third party apps
     "crispy_forms",
     "crispy_bootstrap5",
-    "ckeditor",  # django-ckeditor (pas django_ckeditor_5)
+    "ckeditor",  # django-ckeditor
     "django_ckeditor_5",
     "rest_framework",
     "corsheaders",
@@ -490,9 +490,7 @@ customColorPalette = [
     {"color": "hsl(207, 90%, 54%)", "label": "Blue"},
 ]
 
-# CKEDITOR_5_CONFIGS n'est pas utilisé avec django-ckeditor
-# Commenté pour éviter les erreurs
-"""
+# CKEditor 5 Configuration
 CKEDITOR_5_CONFIGS = {
     'default': {
         'toolbar': ['heading', '|', 'bold', 'italic', 'link',
@@ -553,7 +551,6 @@ CKEDITOR_5_CONFIGS = {
         }
     }
 }
-"""
 
 # Django Allauth Configuration
 AUTHENTICATION_BACKENDS = [
