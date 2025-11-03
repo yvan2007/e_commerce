@@ -190,9 +190,6 @@ LOGOUT_REDIRECT_URL = "products:home_page"
 # 2. Générer un mot de passe d'application dans les paramètres Google
 # 3. Remplacer le mot de passe ci-dessous par le mot de passe d'application
 
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Mode test - affiche dans la console
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"  # Mode production
-
 EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.gmail.com")
 EMAIL_PORT = int(os.environ.get("EMAIL_PORT", 587))
 EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "True") == "True"
@@ -201,6 +198,17 @@ EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 DEFAULT_FROM_EMAIL = os.environ.get(
     "DEFAULT_FROM_EMAIL", "KefyStore <noreply@kefystore.com>"
 )
+
+# Utiliser le backend console si les credentials email ne sont pas configurés
+# Cela permet à l'application de fonctionner sans configuration SMTP
+# Les emails seront affichés dans la console au lieu d'être envoyés
+if not EMAIL_HOST_USER or not EMAIL_HOST_PASSWORD:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+else:
+    EMAIL_BACKEND = os.environ.get(
+        "EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend"
+    )
+
 EMAIL_USE_SSL = False
 EMAIL_TIMEOUT = 30
 
@@ -591,7 +599,6 @@ ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 if DEBUG:
     # INSTALLED_APPS += ['debug_toolbar']  # Temporairement désactivé
     # MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']  # Temporairement désactivé
-    pass
     INTERNAL_IPS = ["127.0.0.1", "localhost"]
 
     # Debug Toolbar Configuration

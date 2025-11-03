@@ -266,13 +266,20 @@ class CheckoutView(LoginRequiredMixin, FormView):
         L'équipe e-commerce
         """
 
-        send_mail(
-            subject,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [order.user.email],
-            fail_silently=False,
-        )
+        try:
+            send_mail(
+                subject,
+                message,
+                settings.DEFAULT_FROM_EMAIL,
+                [order.user.email],
+                fail_silently=True,
+            )
+        except Exception as e:
+            # Ne pas bloquer la commande si l'email échoue
+            import logging
+
+            logger = logging.getLogger(__name__)
+            logger.error(f"Erreur lors de l'envoi de l'email de confirmation: {e}")
 
 
 class OrderListView(LoginRequiredMixin, ListView):
@@ -590,13 +597,20 @@ class OrderStatusUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
             L'équipe e-commerce
             """
 
-            send_mail(
-                subject,
-                message,
-                settings.DEFAULT_FROM_EMAIL,
-                [order.user.email],
-                fail_silently=False,
-            )
+            try:
+                send_mail(
+                    subject,
+                    message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [order.user.email],
+                    fail_silently=True,
+                )
+            except Exception as e:
+                # Ne pas bloquer si l'email échoue
+                import logging
+
+                logger = logging.getLogger(__name__)
+                logger.error(f"Erreur lors de l'envoi de l'email de statut: {e}")
 
 
 @login_required

@@ -479,7 +479,14 @@ def send_2fa_email(user, code):
     from_email = settings.DEFAULT_FROM_EMAIL
     recipient_list = [user.email]
 
-    send_mail(subject, message, from_email, recipient_list)
+    try:
+        send_mail(subject, message, from_email, recipient_list, fail_silently=True)
+    except Exception as e:
+        # Ne pas bloquer si l'email échoue (ex: pas de credentials SMTP)
+        import logging
+
+        logger = logging.getLogger(__name__)
+        logger.error(f"Erreur lors de l'envoi de l'email 2FA: {e}")
 
 
 def send_2fa_sms(user, code):

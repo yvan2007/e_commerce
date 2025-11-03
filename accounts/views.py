@@ -173,13 +173,17 @@ class UserRegistrationView(TemplateView):
             L'équipe KefyStore
             """
 
-        send_mail(
-            subject,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [user.email],
-            fail_silently=False,
-        )
+        try:
+            send_mail(
+                subject,
+                message,
+                settings.DEFAULT_FROM_EMAIL,
+                [user.email],
+                fail_silently=True,
+            )
+        except Exception as e:
+            # Ne pas bloquer l'inscription si l'email échoue
+            logger.error(f"Erreur lors de l'envoi de l'email de confirmation: {e}")
 
 
 class UserLoginView(LoginView):
@@ -535,7 +539,13 @@ def password_reset_view(request):
                     )
 
                     msg.attach_alternative(html_content, "text/html")
-                    msg.send()
+                    try:
+                        msg.send()
+                    except Exception as e:
+                        # Ne pas bloquer la réinitialisation si l'email échoue
+                        logger.error(
+                            f"Erreur lors de l'envoi de l'email de réinitialisation: {e}"
+                        )
 
             # Toujours afficher le message de succès (même si l'email n'existe pas)
             # pour des raisons de sécurité - ne pas révéler si l'email existe dans la base

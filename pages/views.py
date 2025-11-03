@@ -31,7 +31,7 @@ class ContactView(TemplateView):
                     message=f"De: {name} ({email})\n\n{message}",
                     from_email="noreply@kefystore.com",
                     recipient_list=["contact@kefystore.com"],
-                    fail_silently=False,
+                    fail_silently=True,
                 )
                 return JsonResponse(
                     {
