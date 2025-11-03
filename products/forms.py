@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from tinymce.widgets import TinyMCE
 
 from .models import Category, Product, ProductImage, ProductReview, ProductVariant, Tag
 
@@ -11,8 +10,6 @@ class ProductForm(forms.ModelForm):
     """
     Formulaire pour créer/modifier un produit
     """
-
-    description = forms.CharField(widget=TinyMCE(attrs={"cols": 80, "rows": 30}))
 
     class Meta:
         model = Product
