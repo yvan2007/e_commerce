@@ -11,6 +11,7 @@ from django.views.i18n import set_language
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("i18n/setlang/", set_language, name="set_language"),
+    path("ckeditor5/", include("django_ckeditor_5.urls")),  # CKEditor 5 URLs
     path(
         "favicon.ico",
         RedirectView.as_view(url="/static/images/favicon.ico", permanent=False),
